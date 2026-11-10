@@ -1,0 +1,84 @@
+# Handa: family readiness app
+
+Handa works on phones and keeps working without internet after the first visit.
+Everything you type stays on your own phone.
+
+## Put it online (GitHub Pages, free)
+1. On github.com, create a new repository (for example "Handa").
+2. Upload everything in this folder, keeping the folders `fonts` and `icons`.
+3. Go to Settings > Pages. Under "Build and deployment", choose "Deploy from a branch", branch `main`, folder `/ (root)`, then Save.
+4. After a minute your address appears at the top of that page. It looks like `https://YOUR-NAME.github.io/Handa/`.
+
+## Put it on each phone
+1. Open the address once, with internet.
+2. Android (Chrome): menu ⋮, then "Install app" or "Add to Home screen".
+   iPhone (Safari): Share button, then "Add to Home Screen".
+3. Open Handa from the home screen. It now works with no internet.
+
+## Good to know
+- The page can be opened by anyone who has the link, but it only contains the generic checklist and guides. Names, phone numbers, notes, and prices you type never leave your phone.
+- Each phone keeps its own checklist. Use Settings > Back up to copy your entries to another phone.
+- If you change any file later, open `sw.js` and change `VERSION = "handa-v1"` to `"handa-v2"` so phones pick up the update.
+- Prices come from Philippine shop listings seen in November 2026. Check current prices before you buy.
+- Radios and satellite devices are regulated by the NTC. Ask an authorized dealer first.
+
+## What is new in v2
+- Levels tab: every area (food, water, solar, generators, growing, shelter, radios, medical, cooking fuel, sanitation) as a ladder from days to years, scaled to your household size.
+- Animated icons play only while a section is open or a tile is pressed. Settings > Animations > Off saves battery.
+- If a phone still shows the old version, close the app fully and reopen it once with internet.
+
+## What is new in v3 (Guides)
+- **Guides tab** now has 23 step-by-step guides in 7 groups: Start here, Power, Water and food, Growing, Shelter and safety, Radios/health/sanitation, and the offline library (NOMAD).
+- Every guide has: what to buy (tick list with Philippine prices), what to do (numbered steps you can tick), a picture for key steps, a warning box, and sources.
+- **Start here** is for people who know nothing about technology: the first 5 things, how to use this app, and a plain-language glossary.
+- **Solar 1** has a live calculator: enter your appliances and it shows panel, battery and inverter size.
+- **NOMAD for everyone** explains the offline library in plain words, with fields to write down your Wi-Fi name and helper's phone (no passwords are stored).
+- Levels now links to the matching guides ("Step-by-step guides" buttons).
+- Prices are Nov 2026 listings and "Estimate" items are rules of thumb. Solar wiring needs a licensed electrician. Underground bunkers need an engineer.
+- Update: replace the old folder and reopen once online; the app refreshes itself (cache handa-v3).
+
+## What is new in v4
+- **8 more guides:** tsunami/landslide/fire/volcanic ash; babies, older people and anyone who needs extra help; pets and farm animals; money, papers and phones that stop working; staying calm; getting around (fuel, vehicles, walking out); food from the land and sea (with red tide warnings for Leyte); hygiene for women and girls.
+- **Bisaya (Cebuano):** Settings, then Language. Translated: the tab names, "Start here", "Using this app", the glossary, the quick guides (water, bleeding, CPR, burns, dehydration, typhoon, earthquake, flood) and the printed sheet. Other guides stay in English and say so. Please have a Bisaya speaker check the wording.
+- **Dates: food and medicine** (Plan tab): add items with a use-by date. The list shows Expired and Soon (30 days) in colour.
+- **Months to finish buying** (Plan tab): turns the price you entered for items still to buy into a monthly amount.
+- **Important places** (Family tab): high ground, evacuation center, clinic, water. "Use my location" saves coordinates that work with no internet and can open a maps app.
+- **Share with family** (Family tab): sends your people, numbers, meeting places and important places as a text. A sister or parent pastes it under "Add to this phone". It adds without erasing and never duplicates. Dates and ticks are not shared.
+- **My photo** on every "what to buy" line: take or choose a photo of the item you bought. Photos stay on this phone only and are not in the backup.
+- **Fridge sheet** (top of Guides): one printable page with meeting places, numbers, places, typhoon/earthquake/flood/tsunami steps and the go-bag. English or Bisaya.
+- Update: replace the old folder and open the app once online (cache handa-v4).
+
+## What is new in v5 (animated picture-guides)
+- Every Quick guide now opens with an animated picture: water, heavy bleeding, CPR, burns, dehydration (ORS), typhoon, earthquake, flood, food safety and signalling for help.
+- The panels light up one after another (1, 2, 3) while the guide is open, and the main action loops: water pouring, boiling, hands pressing the chest at 100-120 a minute, the earthquake shake, wind and rain, the flood rising.
+- Animations only run while a guide is open. They stop with Settings, Animations, Off, and with your phone's reduced-motion setting.
+- The words inside the pictures follow the language setting (English or Bisaya).
+- Update: replace the old folder and open the app once online (cache handa-v5).
+
+## v6 (language, people count, offline)
+
+- **Bisaya now covers the whole app**: header, tabs, Plan (including the 100 checklist items), Levels, Family, Comms, Drill and Settings. Lines with no Bisaya entry stay English (the long detail text inside each Levels step, item details, and the guides that have no translation). Edit or add lines in `i18n2.js` (`X` for whole lines, `RX` for lines with numbers). The Bisaya was written by Claude: ask a Bisaya speaker to read it.
+- **People count**: the number you set in Levels ("How many people") now changes the amounts in the guides and on the Plan list (water, rice, cans, jugs, space, bags). In guide text, `{n}` is the people count, `{ppl}` is "5 people", `{n*12}` is 12 per person, `{n*12/19}` rounds up.
+- **Tap a section** in Plan, Levels or Guides: it opens, the one you had open closes, and the page scrolls so it sits at the top.
+- **Offline**:
+  1. Put the `handa` folder on any HTTPS host (GitHub Pages, Netlify, Cloudflare Pages).
+  2. On each phone, open the address once with internet. The app saves every file itself (the service worker, `sw.js`). Settings should then say "Ready: works without internet".
+  3. Install it ("Add to Home screen"). After that it opens with no internet, and updates itself when you are next online (change `VERSION` in `sw.js` when you change files).
+  4. `handa-offline.html` is the same app in one file. It needs no hosting: save it in the phone's Files, on a USB stick, or send it in a chat, then open it in Chrome. Caveat: on some phones a file opened this way may not keep what you type. If the app warns that saving is blocked, use the hosted copy instead.
+
+## v7: "Send this app"
+
+- Settings has a new "Send this app to another phone" button. It packs the whole app into one file (`Handa.html`) from the saved copy, with no internet, and opens the phone's share menu (Bluetooth, Nearby Share). If the phone can't share files it saves the file to Downloads instead.
+- Where to put the files: GitHub Pages is fine and is free. Put the `handa` folder contents in a repository, turn on Pages, and open the address once on every phone. Keep `handa-offline.html` in the same repository too (people can download it), and a copy on a USB stick and on the NOMAD server.
+
+## v8: guide sections
+
+- In Guides, each heading (Start here, Power, Water and food, ...) is now a tappable section. Tapping it opens its guides below it, closes the other sections and scrolls it to the top. Opening a guide from Levels opens the right section.
+
+## v9: honest offline status
+
+- Settings now says what is really happening: "Ready: works without internet (22 files saved)", or why saving failed (not https, a file missing on the host, or a browser that blocks it). "Checking…" no longer stays forever.
+
+## v10
+
+- If offline saving fails because files are missing on the web host, Settings now lists the missing file names (for example `icons/maskable-512.png`). Upload them with the same folder names. GitHub Pages is case-sensitive: `Fonts/` and `fonts/` are different folders.

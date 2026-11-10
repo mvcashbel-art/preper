@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Handa – Family readiness</title>
+<meta name="description" content="A family readiness plan, shopping checklist, and emergency guides that work without internet.">
+<meta name="theme-color" content="#0F5C63">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Handa">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="robots" content="noindex">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preload" href="fonts/barlow-cond-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><h1>Handa</h1><span>Family readiness</span></div>
+    <button class="icon-btn" data-a="settings" aria-label="Settings and backup">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wrap" id="app" aria-live="polite"></main>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <button data-a="tab" data-tab="plan">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1.2 1.2L7 5M3.5 12l1.2 1.2L7 11M3.5 18l1.2 1.2L7 17"/></svg>
+      <span data-i="Plan">Plan</span></button>
+    <button data-a="tab" data-tab="levels">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h5v-5h5v-5h5V6"/><circle class="lvl-dot" cx="18" cy="3.5" r="1.6" fill="currentColor" stroke="none"/></svg>
+      <span data-i="Levels">Levels</span></button>
+    <button data-a="tab" data-tab="family">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.5 4.5 5.3"/></svg>
+      <span data-i="Family">Family</span></button>
+    <button data-a="tab" data-tab="comms">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1.8"/><path d="M8.2 8.2a5.4 5.4 0 0 0 0 7.6M15.8 8.2a5.4 5.4 0 0 1 0 7.6M5.4 5.4a9.4 9.4 0 0 0 0 13.2M18.6 5.4a9.4 9.4 0 0 1 0 13.2"/></svg>
+      <span data-i="Comms">Comms</span></button>
+    <button data-a="tab" data-tab="guides">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16"/><path d="M9 8h7"/></svg>
+      <span data-i="Guides">Guides</span></button>
+    <button data-a="tab" data-tab="drill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg>
+      <span data-i="Drill">Drill</span></button>
+  </div>
+</nav>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<dialog id="settings" aria-labelledby="settingsTitle">
+  <div class="dlg">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h2 id="settingsTitle">Settings</h2>
+      <button class="btn ghost small" data-a="closesettings">Close</button>
+    </div>
+
+    <h3>Look</h3>
+    <div class="grid2">
+      <label class="field"><span>Theme</span>
+        <select id="theme" data-bind="settings.theme"><option value="auto">Match my phone</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+      <label class="field"><span>Text size</span>
+        <select id="size" data-bind="settings.size"><option value="m">Normal</option><option value="l">Large</option><option value="xl">Extra large</option></select></label>
+    </div>
+    <label class="field"><span>Language / Pinulongan</span>
+      <select id="lang" data-bind="settings.lang" data-re="1"><option value="en">English</option><option value="ceb">Bisaya</option></select></label>
+    <label class="field"><span>Animations</span>
+      <select id="motion" data-bind="settings.motion"><option value="auto">On (follow my phone's setting)</option><option value="off">Off (saves battery)</option></select></label>
+
+    <h3>Install on this phone</h3>
+    <p><span class="status" id="offlineStatus">Checking…</span></p>
+    <p class="hint">Android (Chrome): menu ⋮, then “Install app” or “Add to Home screen”. iPhone (Safari): Share button, then “Add to Home Screen”. Open the app once with internet so it can save itself for offline use.</p>
+    <button class="btn" id="installBtn" data-a="install" hidden>Install Handa</button>
+
+    <h3>Send this app to another phone</h3>
+    <p class="hint">Works with no internet and no power grid. It packs the whole app into one file (Handa.html). Pick Bluetooth or Nearby Share in the menu that opens. The other person opens the file in Chrome.</p>
+    <button class="btn" data-a="shareapp">Send this app</button>
+
+    <h3>Back up your entries</h3>
+    <p class="hint">Everything you type is saved only on this phone. If you change phones, copy this backup and paste it into the new one. Photos you add to a guide stay on this phone and are not in the backup.</p>
+    <textarea id="backup" readonly aria-label="Backup text" style="min-height:6rem;font-size:.8rem"></textarea>
+    <div class="actions"><button class="btn small" data-a="copybackup">Copy backup</button><button class="btn small ghost" data-a="dlbackup">Download file</button></div>
+    <label class="field"><span>Restore from a backup</span><textarea id="restoreText" placeholder="Paste a backup here" style="min-height:4rem;font-size:.8rem"></textarea></label>
+    <div class="actions"><input type="file" id="restoreFile" accept=".json,application/json" aria-label="Choose a backup file"><button class="btn small" data-a="restore">Restore</button></div>
+
+    <h3>Print</h3>
+    <p class="hint">Prints the page you are on, with every section open. Save as PDF to keep a copy.</p>
+    <button class="btn small ghost" data-a="print">Print this page</button>
+
+    <h3>Start over</h3>
+    <button class="btn danger small" data-a="reset">Erase everything on this phone</button>
+
+    <h3>About</h3>
+    <p class="hint">Handa means “ready”. Nothing you enter leaves this phone. Peso figures come from Philippine shop listings seen in November 2026 and will change. Radio and satellite rules come from NTC circulars and news reports: confirm with the NTC or an authorized dealer before you buy.</p>
+  </div>
+</dialog>
+
+<script src="data.js"></script>
+<script src="levels.js"></script>
+<script src="howto.js"></script>
+<script src="figures.js"></script>
+<script src="howto2.js"></script>
+<script src="howto3.js"></script>
+<script src="figures4.js"></script>
+<script src="i18n.js"></script>
+<script src="i18n2.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
