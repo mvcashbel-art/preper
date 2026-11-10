@@ -1,6 +1,6 @@
 /* Andam service worker: makes the app work without internet.
    Bump VERSION whenever you change any file so phones pick up the update. */
-const VERSION = "andam-v13";
+const VERSION = "andam-v15";
 const ASSETS = [
   "./",
   "index.html",

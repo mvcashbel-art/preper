@@ -14,7 +14,7 @@
     drill: { steps: {}, last: "", found: "" },
     levels: { people: 5, goal: 2, done: {} },
     howto: { done: {}, got: {}, calc: {}, fill: {} },
-    stock: [], places: [], plan: { months: 6 },
+    stock: [], places: [], plan: { months: 6, warn: 30 },
     settings: { theme: "auto", size: "m", motion: "auto", lang: "en" },
     ui: { tab: "plan", phase: 0, toBuy: false, open: {}, detail: {} }
   });
@@ -185,35 +185,119 @@
   /* ---------- dates: food and medicine ---------- */
   const todayStart = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d.getTime(); };
   const daysLeft = (iso) => { const t0 = Date.parse(iso + "T00:00:00"); return isNaN(t0) ? null : Math.round((t0 - todayStart()) / 864e5); };
+  const STK_TYPES = [["food", "Food"], ["medicine", "Medicine"], ["water", "Water"], ["battery", "Batteries"], ["other", "Other"]];
+  const STK_NAMES = ["Rice", "Canned sardines", "Canned tuna", "Corned beef", "Instant noodles", "Biscuits", "Powdered milk", "Cooking oil", "Mongo beans", "Bottled water", "Paracetamol", "Oral rehydration salts", "Betadine", "Alcohol", "Bandages", "Vitamins", "Prescription medicine", "AA batteries", "Butane canisters"];
+  const warnDays = () => Math.max(1, Number(S.plan.warn) || 30);
+  /* How close an item is: d = days left (negative = expired), lvl = bad (expired or within a week), soon, ok, none (no date) */
+  function stockInfo(x) {
+    const d = x.date ? daysLeft(x.date) : null, w = warnDays();
+    const lvl = d === null ? "none" : d < 0 ? "bad" : d <= Math.min(7, w) ? "bad" : d <= w ? "soon" : "ok";
+    return { d, lvl };
+  }
   function stockStats() {
-    let bad = 0;
-    S.stock.forEach((x) => { const d = x.date ? daysLeft(x.date) : null; if (d !== null && d <= 30) bad++; });
-    return bad;
+    let exp = 0, soon = 0;
+    S.stock.forEach((x) => { const d = stockInfo(x).d; if (d === null) return; if (d < 0) exp++; else if (d <= warnDays()) soon++; });
+    return { exp, soon, bad: exp + soon };
+  }
+  const pl = (n, one, many) => n + " " + (n === 1 ? one : many);
+  /* "9 days", "3 weeks", "5 months", "1 year 3 months" */
+  function fmtDur(d) {
+    if (d < 14) return pl(d, "day", "days");
+    if (d < 60) return pl(Math.round(d / 7), "week", "weeks");
+    if (d < 365) return pl(Math.round(d / 30.44), "month", "months");
+    let y = Math.floor(d / 365), m = Math.round((d - y * 365) / 30.44);
+    if (m >= 12) { y++; m = 0; }
+    return pl(y, "year", "years") + (m ? " " + pl(m, "month", "months") : "");
+  }
+  const WARN_CHOICES = [7, 14, 30, 60, 90, 180, 365, 730];
+  const winLabel = (n) => (n <= 14 ? pl(n / 7, "week", "weeks") : n < 365 ? pl(Math.round(n / 30), "month", "months") : pl(Math.round(n / 365), "year", "years"));
+  function stockStatus(x) {
+    const { d, lvl } = stockInfo(x);
+    if (d === null) return `<span class="tag">No date</span>`;
+    if (d < 0) return `<span class="tag bad">Expired ${fmtDur(-d)} ago</span>`;
+    if (d === 0) return `<span class="tag bad">Expires today</span>`;
+    if (lvl === "ok") return `<span class="tag">OK · ${fmtDur(d)} left</span>`;
+    return `<span class="tag ${lvl === "bad" ? "bad" : "soon"}">${fmtDur(d)} left</span>`;
+  }
+  function bannerHtml() {
+    const st = stockStats();
+    if (!st.bad || S.ui.bannerDay === new Date().toISOString().slice(0, 10)) return "";
+    return `<div class="expbanner" role="status"><div><b>Check your dates</b>${st.exp ? `<span>${st.exp} expired</span>` : ""}${st.soon ? `<span>${st.soon} expire within ${winLabel(warnDays())}</span>` : ""}</div>
+      <div class="actions"><button class="btn small" data-a="bannergo">See them</button><button class="btn small ghost" data-a="bannerhide">Hide for today</button></div></div>`;
   }
   function stockBlock() {
     const order = S.stock.map((x, i) => i).sort((a, b) => {
       const da = S.stock[a].date || "9999", db = S.stock[b].date || "9999"; return da < db ? -1 : da > db ? 1 : 0;
     });
+    const typeSel = (id, bind, cur) => `<select ${id ? `id="${id}"` : ""} ${bind ? `data-bind="${bind}"` : ""}>${STK_TYPES.map(([v, l]) => `<option value="${v}" ${cur === v ? "selected" : ""}>${l}</option>`).join("")}</select>`;
     const rows = order.map((i) => {
-      const x = S.stock[i], d = x.date ? daysLeft(x.date) : null;
-      const st = d === null ? "" : d < 0 ? `<span class="tag bad">${esc(tx("Expired"))}</span>` : d <= 30 ? `<span class="tag soon">${esc(tx("Soon"))}: ${d}</span>` : `<span class="tag">${esc(tx("OK"))}</span>`;
-      return `<div class="person stk">
+      const x = S.stock[i];
+      return `<div class="person stk lv-${stockInfo(x).lvl}">
+        <div class="stkhead">${stockStatus(x)}<button class="btn danger small" data-a="rmstock" data-idx="${i}">${esc(tx("Remove"))}</button></div>
         <div class="grid2">
-          <label class="field"><span>${esc(tx("What"))}</span><input type="text" data-bind="stock.${i}.name" value="${esc(x.name)}" placeholder="Rice, canned sardines, medicine"></label>
+          <label class="field"><span>${esc(tx("What"))}</span><input type="text" list="stkNames" data-bind="stock.${i}.name" value="${esc(x.name)}" placeholder="Rice, canned sardines, medicine"></label>
+          <label class="field"><span>${esc(tx("Use by"))}</span><input type="date" data-bind="stock.${i}.date" data-re="1" value="${esc(x.date)}"></label>
+        </div>
+        <div class="grid2">
+          <label class="field"><span>${esc(tx("Type"))}</span>${typeSel("", "stock." + i + ".cat", x.cat || "food")}</label>
           <label class="field"><span>${esc(tx("How many"))}</span><input type="text" data-bind="stock.${i}.qty" value="${esc(x.qty)}"></label>
         </div>
-        <label class="field"><span>${esc(tx("Use by"))}</span><input type="date" data-bind="stock.${i}.date" data-re="1" value="${esc(x.date)}"></label>
-        <div class="actions">${st}<button class="btn danger small" data-a="rmstock" data-idx="${i}">${esc(tx("Remove"))}</button></div>
+        <label class="field"><span>${esc(tx("Where it is kept"))}</span><input type="text" data-bind="stock.${i}.where" value="${esc(x.where || "")}" placeholder="Kitchen shelf, go bag, ref"></label>
       </div>`;
     }).join("");
-    const bad = stockStats();
-    const open = S.ui.open.stock === undefined ? bad > 0 : S.ui.open.stock;
-    return `<details class="cat" data-cat="stock" ${open ? "open" : ""}>
-      <summary><h3>${esc(tx("Dates: food and medicine"))}</h3><span class="count">${bad ? bad + " " + esc(tx("Soon").toLowerCase()) : S.stock.length}</span>${chevron}</summary>
-      <p class="blurb">${esc(tx("Write what you store and when it expires. Eat or replace the oldest first."))}</p>
+    const st = stockStats();
+    const open = S.ui.open.stock === undefined ? st.bad > 0 : S.ui.open.stock;
+    const choices = WARN_CHOICES.includes(warnDays()) ? WARN_CHOICES : [...WARN_CHOICES, warnDays()].sort((a, b) => a - b);
+    const warnOpts = choices.map((n) => `<option value="${n}" ${warnDays() === n ? "selected" : ""}>${winLabel(n)}</option>`).join("");
+    return `<details class="cat" data-cat="stock" id="stock" ${open ? "open" : ""}>
+      <summary><h3>${esc(tx("Expiry dates and reminders"))}</h3><span class="count">${st.bad ? st.bad + " " + esc(tx("Soon").toLowerCase()) : S.stock.length}</span>${chevron}</summary>
+      <p class="blurb">${esc(tx("Add what you store and its expiry date. Andam shows what is close to expiring at the top of the app, and you can send the dates to your phone's calendar for reminders that work even when the app is closed."))}</p>
+      <datalist id="stkNames">${STK_NAMES.map((n) => `<option value="${n}">`).join("")}</datalist>
+      <div class="person stkadd">
+        <h4>${esc(tx("Add an item"))}</h4>
+        <div class="grid2">
+          <label class="field"><span>${esc(tx("What"))}</span><input type="text" id="stkName" list="stkNames" placeholder="Rice, canned sardines, medicine"></label>
+          <label class="field"><span>${esc(tx("Use by"))}</span><input type="date" id="stkDate"></label>
+        </div>
+        <div class="grid2">
+          <label class="field"><span>${esc(tx("Type"))}</span>${typeSel("stkType", "", "food")}</label>
+          <label class="field"><span>${esc(tx("How many"))}</span><input type="text" id="stkQty"></label>
+        </div>
+        <label class="field"><span>${esc(tx("Where it is kept"))}</span><input type="text" id="stkWhere" placeholder="Kitchen shelf, go bag, ref"></label>
+        <div class="actions"><button class="btn small" data-a="addstock">${esc(tx("Add to the list"))}</button></div>
+      </div>
+      <div class="person"><label class="field" style="margin:0"><span>${esc(tx("Warn me this many days before"))}</span><select data-bind="plan.warn" data-re="1">${warnOpts}</select></label>
+        <div class="actions"><button class="btn small ghost" data-a="stockcal">${esc(tx("Add the dates to my phone's calendar"))}</button></div>
+        <p class="hint" style="margin:.4rem 0 0">${esc(tx("Creates one file with every dated item. Open it, and your calendar app reminds you before each date and on the day."))}</p></div>
       ${rows}
-      <div class="actions" style="padding:0 .9rem .9rem"><button class="btn small" data-a="addstock">${esc(tx("Add an item"))}</button></div>
     </details>`;
+  }
+
+  /* Calendar file (.ics): all-day event on each expiry date, with an alarm before and on the day. */
+  function stockIcs() {
+    const w = warnDays(), esc2 = (t) => String(t).replace(/\\/g, "\\\\").replace(/[;,]/g, (m) => "\\" + m).replace(/\r?\n/g, "\\n");
+    const alarms = [...new Set([w, w > 30 ? 30 : 0, w > 7 ? 7 : 0].filter(Boolean))].sort((a, b) => b - a); // e.g. 1 year, 1 month, 1 week before, then the day itself
+    const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+    const dt = (iso, plus) => { const d = new Date(iso + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() + plus); return d.toISOString().slice(0, 10).replace(/-/g, ""); };
+    const ev = S.stock.filter((x) => x.date && /^\d{4}-\d{2}-\d{2}$/.test(x.date)).map((x) => {
+      const name = (x.name || "Item").trim() || "Item";
+      const lines = ["BEGIN:VEVENT", "UID:" + x.id + "@andam", "DTSTAMP:" + stamp, "DTSTART;VALUE=DATE:" + dt(x.date, 0), "DTEND;VALUE=DATE:" + dt(x.date, 1),
+        "SUMMARY:" + esc2("Andam: " + name + " expires"), "DESCRIPTION:" + esc2([x.qty ? "How many: " + x.qty : "", x.where ? "Kept at: " + x.where : "", "Eat, use or replace it."].filter(Boolean).join("\n")),
+        ...alarms.flatMap((a) => ["BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + esc2(name + " expires in " + fmtDur(a)), "TRIGGER:-P" + (a - 1) + "DT15H", "END:VALARM"]),
+        "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + esc2(name + " expires today"), "TRIGGER:PT9H", "END:VALARM", "END:VEVENT"];
+      return lines.join("\r\n");
+    });
+    if (!ev.length) return "";
+    return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Andam//Expiry dates//EN", "CALSCALE:GREGORIAN", ...ev, "END:VCALENDAR"].join("\r\n") + "\r\n";
+  }
+  async function shareStockCal() {
+    const ics = stockIcs();
+    if (!ics) { toast(tx("Add an item with an expiry date first.")); return; }
+    const file = new File([ics], "Andam-expiry-dates.ics", { type: "text/calendar" });
+    try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "Andam" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
+    const a = document.createElement("a"); a.href = URL.createObjectURL(file); a.download = "Andam-expiry-dates.ics";
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    toast(tx("Saved Andam-expiry-dates.ics. Open it to add the dates to your calendar."));
   }
 
   function viewPlan() {
@@ -599,7 +683,7 @@
   function render() {
     const y = window.scrollY;
     FIGCEB = ceb();
-    app.innerHTML = (VIEWS[S.ui.tab] || viewPlan)();
+    app.innerHTML = bannerHtml() + (VIEWS[S.ui.tab] || viewPlan)();
     hydratePhotos();
     if (ceb()) translateDom(app, true);
     document.querySelectorAll(".nav button").forEach((b) => {
@@ -795,7 +879,16 @@
         window.location.href = (d.mode === "sms" ? smsHref : telHref)(num);
         break;
       }
-      case "addstock": S.stock.push({ id: uid(), name: "", qty: "", date: "" }); S.ui.open.stock = true; save(); render(); break;
+      case "addstock": {
+        const g = (id) => { const e = document.getElementById(id); return e ? e.value.trim() : ""; };
+        const name = g("stkName"), date = g("stkDate");
+        if (!name && !date) { toast(tx("Write what it is, or pick a date, first.")); break; }
+        S.stock.push({ id: uid(), name, qty: g("stkQty"), date, cat: g("stkType") || "food", where: g("stkWhere") });
+        S.ui.open.stock = true; save(); render(); break;
+      }
+      case "stockcal": shareStockCal(); break;
+      case "bannerhide": S.ui.bannerDay = new Date().toISOString().slice(0, 10); save(); render(); break;
+      case "bannergo": S.ui.tab = "plan"; S.ui.open.stock = true; S.ui.phase = 0; save(); render(); { const t = document.getElementById("stock"); if (t) t.scrollIntoView({ block: "start" }); } break;
       case "rmstock": S.stock.splice(Number(d.idx), 1); save(); render(); break;
       case "addplace": S.places.push({ id: uid(), label: "", note: "", lat: "", lng: "" }); save(); render(); break;
       case "rmplace": S.places.splice(Number(d.idx), 1); save(); render(); break;

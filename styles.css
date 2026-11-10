@@ -494,3 +494,13 @@ details.guide.hw,details.cat{scroll-margin-top:4.2rem}
 .gsec .gbody{padding:.2rem 0 .6rem}
 .gsec{scroll-margin-top:3.8rem}
 @media (max-width:359px){.brand span{display:none}}
+
+/* expiry reminders */
+.expbanner{margin:.6rem 0;padding:.7rem .9rem;border-radius:.8rem;background:#FFF1CC;color:#3a2a00;border:2px solid #E0A800;display:grid;gap:.5rem}
+:root[data-theme="dark"] .expbanner{background:#3a2d06;color:#ffe9a8;border-color:#b98a00}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .expbanner{background:#3a2d06;color:#ffe9a8;border-color:#b98a00}}
+.expbanner b{display:block;font-size:1.05rem}
+.expbanner span{display:inline-block;margin-right:.8rem;font-weight:600}
+.stk .stkhead{display:flex;justify-content:space-between;align-items:center;gap:.5rem;margin-bottom:.4rem}
+.stk.lv-bad{border-left:5px solid #C62828}.stk.lv-soon{border-left:5px solid #E0A800}.stk.lv-ok{border-left:5px solid #2E7D32}
+.stkadd h4{margin:.1rem 0 .4rem}

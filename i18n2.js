@@ -191,6 +191,26 @@ addX([
   ["Source", "Tinubdan"], ["Short", "Duol"], ["Long", "Layo"], ["Global", "Tibuok kalibutan"], ["Skills", "Kahibalo"]
 ]);
 
+/* ---- expiry tracker ---- */
+addX([
+  ["Expiry dates and reminders", "Petsa sa pagkahurot ug pahinumdom"],
+  ["Add what you store and its expiry date. Andam shows what is close to expiring at the top of the app, and you can send the dates to your phone's calendar for reminders that work even when the app is closed.",
+   "Idugang unsay imong gitipigan ug ang petsa sa pagkahurot niini. Ipakita sa Andam sa ibabaw sa app kung unsay hapit na mahurot, ug mahimo nimong ipadala ang mga petsa sa kalendaryo sa imong telepono para sa pahinumdom nga mugana bisan sirado ang app."],
+  ["Type", "Klase"], ["Medicine", "Tambal"], ["Batteries", "Baterya"], ["Other", "Uban pa"],
+  ["Where it is kept", "Asa gitipigan"],
+  ["Kitchen shelf, go bag, ref", "Estante sa kusina, go bag, ref"],
+  ["Add to the list", "Idugang sa lista"],
+  ["Warn me this many days before", "Pahinumdoman ko niini kadaghan nga adlaw sa dili pa"],
+  ["Add the dates to my phone's calendar", "Idugang ang mga petsa sa kalendaryo sa akong telepono"],
+  ["Creates one file with every dated item. Open it, and your calendar app reminds you before each date and on the day.",
+   "Maghimo og usa ka file nga naa ang tanang butang nga naay petsa. Ablihi kini, ug ang calendar app mopahinumdom kanimo sa dili pa ang matag petsa ug sa mismong adlaw."],
+  ["Add an item with an expiry date first.", "Pagdugang una og butang nga naay petsa sa pagkahurot."],
+  ["Saved Andam-expiry-dates.ics. Open it to add the dates to your calendar.", "Na-save ang Andam-expiry-dates.ics. Ablihi kini aron madugang ang mga petsa sa imong kalendaryo."],
+  ["Write what it is, or pick a date, first.", "Isulat una kung unsa kini, o pili og petsa."],
+  ["No date", "Walay petsa"], ["Expires today", "Mahurot karong adlawa"],
+  ["Check your dates", "Susiha ang imong mga petsa"], ["See them", "Tan-awa"], ["Hide for today", "Tagoa karong adlawa"]
+]);
+
 /* ---- the 100 plan items and 11 categories ---- */
 addX([
   ["Water", "Tubig"],
@@ -457,6 +477,8 @@ addX([
 
 /* ---- lines that carry numbers (people count, amounts) ---- */
 const _ppl = (n) => `${n} ka tawo`;
+/* "3 weeks", "1 year 3 months" -> Bisaya */
+const _dur = (s) => s.replace(/(\d+) days?/g, "$1 ka adlaw").replace(/(\d+) weeks?/g, "$1 ka semana").replace(/(\d+) months?/g, "$1 ka bulan").replace(/(\d+) years?/g, "$1 ka tuig");
 const RX = [
   [/^(\d+) of (\d+) done$/, (m) => `${m[1]} sa ${m[2]} nahuman`],
   [/^(\d+) of (\d+)$/, (m) => `${m[1]} sa ${m[2]}`],
@@ -472,6 +494,12 @@ const RX = [
   [/^: (Days|Weeks|Months|Years), (.+)$/, (m, t) => `: ${t(m[1])}, ${t(m[2])}`],
   [/^Offline saving failed\. These files are missing on the web host: (.+)\. Upload them, keeping the same folder names\.$/, (m) => `Napakyas ang pag-save para sa offline. Kini nga mga file kulang sa web host: ${m[1]}. I-upload kini, ug ibilin ang parehas nga ngalan sa folder.`],
   [/^Ready: works without internet \((\d+) files saved\)$/, (m) => `Andam na: mugana bisan walay internet (${m[1]} ka file ang na-save)`],
+  [/^(\d+) (?:days?|weeks?|months?|years?)(?: \d+ (?:months?))?$/, (m) => _dur(m[0])],
+  [/^Expired (.+) ago$/, (m) => `Nahurot na ${_dur(m[1])} ang milabay`],
+  [/^OK · (.+) left$/, (m) => `Maayo pa · ${_dur(m[1])} nalang`],
+  [/^((?:\d+ (?:days?|weeks?|months?|years?)(?: |$))+) left$/, (m) => `${_dur(m[1].trim())} nalang`],
+  [/^(\d+) expired$/, (m) => `${m[1]} nahurot na`],
+  [/^(\d+) expire within (.+)$/, (m) => `${m[1]} mahurot sulod sa ${_dur(m[2])}`],
   [/^Range: (.+)$/, (m, t) => `Abot: ${t(m[1])}`],
   [/^Sources: (.+)$/, (m) => `Tinubdan: ${m[1]}`],
   [/^About ([^ ]+) a month for what is still to buy\.$/, (m) => `Mga ${m[1]} kada bulan alang sa pamalitonon pa.`],

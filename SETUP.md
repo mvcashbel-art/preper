@@ -96,3 +96,15 @@ Everything you type stays on your own phone.
 
 - The logo is now round everywhere: the header badge, the browser tab icon and the home-screen icons (`icon-192.png`, `icon-512.png`). `maskable-512.png` and `apple-touch-icon.png` stay full squares on purpose: Android and iPhone cut them into a circle or rounded square themselves.
 - Changing files only shows after the browser loads the new copy: reload twice (the first reload fetches it, the second shows it). To check what the host has, open `your-address/sw.js` and read the version line (`andam-v13`).
+
+## v14: expiry reminders
+
+- Plan > "Expiry dates and reminders": add an item with its type (food, medicine, water, batteries, other), how many, where it is kept and the expiry date. The list is sorted by the nearest date and colored: red (expired or within a week), amber (within your warning window), green (fine).
+- A yellow "Check your dates" banner shows at the top of every tab when something is expired or inside the warning window. "See them" jumps to the list; "Hide for today" hides it until tomorrow.
+- "Warn me this many days before": 7, 14, 30, 60 or 90 days (default 30).
+- "Add the dates to my phone's calendar" makes one `.ics` file with an all-day event per item, with an alarm before the date (at 9 am, your warning window ahead) and on the day (9 am). The phone's calendar then reminds you even when the app is closed. The app itself cannot ring while it is closed (phones don't allow that for offline web apps), which is why the calendar file exists.
+
+## v15
+- Expiry warnings now use weeks, months and years: choose 1 week, 2 weeks, 1 month, 2 months, 3 months, 6 months, 1 year or 2 years.
+- Time left shows as days, weeks, months or years (for example "3 weeks left", "1 year 3 months left").
+- Calendar file (.ics) reminds you at your chosen time, 1 month, 1 week, and on the day itself.
