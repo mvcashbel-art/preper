@@ -185,18 +185,20 @@
   /* ---------- dates: food and medicine ---------- */
   const todayStart = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d.getTime(); };
   const daysLeft = (iso) => { const t0 = Date.parse(iso + "T00:00:00"); return isNaN(t0) ? null : Math.round((t0 - todayStart()) / 864e5); };
-  const STK_TYPES = [["food", "Food"], ["medicine", "Medicine"], ["water", "Water"], ["battery", "Batteries"], ["other", "Other"]];
-  const STK_NAMES = ["Rice", "Canned sardines", "Canned tuna", "Corned beef", "Instant noodles", "Biscuits", "Powdered milk", "Cooking oil", "Mongo beans", "Bottled water", "Paracetamol", "Oral rehydration salts", "Betadine", "Alcohol", "Bandages", "Vitamins", "Prescription medicine", "AA batteries", "Butane canisters"];
+  const STK_TYPES = [["spoil", "Easily spoiled (meat, fish, milk)"], ["fresh", "Vegetables and fruit"], ["food", "Canned and dry food"], ["medicine", "Medicine"], ["water", "Water"], ["battery", "Batteries"], ["other", "Other"]];
+  const FRESH_DAYS = 3; // vegetables, fruit, meat, fish and milk spoil fast, so they are flagged this many days ahead at most
+  const STK_NAMES = ["Kangkong", "Kamote tops", "Squash", "Eggplant", "Tomatoes", "Banana", "Fresh fish", "Pork", "Chicken", "Eggs", "Fresh milk", "Rice", "Canned sardines", "Canned tuna", "Corned beef", "Instant noodles", "Biscuits", "Powdered milk", "Cooking oil", "Mongo beans", "Bottled water", "Paracetamol", "Oral rehydration salts", "Betadine", "Alcohol", "Bandages", "Vitamins", "Prescription medicine", "AA batteries", "Butane canisters"];
   const warnDays = () => Math.max(1, Number(S.plan.warn) || 30);
   /* How close an item is: d = days left (negative = expired), lvl = bad (expired or within a week), soon, ok, none (no date) */
+  const itemWarn = (x) => (x.cat === "fresh" || x.cat === "spoil" ? Math.min(FRESH_DAYS, warnDays()) : warnDays());
   function stockInfo(x) {
-    const d = x.date ? daysLeft(x.date) : null, w = warnDays();
+    const d = x.date ? daysLeft(x.date) : null, w = itemWarn(x);
     const lvl = d === null ? "none" : d < 0 ? "bad" : d <= Math.min(7, w) ? "bad" : d <= w ? "soon" : "ok";
     return { d, lvl };
   }
   function stockStats() {
     let exp = 0, soon = 0;
-    S.stock.forEach((x) => { const d = stockInfo(x).d; if (d === null) return; if (d < 0) exp++; else if (d <= warnDays()) soon++; });
+    S.stock.forEach((x) => { const d = stockInfo(x).d; if (d === null) return; if (d < 0) exp++; else if (d <= itemWarn(x)) soon++; });
     return { exp, soon, bad: exp + soon };
   }
   const pl = (n, one, many) => n + " " + (n === 1 ? one : many);
@@ -225,36 +227,63 @@
     return `<div class="expbanner" role="status"><div><b>Check your dates</b>${st.exp ? `<span>${st.exp} expired</span>` : ""}${st.soon ? `<span>${st.soon} expire within ${winLabel(warnDays())}</span>` : ""}</div>
       <div class="actions"><button class="btn small" data-a="bannergo">See them</button><button class="btn small ghost" data-a="bannerhide">Hide for today</button></div></div>`;
   }
-  function stockBlock() {
-    const order = S.stock.map((x, i) => i).sort((a, b) => {
-      const da = S.stock[a].date || "9999", db = S.stock[b].date || "9999"; return da < db ? -1 : da > db ? 1 : 0;
+  /* ---------- Storage tab: everything you have stored ---------- */
+  let stkQ = ""; // search text (kept while you move between tabs)
+  const stkTypeNow = () => S.ui.stkType || "all";
+  const stkDateKey = (x) => x.date || "9999";
+  function viewStorage() {
+    const typeSel = (id, bind, cur) => `<select ${id ? `id="${id}"` : ""} ${bind ? `data-bind="${bind}"` : ""}>${STK_TYPES.map(([v, l]) => `<option value="${v}" ${cur === v ? "selected" : ""}>${esc(tx(l))}</option>`).join("")}</select>`;
+    const st = stockStats(), tf = stkTypeNow();
+    const isSoon = (x) => { const d = stockInfo(x).d; return d !== null && d >= 0 && d <= itemWarn(x); };
+    const keep = (x) => tf === "all" ? true : tf === "soon" ? isSoon(x) : (x.cat || "food") === tf;
+    const byType = (S.ui.stkGroup || "type") === "type";
+    const groups = new Map();
+    S.stock.map((x, i) => ({ x, i })).filter((it) => keep(it.x)).sort((p, q) => (stkDateKey(p.x) < stkDateKey(q.x) ? -1 : stkDateKey(p.x) > stkDateKey(q.x) ? 1 : 0)).forEach((it) => {
+      const label = byType ? (STK_TYPES.find((t) => t[0] === (it.x.cat || "food")) || ["", "Other"])[1] : (it.x.where || "").trim(), key = byType ? (it.x.cat || "food") : label.toLowerCase();
+      if (!groups.has(key)) groups.set(key, { label, list: [] });
+      groups.get(key).list.push(it);
     });
-    const typeSel = (id, bind, cur) => `<select ${id ? `id="${id}"` : ""} ${bind ? `data-bind="${bind}"` : ""}>${STK_TYPES.map(([v, l]) => `<option value="${v}" ${cur === v ? "selected" : ""}>${l}</option>`).join("")}</select>`;
-    const rows = order.map((i) => {
-      const x = S.stock[i];
-      return `<div class="person stk lv-${stockInfo(x).lvl}">
-        <div class="stkhead">${stockStatus(x)}<button class="btn danger small" data-a="rmstock" data-idx="${i}">${esc(tx("Remove"))}</button></div>
-        <div class="grid2">
-          <label class="field"><span>${esc(tx("What"))}</span><input type="text" list="stkNames" data-bind="stock.${i}.name" value="${esc(x.name)}" placeholder="Rice, canned sardines, medicine"></label>
-          <label class="field"><span>${esc(tx("Use by"))}</span><input type="date" data-bind="stock.${i}.date" data-re="1" value="${esc(x.date)}"></label>
+    const keys = [...groups.keys()].sort((p, q) => byType ? STK_TYPES.findIndex((t) => t[0] === p) - STK_TYPES.findIndex((t) => t[0] === q) : (p === "" ? 1 : q === "" ? -1 : p.localeCompare(q)));
+    const itemHtml = ({ x, i }) => {
+      const typeName = (STK_TYPES.find((t) => t[0] === (x.cat || "food")) || ["", ""])[1];
+      const q = [x.name, x.where, x.qty, typeName].join(" ").toLowerCase();
+      return `<details class="stkitem stk lv-${stockInfo(x).lvl}" data-cat="s_${esc(x.id)}" data-q="${esc(q)}" ${S.ui.open["s_" + x.id] ? "open" : ""}>
+        <summary><span class="stkname">${esc(x.name || "(no name)")}</span>${x.qty ? `<span class="stkqty">${esc(x.qty)}</span>` : ""}${stockStatus(x)}</summary>
+        <div class="stkbody">
+          <div class="grid2">
+            <label class="field"><span>${esc(tx("What"))}</span><input type="text" list="stkNames" data-bind="stock.${i}.name" value="${esc(x.name)}" placeholder="Rice, canned sardines, medicine"></label>
+            <label class="field"><span>${esc(tx("Use by"))}</span><input type="date" data-bind="stock.${i}.date" data-re="1" value="${esc(x.date)}"></label>
+          </div>
+          <div class="grid2">
+            <label class="field"><span>${esc(tx("Type"))}</span>${typeSel("", "stock." + i + ".cat", x.cat || "food")}</label>
+            <label class="field"><span>${esc(tx("How many"))}</span><input type="text" data-bind="stock.${i}.qty" value="${esc(x.qty)}"></label>
+          </div>
+          <label class="field"><span>${esc(tx("Where it is kept"))}</span><input type="text" data-bind="stock.${i}.where" data-re="1" value="${esc(x.where || "")}" placeholder="Kitchen shelf, go bag, ref"></label>
+          <div class="actions"><button class="btn danger small" data-a="rmstock" data-idx="${i}">${esc(tx("Remove"))}</button></div>
         </div>
-        <div class="grid2">
-          <label class="field"><span>${esc(tx("Type"))}</span>${typeSel("", "stock." + i + ".cat", x.cat || "food")}</label>
-          <label class="field"><span>${esc(tx("How many"))}</span><input type="text" data-bind="stock.${i}.qty" value="${esc(x.qty)}"></label>
-        </div>
-        <label class="field"><span>${esc(tx("Where it is kept"))}</span><input type="text" data-bind="stock.${i}.where" value="${esc(x.where || "")}" placeholder="Kitchen shelf, go bag, ref"></label>
-      </div>`;
-    }).join("");
-    const st = stockStats();
-    const open = S.ui.open.stock === undefined ? st.bad > 0 : S.ui.open.stock;
+      </details>`;
+    };
+    const list = keys.map((k) => { const g = groups.get(k); return `<section class="stkgrp"><h4>${g.label ? esc(byType ? tx(g.label) : g.label) : esc(tx("No place set"))} <span class="count">${g.list.length}</span></h4>${g.list.map(itemHtml).join("")}</section>`; }).join("");
+    const nType = (v) => S.stock.filter((x) => (x.cat || "food") === v).length;
+    const chip = (v, label, n) => `<button class="chip" data-a="stktype" data-v="${v}" aria-pressed="${tf === v}">${esc(label)} ${n}</button>`;
+    const chips = chip("all", tx("All"), S.stock.length) + (st.bad || tf === "soon" ? chip("soon", tx("Expiring soon"), S.stock.filter(isSoon).length) : "") +
+      STK_TYPES.filter(([v]) => nType(v) || tf === v).map(([v, l]) => chip(v, tx(l), nType(v))).join("");
     const choices = WARN_CHOICES.includes(warnDays()) ? WARN_CHOICES : [...WARN_CHOICES, warnDays()].sort((a, b) => a - b);
     const warnOpts = choices.map((n) => `<option value="${n}" ${warnDays() === n ? "selected" : ""}>${winLabel(n)}</option>`).join("");
-    return `<details class="cat" data-cat="stock" id="stock" ${open ? "open" : ""}>
-      <summary><h3>${esc(tx("Expiry dates and reminders"))}</h3><span class="count">${st.bad ? st.bad + " " + esc(tx("Soon").toLowerCase()) : S.stock.length}</span>${chevron}</summary>
-      <p class="blurb">${esc(tx("Add what you store and its expiry date. Andam shows what is close to expiring at the top of the app, and you can send the dates to your phone's calendar for reminders that work even when the app is closed."))}</p>
-      <datalist id="stkNames">${STK_NAMES.map((n) => `<option value="${n}">`).join("")}</datalist>
+    const addOpen = S.ui.open.stkadd === undefined ? !S.stock.length : S.ui.open.stkadd;
+    return `<section class="block" id="storage">
+      <h2 style="margin:.1rem 0 .2rem">${esc(tx("Storage"))}</h2>
+      <p class="blurb">${esc(tx("Everything you have stored, in one place. Put in what it is, how many, where it is kept and its expiry date. Tap an item to change it."))}</p>
+      <div class="budget" aria-label="Storage summary">
+        <div><small>${esc(tx("Items"))}</small><b>${S.stock.length}</b></div>
+        <div><small>${esc(tx("Expiring soon"))}</small><b>${st.soon}</b></div>
+        <div><small>${esc(tx("Expired"))}</small><b>${st.exp}</b></div>
+      </div>
+    </section>
+    <datalist id="stkNames">${STK_NAMES.map((n) => `<option value="${n}">`).join("")}</datalist>
+    <details class="cat" data-cat="stkadd" id="stkadd" ${addOpen ? "open" : ""}>
+      <summary><h3>${esc(tx("Add an item"))}</h3>${chevron}</summary>
       <div class="person stkadd">
-        <h4>${esc(tx("Add an item"))}</h4>
         <div class="grid2">
           <label class="field"><span>${esc(tx("What"))}</span><input type="text" id="stkName" list="stkNames" placeholder="Rice, canned sardines, medicine"></label>
           <label class="field"><span>${esc(tx("Use by"))}</span><input type="date" id="stkDate"></label>
@@ -266,24 +295,42 @@
         <label class="field"><span>${esc(tx("Where it is kept"))}</span><input type="text" id="stkWhere" placeholder="Kitchen shelf, go bag, ref"></label>
         <div class="actions"><button class="btn small" data-a="addstock">${esc(tx("Add to the list"))}</button></div>
       </div>
-      <div class="person"><label class="field" style="margin:0"><span>${esc(tx("Warn me this many days before"))}</span><select data-bind="plan.warn" data-re="1">${warnOpts}</select></label>
+    </details>
+    ${S.stock.length ? `<div class="stksearch"><input type="search" id="stkSearch" placeholder="${esc(tx("Search your items"))}" value="${esc(stkQ)}" autocomplete="off" aria-label="${esc(tx("Search your items"))}"></div>
+    <div class="chips" role="group" aria-label="Filters">${chips}</div>
+    <div class="chips" role="group" aria-label="${esc(tx("Group by"))}"><span class="grpl">${esc(tx("Group by"))}</span><button class="chip" data-a="stkgroup" data-v="type" aria-pressed="${byType}">${esc(tx("Type"))}</button><button class="chip" data-a="stkgroup" data-v="place" aria-pressed="${!byType}">${esc(tx("Where it is kept"))}</button></div>
+    ${list || `<p class="empty">${esc(tx("Nothing here."))}</p>`}
+    <p class="empty" id="stkNone" hidden>${esc(tx("Nothing matches your search."))}</p>` : `<p class="empty">${esc(tx("Nothing stored yet. Add what you have: rice, water, medicine, batteries."))}</p>`}
+    <details class="cat" data-cat="stock" id="stock" ${S.ui.open.stock ? "open" : ""}>
+      <summary><h3>${esc(tx("Expiry reminders"))}</h3>${chevron}</summary>
+      <div class="person"><label class="field" style="margin:0"><span>${esc(tx("Remind me this long before"))}</span><select data-bind="plan.warn" data-re="1">${warnOpts}</select></label>
         <div class="actions"><button class="btn small ghost" data-a="stockcal">${esc(tx("Add the dates to my phone's calendar"))}</button></div>
+        <p class="hint" style="margin:.4rem 0 .4rem">${esc(tx("Vegetables, fruit, meat, fish and milk spoil fast, so they are flagged 3 days ahead."))}</p>
         <p class="hint" style="margin:.4rem 0 0">${esc(tx("Creates one file with every dated item. Open it, and your calendar app reminds you before each date and on the day."))}</p></div>
-      ${rows}
     </details>`;
+  }
+  function stkFilterDom() {
+    const q = stkQ.trim().toLowerCase();
+    let shown = 0;
+    document.querySelectorAll("#app .stkgrp").forEach((g) => {
+      let n = 0;
+      g.querySelectorAll(".stkitem").forEach((el) => { const ok = !q || el.dataset.q.includes(q); el.hidden = !ok; if (ok) n++; });
+      g.hidden = !n; shown += n;
+    });
+    const none = document.getElementById("stkNone"); if (none) none.hidden = !(q && !shown);
   }
 
   /* Calendar file (.ics): all-day event on each expiry date, with an alarm before and on the day. */
   function stockIcs() {
     const w = warnDays(), esc2 = (t) => String(t).replace(/\\/g, "\\\\").replace(/[;,]/g, (m) => "\\" + m).replace(/\r?\n/g, "\\n");
-    const alarms = [...new Set([w, w > 30 ? 30 : 0, w > 7 ? 7 : 0].filter(Boolean))].sort((a, b) => b - a); // e.g. 1 year, 1 month, 1 week before, then the day itself
+    const alarmsFor = (x) => { const w = itemWarn(x); return [...new Set([w, w > 30 ? 30 : 0, w > 7 ? 7 : 0].filter(Boolean))].sort((a, b) => b - a); }; // e.g. 1 year, 1 month, 1 week before, then the day itself
     const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
     const dt = (iso, plus) => { const d = new Date(iso + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() + plus); return d.toISOString().slice(0, 10).replace(/-/g, ""); };
     const ev = S.stock.filter((x) => x.date && /^\d{4}-\d{2}-\d{2}$/.test(x.date)).map((x) => {
       const name = (x.name || "Item").trim() || "Item";
       const lines = ["BEGIN:VEVENT", "UID:" + x.id + "@andam", "DTSTAMP:" + stamp, "DTSTART;VALUE=DATE:" + dt(x.date, 0), "DTEND;VALUE=DATE:" + dt(x.date, 1),
         "SUMMARY:" + esc2("Andam: " + name + " expires"), "DESCRIPTION:" + esc2([x.qty ? "How many: " + x.qty : "", x.where ? "Kept at: " + x.where : "", "Eat, use or replace it."].filter(Boolean).join("\n")),
-        ...alarms.flatMap((a) => ["BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + esc2(name + " expires in " + fmtDur(a)), "TRIGGER:-P" + (a - 1) + "DT15H", "END:VALARM"]),
+        ...alarmsFor(x).flatMap((a) => ["BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + esc2(name + " expires in " + fmtDur(a)), "TRIGGER:-P" + (a - 1) + "DT15H", "END:VALARM"]),
         "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + esc2(name + " expires today"), "TRIGGER:PT9H", "END:VALARM", "END:VEVENT"];
       return lines.join("\r\n");
     });
@@ -356,7 +403,6 @@
       </div>
       <div class="block"><label class="field" style="margin:0"><span>${esc(tx("Months to finish buying"))}</span><input type="number" inputmode="numeric" min="1" max="60" data-bind="plan.months" data-re="1" value="${Math.max(1, Number(S.plan.months) || 6)}"></label>
         <p class="hint" style="margin:.5rem 0 0">${planned - bought > 0 ? "About " + peso((planned - bought) / Math.max(1, Number(S.plan.months) || 6)) + " a month for what is still to buy." : "Open Details on an item and type the price you found, then the monthly amount shows here."}</p></div>
-      ${stockBlock()}
       <div class="chips" role="group" aria-label="Filters">${chips}</div>
       ${cats || '<p class="empty">Nothing matches this filter. Try “All”.</p>'}
       <p class="hint" style="margin-top:1.25rem">The cost tag is the rough price of one item. Peso figures in Details come from Philippine shop listings seen in November 2026. Prices change, so check before you buy.</p>
@@ -676,7 +722,7 @@
     </section>`;
   }
 
-  const VIEWS = { plan: viewPlan, levels: viewLevels, family: viewFamily, comms: viewComms, guides: viewGuides, drill: viewDrill };
+  const VIEWS = { plan: viewPlan, levels: viewLevels, family: viewFamily, storage: viewStorage, comms: viewComms, guides: viewGuides, drill: viewDrill };
 
   /* ---------- render ---------- */
   const app = document.getElementById("app");
@@ -685,6 +731,7 @@
     FIGCEB = ceb();
     app.innerHTML = bannerHtml() + (VIEWS[S.ui.tab] || viewPlan)();
     hydratePhotos();
+    if (S.ui.tab === "storage") stkFilterDom();
     if (ceb()) translateDom(app, true);
     document.querySelectorAll(".nav button").forEach((b) => {
       if (b.dataset.tab === S.ui.tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
@@ -884,12 +931,14 @@
         const name = g("stkName"), date = g("stkDate");
         if (!name && !date) { toast(tx("Write what it is, or pick a date, first.")); break; }
         S.stock.push({ id: uid(), name, qty: g("stkQty"), date, cat: g("stkType") || "food", where: g("stkWhere") });
-        S.ui.open.stock = true; save(); render(); break;
+        S.ui.open.stkadd = true; save(); render(); break;
       }
       case "stockcal": shareStockCal(); break;
       case "bannerhide": S.ui.bannerDay = new Date().toISOString().slice(0, 10); save(); render(); break;
-      case "bannergo": S.ui.tab = "plan"; S.ui.open.stock = true; S.ui.phase = 0; save(); render(); { const t = document.getElementById("stock"); if (t) t.scrollIntoView({ block: "start" }); } break;
-      case "rmstock": S.stock.splice(Number(d.idx), 1); save(); render(); break;
+      case "bannergo": S.ui.tab = "storage"; S.ui.stkType = "soon"; stkQ = ""; save(); render(); window.scrollTo(0, 0); break;
+      case "stkgroup": S.ui.stkGroup = d.v; save(); render(); break;
+      case "stktype": S.ui.stkType = d.v; save(); render(); break;
+      case "rmstock": { const r = S.stock.splice(Number(d.idx), 1)[0]; if (r) delete S.ui.open["s_" + r.id]; save(); render(); break; }
       case "addplace": S.places.push({ id: uid(), label: "", note: "", lat: "", lng: "" }); save(); render(); break;
       case "rmplace": S.places.splice(Number(d.idx), 1); save(); render(); break;
       case "placegps": {
@@ -992,6 +1041,7 @@
 
   // live solar calculator
   document.addEventListener("input", (e) => {
+    if (e.target && e.target.id === "stkSearch") { stkQ = e.target.value; stkFilterDom(); return; }
     const b = e.target.closest && e.target.closest("[data-calc]");
     if (!b) return;
     setPath(b.dataset.bind, b.value === "" ? "0" : b.value); save();

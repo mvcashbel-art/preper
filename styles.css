@@ -158,7 +158,7 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none}
 /* bottom nav */
 .nav{position:fixed;inset:auto 0 0 0;z-index:30;background:var(--surface);box-shadow:var(--shadow);
   padding-bottom:env(safe-area-inset-bottom)}
-.nav .wrap{display:grid;grid-template-columns:repeat(6,1fr);padding:0}
+.nav .wrap{display:grid;grid-template-columns:repeat(7,1fr);padding:0}
 .nav button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:.15rem;
   padding:.5rem .1rem .45rem;min-height:3.6rem;font-size:.7rem;color:var(--muted);position:relative}
 .nav svg{width:1.55rem;height:1.55rem}
@@ -504,3 +504,20 @@ details.guide.hw,details.cat{scroll-margin-top:4.2rem}
 .stk .stkhead{display:flex;justify-content:space-between;align-items:center;gap:.5rem;margin-bottom:.4rem}
 .stk.lv-bad{border-left:5px solid #C62828}.stk.lv-soon{border-left:5px solid #E0A800}.stk.lv-ok{border-left:5px solid #2E7D32}
 .stkadd h4{margin:.1rem 0 .4rem}
+
+/* Storage tab */
+.stksearch{margin:.2rem 0 .6rem}
+.stksearch input{width:100%;min-height:2.8rem;padding:.5rem .8rem;border:1.5px solid var(--line);border-radius:.6rem;background:var(--surface);color:var(--ink);font:inherit}
+.stkgrp[hidden],.stkitem[hidden]{display:none}
+.stkgrp h4{margin:1rem 0 .3rem;display:flex;align-items:center;gap:.5rem}
+.stkitem{border:1px solid var(--line);border-radius:.6rem;margin:.4rem 0;padding:0 .75rem;background:var(--surface)}
+.stkitem summary{display:flex;align-items:center;gap:.5rem;min-height:3rem;list-style:none;cursor:pointer;flex-wrap:wrap;padding:.4rem 0}
+.stkitem summary::-webkit-details-marker{display:none}
+.stkitem summary::after{content:"";width:.5rem;height:.5rem;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s;margin-left:.2rem;flex:none}
+.stkitem[open] summary::after{transform:rotate(-135deg)}
+.stkitem .stkname{flex:1 1 7rem;font-weight:600;overflow-wrap:anywhere;min-width:0}
+.stkitem .stkqty{color:var(--muted);font-size:.85rem}
+.stkitem .stkbody{padding:.2rem 0 .8rem}
+@media (max-width:420px){.nav button{font-size:.62rem}}
+
+.grpl{align-self:center;color:var(--muted);font-size:.85rem;margin-right:.2rem}

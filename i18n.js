@@ -4,7 +4,7 @@
 
 const CEB = {
   ui: {
-    "Plan": "Plano", "Levels": "Lebel", "Family": "Pamilya", "Comms": "Komunikasyon", "Guides": "Giya", "Drill": "Praktis",
+    "Plan": "Plano", "Levels": "Lebel", "Family": "Pamilya", "Comms": "Komunikasyon", "Guides": "Giya", "Drill": "Praktis", "Storage": "Tipiganan",
     "Guides_title": "Mga Giya",
     "Step by step: what to buy and what to do, with pictures. Tick things as you go. New to this? Open “Start here” first.":
       "Lakang-lakang: unsay paliton ug unsay buhaton, uban ang mga hulagway. I-tsek ang matag nahuman. Bag-o ra ka? Ablihi una ang “Sugdi dinhi”.",

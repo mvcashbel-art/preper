@@ -108,3 +108,9 @@ Everything you type stays on your own phone.
 - Expiry warnings now use weeks, months and years: choose 1 week, 2 weeks, 1 month, 2 months, 3 months, 6 months, 1 year or 2 years.
 - Time left shows as days, weeks, months or years (for example "3 weeks left", "1 year 3 months left").
 - Calendar file (.ics) reminds you at your chosen time, 1 month, 1 week, and on the day itself.
+
+## v16
+- New **Storage** tab (box icon): everything you have stored, in one place.
+- Grouped by type (easily spoiled, vegetables and fruit, canned and dry food, medicine, water, batteries, other) or by where it is kept. Search, filter chips, and an "Expiring soon" filter.
+- Vegetables, fruit, meat, fish and milk are flagged 3 days before they spoil; everything else uses your chosen reminder time.
+- The expiry list moved out of Plan into Storage; "See them" on the top banner opens it.
