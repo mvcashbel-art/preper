@@ -121,3 +121,14 @@ Everything you type stays on your own phone.
 - **Season reminders** for hot months, typhoon season and the cooler rainy months. The current season is on top.
 - 3 new animated quick guides: Wash your hands, Cook safely when the power is out, Before you leave home. Quick guides "Food safety" and "Signal for help" now also have Bisaya text.
 - New file `tips.js` must be uploaded with the rest.
+
+## v18
+- **Warnings near you** (top of Plan): rain, wind, heat, earthquakes and storms for Isabel, Leyte and any places you add (GPS "Use my location now", or search a town). Uses free Open-Meteo, USGS and NASA EONET. Needs internet; offline you see the last check. Not an official warning. Files: new `alerts.js`.
+- Red banner on every tab when a Warning or Danger is found (hide for today).
+- Places in Family can have a hazard or use (floods, landslide, evacuation center...); notes near a watched place show in its warnings.
+- **How long your storage lasts** (Storage tab): days of water and food for the people count.
+- **Quick text to the family** (Comms): "I'm safe", "I need help"... opens your messages with all numbers; optional location link.
+- "New version ready - Update now" banner when an update downloads.
+- Monthly check has a backup item; Settings shows the last backup date.
+- "Send my shopping list" button in Plan.
+- Offline status should now say 25 files saved.

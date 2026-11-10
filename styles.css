@@ -534,3 +534,21 @@ details.guide.hw,details.cat{scroll-margin-top:4.2rem}
 .chkrow span{flex:1;min-width:0}
 .chkrow .btn{flex:none}
 .season{margin:.6rem 0 1rem}.season h4{margin:.2rem 0 .3rem}.season:not(.now){opacity:.85}
+
+/* v18: warnings near you */
+.alertcard{border-left:5px solid var(--accent)}
+.watchrow{padding:.5rem 0;border-top:1px solid var(--line)}.watchrow:first-of-type{border-top:0}
+.watchrow .wh{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}.watchrow .wh b{flex:1;min-width:8rem}
+.alrt{margin:.35rem 0;padding:.5rem .7rem;border-radius:.5rem;border-left:5px solid var(--line);background:var(--surface)}
+.alrt b{display:block}.alrt p{margin:.2rem 0 0}
+.alrt.lv0{border-left-color:#2E7D32}.alrt.lv1{border-left-color:#2E7D32}.alrt.lv2{border-left-color:#E0A800}.alrt.lv3{border-left-color:#E65100}.alrt.lv4{border-left-color:#C62828}
+.alrtadd{display:flex;gap:.5rem;margin:.7rem 0 .3rem}.alrtadd input{flex:1;min-width:0;min-height:2.8rem;padding:.5rem .8rem;border:1.5px solid var(--line);border-radius:.6rem;background:var(--surface);color:var(--ink);font:inherit}
+.resbtn{display:block;width:100%;text-align:left;margin:.25rem 0}
+.alertban{background:#FFE0DB;border-color:#C62828;color:#4a0b05}
+:root[data-theme="dark"] .alertban{background:#4a1612;color:#ffd7d1;border-color:#e0584a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .alertban{background:#4a1612;color:#ffd7d1;border-color:#e0584a}}
+
+/* v18: supply days */
+.supply .sup{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;padding:.4rem 0;border-top:1px solid var(--line)}
+.supply .sup b{min-width:4rem}.supply .sup small{color:var(--muted)}
+.supply .pplin{max-width:14rem}

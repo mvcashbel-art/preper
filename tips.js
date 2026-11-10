@@ -52,7 +52,8 @@ const MONTHLY = [
   { id: "m5", en: "Check that the stored drinking water is clean and the containers are covered.", ceb: "Susiha kung limpyo ang gitipigan nga tubig ug natabunan ang sudlanan." },
   { id: "m6", en: "Check the first-aid kit and refill what was used.", ceb: "Susiha ang first-aid kit ug pun-a ang nagamit." },
   { id: "m7", en: "Check that phone numbers and the meeting place are still right.", ceb: "Susiha kung husto pa ang numero sa telepono ug ang tagboanan.", tab: "family" },
-  { id: "m8", en: "Check the LPG and fuel: no smell, valves closed, enough stored.", ceb: "Susiha ang LPG ug gasolina: walay baho, sirado ang balbula, igo ang tinipigan." }
+  { id: "m8", en: "Check the LPG and fuel: no smell, valves closed, enough stored.", ceb: "Susiha ang LPG ug gasolina: walay baho, sirado ang balbula, igo ang tinipigan." },
+  { id: "m9", en: "Save a backup of your Andam entries (Settings).", ceb: "I-save ang backup sa imong mga isinulat sa Andam (Settings).", act: "settings" }
 ];
 
 /* Season reminders (Philippines). months are 1-12. */

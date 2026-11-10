@@ -15,6 +15,7 @@
     levels: { people: 5, goal: 2, done: {} },
     howto: { done: {}, got: {}, calc: {}, fill: {} },
     stock: [], places: [], plan: { months: 6, warn: 30 }, checks: {},
+    watch: [{ id: "home", name: "Isabel, Leyte", lat: 10.93, lng: 124.43, home: true }], alerts: {},
     settings: { theme: "auto", size: "m", motion: "auto", lang: "en" },
     ui: { tab: "plan", phase: 0, toBuy: false, open: {}, detail: {} }
   });
@@ -227,6 +228,54 @@
     return `<div class="expbanner" role="status"><div><b>Check your dates</b>${st.exp ? `<span>${st.exp} expired</span>` : ""}${st.soon ? `<span>${st.soon} expire within ${winLabel(warnDays())}</span>` : ""}</div>
       <div class="actions"><button class="btn small" data-a="bannergo">See them</button><button class="btn small ghost" data-a="bannerhide">Hide for today</button></div></div>`;
   }
+  /* ---------- how long your storage lasts ---------- */
+  const FOOD_KCAL = [
+    [/rice|bigas|bugas/i, { kg: 3600 }], [/mongo|monggo|bean|lentil/i, { kg: 3400 }], [/oat/i, { kg: 3800 }], [/flour|pasta|spaghetti|macaroni/i, { kg: 3600 }],
+    [/sugar|asukal/i, { kg: 3870 }], [/milk/i, { kg: 5000 }], [/peanut butter/i, { kg: 5900 }], [/oil/i, { l: 8000, kg: 8800 }],
+    [/noodle|pancit/i, { u: 280 }], [/sardine/i, { u: 300 }], [/tuna/i, { u: 250 }], [/corned beef|meat loaf|luncheon/i, { u: 350 }], [/biscuit|cracker|bread/i, { u: 300, kg: 4500 }]
+  ];
+  function parseQty(q) {
+    const m = String(q || "").toLowerCase().replace(",", ".").match(/(\d+(?:\.\d+)?)\s*([a-z]+)?/);
+    return m ? { n: parseFloat(m[1]), u: m[2] || "" } : null;
+  }
+  function supplyDays() {
+    const n = nPeople(), W = 4, K = 2000;
+    let liters = 0, kcal = 0, skipped = [], expired = 0;
+    S.stock.forEach((x) => {
+      const cat = x.cat || "food", name = (x.name || "").trim();
+      const isWater = cat === "water" || (/water/i.test(name) && cat !== "medicine");
+      if (!(isWater || cat === "food")) return;
+      if (x.date && daysLeft(x.date) !== null && daysLeft(x.date) < 0) { expired++; return; }
+      const q = parseQty(x.qty);
+      if (!q) { skipped.push(name || "?"); return; }
+      const u = q.u;
+      if (isWater) {
+        const f = /^(l|lt|ltr|liter|liters|litre|litres)$/.test(u) ? 1 : u === "ml" ? 0.001 : /^(jug|jugs|galon|galons)$/.test(u) ? 19 : /^(gal|gallon|gallons)$/.test(u) ? 3.8 : 0;
+        if (f) liters += q.n * f; else skipped.push(name || "water");
+        return;
+      }
+      const e = (FOOD_KCAL.find(([re]) => re.test(name)) || [])[1];
+      const kg = /^(kg|kilo|kilos)$/.test(u) ? 1 : u === "g" ? 0.001 : /^(lb|lbs)$/.test(u) ? 0.4536 : /^(sack|sacks)$/.test(u) && /rice|bigas|bugas/i.test(name) ? 50 : 0;
+      const lit = /^(l|lt|liter|liters|litre|litres)$/.test(u), cnt = /^(can|cans|tin|tins|pack|packs|pcs|pc|piece|pieces|sachet|sachets)$/.test(u);
+      if (e && kg && e.kg) kcal += q.n * kg * e.kg; else if (e && lit && e.l) kcal += q.n * e.l; else if (e && cnt && e.u) kcal += q.n * e.u; else skipped.push(name || "?");
+    });
+    return { n, liters, kcal, waterDays: liters / (n * W), foodDays: kcal / (n * K), skipped, expired };
+  }
+  function supplyCard() {
+    if (!S.stock.length) return "";
+    const r = supplyDays();
+    const dur = (d) => (d < 1 ? tx("Less than a day") : fmtDur(d < 14 ? Math.floor(d) : Math.round(d)));
+    const row = (name, d, detail, bad, soon) => `<div class="sup"><b>${esc(tx(name))}</b><span class="tag ${d < bad ? "bad" : d < soon ? "soon" : ""}">${esc(dur(d))}</span><small>${esc(detail)}</small></div>`;
+    const skip = [...new Set(r.skipped)].slice(0, 6);
+    return `<div class="block supply"><h4>${esc(tx("How long your storage lasts"))}</h4>
+      <label class="field pplin"><span>${esc(tx("For this many people"))}</span><input type="number" inputmode="numeric" min="1" max="30" data-bind="levels.people" data-re="1" value="${r.n}"></label>
+      ${row("Water", r.waterDays, Math.round(r.liters) + " L", 3, 7)}
+      ${row("Food", r.foodDays, "≈ " + Math.round(r.kcal).toLocaleString("en-PH") + " kcal", 7, 30)}
+      <p class="hint">${esc(tx("A rough guide: 4 liters of water and about 2,000 kcal of food per person a day. Only water and dry or canned food that has not expired are counted."))}</p>
+      ${skip.length ? `<p class="hint">${esc(tx("Not counted"))}: ${esc(skip.join(", "))}. ${esc(tx("Write the amount with a unit, like 20 L, 2 jugs, 10 kg or 24 cans."))}</p>` : ""}
+      ${r.expired ? `<p class="hint">${r.expired} ${esc(tx(r.expired === 1 ? "expired item was left out." : "expired items were left out."))}</p>` : ""}</div>`;
+  }
+
   /* ---------- Storage tab: everything you have stored ---------- */
   let stkQ = ""; // search text (kept while you move between tabs)
   const stkTypeNow = () => S.ui.stkType || "all";
@@ -280,6 +329,7 @@
         <div><small>${esc(tx("Expired"))}</small><b>${st.exp}</b></div>
       </div>
     </section>
+    ${supplyCard()}
     <datalist id="stkNames">${STK_NAMES.map((n) => `<option value="${n}">`).join("")}</datalist>
     <details class="cat" data-cat="stkadd" id="stkadd" ${addOpen ? "open" : ""}>
       <summary><h3>${esc(tx("Add an item"))}</h3>${chevron}</summary>
@@ -375,7 +425,7 @@
   const chkRow = (key, text, extra) => `<label class="chkrow"><input class="chk" type="checkbox" data-bind="checks.${key}" data-re="1" ${S.checks[key] ? "checked" : ""}><span>${esc(text)}</span>${extra || ""}</label>`;
   function monthlyBlock() {
     const n = monthDone(), open = !!S.ui.open.monthly;
-    const rows = MONTHLY.map((m) => chkRow(mKey(m), lt(m), m.tab ? `<button class="btn small ghost" type="button" data-a="tab" data-tab="${m.tab}">${esc(tx("Open"))}</button>` : "")).join("");
+    const rows = MONTHLY.map((m) => chkRow(mKey(m), lt(m), m.tab ? `<button class="btn small ghost" type="button" data-a="tab" data-tab="${m.tab}">${esc(tx("Open"))}</button>` : m.act ? `<button class="btn small ghost" type="button" data-a="${m.act}">${esc(tx("Open"))}</button>` : "")).join("");
     return `<details class="cat" data-cat="monthly" id="monthly" ${open ? "open" : ""}>
       <summary><h3>${esc(tx("Monthly check"))}</h3><span class="count">${n} ${esc(tx("of"))} ${MONTHLY.length}</span>${chevron}
         <span class="mini"><i style="width:${Math.round((n / MONTHLY.length) * 100)}%"></i></span></summary>
@@ -412,6 +462,103 @@
     toast(tx("Saved Andam-monthly-check.ics. Open it to add the reminder to your calendar."));
   }
 
+  let updateReady = false;
+  const updateBanner = () => (updateReady ? `<div class="expbanner" role="status"><div><b>${esc(tx("A new version of Andam is ready."))}</b></div><div class="actions"><button class="btn small" data-a="applyupdate">${esc(tx("Update now"))}</button></div></div>` : "");
+
+  /* ---------- warnings near you (weather, earthquakes, storms) ---------- */
+  const HAZ = [["flood", "Floods here"], ["landslide", "Landslide risk"], ["surge", "Storm surge"], ["fire", "Fire risk"], ["evac", "Evacuation center"], ["safe", "Safe place"]];
+  let alertBusy = false, alertResults = null;
+  const alertsOn = () => S.settings.alertsAuto !== "off";
+  function alertAgo(ms) {
+    const m = Math.max(0, Math.round((Date.now() - ms) / 60000));
+    if (m < 2) return tx("just now");
+    if (m < 90) return m + " " + tx("min ago");
+    const h = Math.round(m / 60); if (h < 36) return h + " " + tx("h ago");
+    return Math.round(h / 24) + " " + tx("days ago");
+  }
+  function localNotes(p) { // your own place notes that are close to this spot
+    return S.places.filter((x) => x.hazard && x.lat !== "" && x.lat != null && ALERTS.hav(p.lat, p.lng, Number(x.lat), Number(x.lng)) <= 3)
+      .map((x) => ({ k: "note", lvl: 1, a: { label: x.label || "", text: tx((HAZ.find((h) => h[0] === x.hazard) || ["", ""])[1]) + (x.note ? ": " + x.note : "") } }));
+  }
+  function placeItems(p) { const r = S.alerts[p.id]; return [...(r ? r.items : []), ...localNotes(p)].sort((a, b) => b.lvl - a.lvl); }
+  function softRender() { // refresh without interrupting someone who is typing
+    const a = document.activeElement;
+    if (a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) && app.contains(a)) return;
+    render();
+  }
+  async function runAlerts(manual) {
+    if (alertBusy || !S.watch.length) return;
+    if (!navigator.onLine) { if (manual) toast(tx("No internet. Showing the last check.")); return; }
+    const before = alertBanner();
+    alertBusy = true; if (S.ui.tab === "plan") softRender();
+    let bad = 0;
+    await Promise.all(S.watch.map(async (p) => {
+      try { const r = await ALERTS.check(p.lat, p.lng); if (r.ok) S.alerts[p.id] = r; else bad++; } catch (e) { bad++; }
+    }));
+    alertBusy = false; S.ui.alertAt = Date.now();
+    Object.keys(S.alerts).forEach((id) => { if (!S.watch.some((p) => p.id === id)) delete S.alerts[id]; });
+    save(); if (S.ui.tab === "plan" || alertBanner() !== before) softRender();
+    if (manual && bad) toast(tx("Couldn't reach the warning services. Try again later."));
+  }
+  function autoAlerts() { if (alertsOn() && S.watch.length && (!S.ui.alertAt || Date.now() - S.ui.alertAt > 3600000)) runAlerts(false); }
+  function addWatch(p) {
+    if (S.watch.length >= 5) { toast(tx("You can watch up to 5 places. Remove one first.")); return false; }
+    S.watch = S.watch.filter((x) => !(p.gps && x.gps)); S.watch.push({ id: p.gps ? "gps" : uid(), name: p.name, lat: p.lat, lng: p.lng, gps: !!p.gps });
+    return true;
+  }
+  function alertBanner() {
+    if (S.ui.alertHide === ymd()) return "";
+    let top = null, where = "";
+    S.watch.forEach((p) => { const r = S.alerts[p.id]; if (!r || Date.now() - r.at > 12 * 3600000) return; r.items.forEach((it) => { if (it.lvl >= 3 && (!top || it.lvl > top.lvl)) { top = it; where = p.name; } }); });
+    if (!top) return "";
+    return `<div class="expbanner alertban" role="alert"><div><b>${esc(tx("Warning near"))} ${esc(where)}</b><span>${esc(ALERTS.text(top, ceb()).t)}</span></div>
+      <div class="actions"><button class="btn small" data-a="alertgo">${esc(tx("See"))}</button><button class="btn small ghost" data-a="alerthide">${esc(tx("Hide for today"))}</button></div></div>`;
+  }
+  function alertsCard() {
+    const lvTag = (l) => `<span class="tag ${l >= 3 ? "bad" : l === 2 ? "soon" : ""}">${esc(ALERTS.levelName(l, ceb()))}</span>`;
+    const failMap = { weather: "weather", quakes: "earthquakes", storms: "storms and events" };
+    const rows = S.watch.map((p) => {
+      const r = S.alerts[p.id], items = placeItems(p), top = items.reduce((m, it) => Math.max(m, it.lvl), 0);
+      return `<div class="watchrow"><div class="wh"><b>${esc(p.name)}${p.gps ? ` <small>${esc(Number(p.lat).toFixed(2))}, ${esc(Number(p.lng).toFixed(2))}</small>` : ""}</b>
+        ${r ? lvTag(top) : `<span class="tag">${esc(tx("Not checked yet"))}</span>`}
+        <button class="btn danger small" data-a="alertrm" data-id="${esc(p.id)}" aria-label="${esc(tx("Remove"))}">✕</button></div>
+        ${r ? `<p class="hint" style="margin:.1rem 0 .3rem">${esc(tx("Checked"))} ${esc(alertAgo(r.at))}</p>` : ""}
+        ${items.length ? items.map((it) => { const t = ALERTS.text(it, ceb()); return `<div class="alrt lv${it.lvl}"><b>${esc(t.t)}</b><p>${esc(t.b)}</p></div>`; }).join("") : r ? `<p class="alrt lv0">${esc(tx("Nothing to worry about in the next 2 days."))}</p>` : ""}
+        ${r && r.failed.length ? `<p class="hint">${esc(tx("Could not check"))}: ${r.failed.map((f) => esc(tx(failMap[f] || f))).join(", ")}</p>` : ""}
+      </div>`;
+    }).join("");
+    const ph = S.watch.some((p) => ALERTS.inPH(p.lat, p.lng));
+    const open = S.ui.open.alerts === undefined ? true : S.ui.open.alerts;
+    const worst = S.watch.reduce((m, p) => Math.max(m, S.alerts[p.id] ? placeItems(p).reduce((a, it) => Math.max(a, it.lvl), 0) : 0), 0);
+    return `<details class="cat alertcard" data-cat="alerts" id="alerts" ${open ? "open" : ""}>
+      <summary><h3>${esc(tx("Warnings near you"))}</h3><span class="count">${alertBusy ? esc(tx("Checking…")) : esc(ALERTS.levelName(worst, ceb()))}</span>${chevron}</summary>
+      ${rows || `<p class="empty">${esc(tx("Add a place to watch."))}</p>`}
+      <div class="actions"><button class="btn small" data-a="alertcheck" ${alertBusy ? "disabled" : ""}>${esc(tx("Check now"))}</button><button class="btn small ghost" data-a="alertgps">${esc(tx("Use my location now"))}</button></div>
+      <div class="alrtadd"><input type="search" id="alertQ" placeholder="${esc(tx("Search a town or city to watch"))}" autocomplete="off" aria-label="${esc(tx("Search a town or city to watch"))}"><button class="btn small ghost" data-a="alertsearch">${esc(tx("Search"))}</button></div>
+      ${alertResults ? (alertResults.length ? alertResults.map((r, i) => `<button class="btn small ghost resbtn" data-a="alertadd" data-i="${i}">+ ${esc(r.name)}</button>`).join("") : `<p class="hint">${esc(tx("No place found."))}</p>`) : ""}
+      <div class="chips" style="margin-top:.6rem"><button class="chip" data-a="alertauto" aria-pressed="${alertsOn()}">${esc(tx("Check when I open the app"))}</button></div>
+      <p class="hint">${esc(tx("A guide made from free forecasts and quake reports, not an official warning. When it matters, listen to PAGASA, PHIVOLCS and your LGU. It needs internet; offline you see the last check. Your location is only sent to these services to get the results."))}</p>
+      ${ph ? `<p class="hint">${esc(tx("Official sources (need internet)"))}: <a href="https://www.pagasa.dost.gov.ph/" target="_blank" rel="noopener">PAGASA</a> · <a href="https://www.phivolcs.dost.gov.ph/" target="_blank" rel="noopener">PHIVOLCS</a> · <a href="https://ndrrmc.gov.ph/" target="_blank" rel="noopener">NDRRMC</a></p>` : `<p class="hint">${esc(tx("Outside the Philippines, use your country's weather and disaster agency."))}</p>`}
+      <p class="hint">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a> (CC BY 4.0) · Earthquakes: USGS · Storms and events: NASA EONET</p>
+    </details>`;
+  }
+
+  /* ---------- shopping list to send ---------- */
+  async function shareShopList() {
+    const lines = [];
+    let total = 0;
+    CATS.forEach((c) => {
+      const list = [...c.items, ...(S.custom[c.id] || []).map((i) => ({ ...i, custom: true }))].filter((i) => !S.checked[i.id] && (i.b > 0 || i.custom));
+      if (!list.length) return;
+      lines.push("", c.name.toUpperCase());
+      list.forEach((i) => { const pr = Number(S.price[i.id]) || 0; total += pr; lines.push("[ ] " + i.t + (pr ? " (" + peso(pr) + ")" : "")); });
+    });
+    if (!lines.length) { toast(tx("Nothing left to buy.")); return; }
+    const text = "Andam: " + tx("Shopping list") + lines.join("\n") + (total ? "\n\n" + tx("About") + " " + peso(total) + " (" + tx("prices you entered") + ")" : "");
+    try { if (navigator.share) { await navigator.share({ title: "Andam", text }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
+    try { await navigator.clipboard.writeText(text); toast(tx("Shopping list copied. Paste it into a message.")); } catch (e) { toast(tx("Couldn't copy the list.")); }
+  }
+
   function viewPlan() {
     pruneChecks();
     const items = allItems();
@@ -433,7 +580,8 @@
 
     const chips = [[0, "All"], [1, "Start now"], [2, "Next"], [3, "Later"]].map(([v, l]) =>
       `<button class="chip" data-a="phase" data-phase="${v}" aria-pressed="${S.ui.phase === v}">${l}</button>`).join("") +
-      `<button class="chip" data-a="tobuy" aria-pressed="${S.ui.toBuy}">Still to buy</button>`;
+      `<button class="chip" data-a="tobuy" aria-pressed="${S.ui.toBuy}">Still to buy</button>` +
+      `<button class="chip" data-a="shoplist">${esc(tx("Send my shopping list"))}</button>`;
 
     const cats = CATS.map((c) => {
       const list = [...c.items.map((i) => ({ ...i, cat: c.id })), ...(S.custom[c.id] || []).map((i) => ({ ...i, cat: c.id, custom: true }))];
@@ -458,6 +606,7 @@
     }).join("");
 
     return `<section class="view">
+      ${alertsCard()}
       ${tipCard()}
       <h2>Readiness plan</h2>
       <p class="lede">Check things off as you get them. Start with the yellow “Start now” items: they are the cheapest and matter most.</p>
@@ -550,12 +699,44 @@
           <label class="field"><span>${esc(tx("Place"))}</span><input type="text" list="placeKinds" data-bind="places.${i}.label" value="${esc(p.label)}" placeholder="High ground"></label>
           <label class="field"><span>${esc(tx("Note"))}</span><input type="text" data-bind="places.${i}.note" value="${esc(p.note)}"></label>
         </div>
+        <label class="field"><span>${esc(tx("Hazard or use"))}</span><select data-bind="places.${i}.hazard" data-re="1"><option value="">—</option>${HAZ.map(([v, l]) => `<option value="${v}" ${p.hazard === v ? "selected" : ""}>${esc(tx(l))}</option>`).join("")}</select></label>
         ${has ? `<p class="coords">${esc(p.lat)}, ${esc(p.lng)}</p>` : ""}
         <div class="actions"><button class="btn small" data-a="placegps" data-idx="${i}">${esc(tx("Use my location"))}</button>
           ${has ? `<a class="btn small ghost" href="geo:${esc(p.lat)},${esc(p.lng)}?q=${esc(p.lat)},${esc(p.lng)}(${encodeURIComponent(p.label || "Place")})">${esc(tx("Open in maps"))}</a>` : ""}
           <button class="btn danger small" data-a="rmplace" data-idx="${i}">${esc(tx("Remove"))}</button></div>
       </div>`;
     }).join("") + `<datalist id="placeKinds"><option value="High ground"><option value="Evacuation center"><option value="Clinic or hospital"><option value="Water source"><option value="Church"><option value="Relative's home"></datalist>`;
+  }
+
+  /* ---------- quick text to the family ---------- */
+  const FAM_MSGS = [
+    { id: "safe", en: "I am safe. We are OK.", ceb: "Luwas ko. Okay ra mi." },
+    { id: "help", en: "I need help.", ceb: "Nanginahanglan ko og tabang." },
+    { id: "move", en: "We are moving to our meeting place.", ceb: "Moadto mi sa among tagboanan." },
+    { id: "home", en: "I am on my way home.", ceb: "Pauli na ko sa balay." }
+  ];
+  const famPhones = () => { const f = S.family, seen = {}, out = []; [...f.members.map((m) => m.phone), f.outPhone].forEach((p) => { const d = String(p || "").replace(/[^\d+]/g, ""); if (d.length >= 5 && !seen[d]) { seen[d] = 1; out.push(d); } }); return out; };
+  function openSms(phones, body) {
+    const ios = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const a = document.createElement("a"); a.href = "sms:" + phones.join(",") + (ios ? "&" : "?") + "body=" + encodeURIComponent(body);
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  function sendFamilyText(id) {
+    const m = FAM_MSGS.find((x) => x.id === id), phones = famPhones();
+    if (!m) return;
+    if (!phones.length) { toast(tx("Add your family's phone numbers in the Family tab first.")); return; }
+    const go = (extra) => openSms(phones, lt(m) + (extra || ""));
+    if (S.ui.smsLoc && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((p) => go(" " + tx("My location") + ": https://maps.google.com/?q=" + p.coords.latitude.toFixed(5) + "," + p.coords.longitude.toFixed(5)), () => go(""), { timeout: 8000, maximumAge: 300000 });
+    } else go("");
+  }
+  function famTextCard() {
+    const phones = famPhones(), names = S.family.members.filter((m) => m.phone).map((m) => m.name || m.phone);
+    return `<div class="block"><h4>${esc(tx("Quick text to the family"))}</h4>
+      <p class="hint">${esc(tx("Opens your messages with the numbers from the Family tab. Texts often go through when calls and data do not."))}</p>
+      <div class="actions">${FAM_MSGS.map((m) => `<button class="btn small ${m.id === "help" ? "danger" : ""}" data-a="famtext" data-id="${m.id}">${esc(lt(m))}</button>`).join("")}</div>
+      <div class="chips" style="margin-top:.6rem"><button class="chip" data-a="smsloc" aria-pressed="${!!S.ui.smsLoc}">${esc(tx("Add my location"))}</button></div>
+      <p class="hint">${phones.length ? esc(tx("Sends to")) + ": " + esc(names.join(", ")) + (S.family.outPhone ? ", " + esc(S.family.outName || S.family.outPhone) : "") : esc(tx("No numbers yet. Add them in the Family tab."))}</p></div>`;
   }
 
   function viewComms() {
@@ -570,6 +751,7 @@
     return `<section class="view">
       <h2>Communication plan</h2>
       <p class="lede">Phones will fail first. Work down this list from short range to long range, and test each layer before you need it.</p>
+      ${famTextCard()}
       <div class="block"><h4>Check-in</h4>
         <label class="field"><span>Daily check-in time</span><input type="text" data-bind="comms.checkin" value="${esc(c.checkin)}" placeholder="For example, 6:00 PM every day"></label>
         <label class="field"><span>Radio channel or frequency</span><input type="text" data-bind="comms.channel" value="${esc(c.channel)}"></label>
@@ -797,7 +979,7 @@
   function render() {
     const y = window.scrollY;
     FIGCEB = ceb();
-    app.innerHTML = bannerHtml() + (VIEWS[S.ui.tab] || viewPlan)();
+    app.innerHTML = updateBanner() + alertBanner() + bannerHtml() + (VIEWS[S.ui.tab] || viewPlan)();
     hydratePhotos();
     if (S.ui.tab === "storage") stkFilterDom();
     if (ceb()) translateDom(app, true);
@@ -834,7 +1016,7 @@
   const dlg = document.getElementById("settings");
   function backupText() {
     const data = JSON.parse(JSON.stringify(S));
-    delete data.ui;
+    delete data.ui; delete data.alerts;
     return JSON.stringify({ app: "handa", v: 1, saved: new Date().toISOString(), data }, null, 1);
   }
   function openSettings() {
@@ -844,6 +1026,7 @@
     document.getElementById("lang").value = S.settings.lang || "en";
     document.getElementById("backup").value = backupText();
     document.getElementById("restoreText").value = "";
+    const lb = document.getElementById("lastBackup"); if (lb) lb.textContent = S.settings.lastBackup ? tx("Last backup") + ": " + S.settings.lastBackup : tx("You have not saved a backup yet.");
     if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
   }
 
@@ -893,7 +1076,7 @@
     const pack = { app: "handa", kind: "family", v: 1,
       family: { meet1: f.meet1, meet2: f.meet2, meet3: f.meet3, outName: f.outName, outPhone: f.outPhone,
         members: f.members.map(({ name, phone, notes }) => ({ name, phone, notes })), nums: f.nums.map(({ label, phone }) => ({ label, phone })) },
-      places: S.places.map(({ label, note, lat, lng }) => ({ label, note, lat, lng })) };
+      places: S.places.map(({ label, note, lat, lng, hazard }) => ({ label, note, lat, lng, hazard })) };
     return "HANDA1:" + btoa(unescape(encodeURIComponent(JSON.stringify(pack))));
   }
   function importFamily(text) {
@@ -910,7 +1093,7 @@
     const key = (s) => String(s || "").toLowerCase().replace(/\s+/g, "");
     (n.members || []).forEach((m) => { if (m && m.name && !f.members.some((x) => key(x.name) === key(m.name))) { f.members.push({ id: uid(), name: String(m.name), phone: String(m.phone || ""), notes: String(m.notes || ""), bag: false }); added++; } });
     (n.nums || []).forEach((m) => { if (m && m.phone && !f.nums.some((x) => key(x.phone) === key(m.phone))) { f.nums.push({ id: uid(), label: String(m.label || ""), phone: String(m.phone) }); added++; } });
-    (pack.places || []).forEach((p) => { if (p && p.label && !S.places.some((x) => key(x.label) === key(p.label) && String(x.lat) === String(p.lat))) { S.places.push({ id: uid(), label: String(p.label), note: String(p.note || ""), lat: p.lat ?? "", lng: p.lng ?? "" }); added++; } });
+    (pack.places || []).forEach((p) => { if (p && p.label && !S.places.some((x) => key(x.label) === key(p.label) && String(x.lat) === String(p.lat))) { S.places.push({ id: uid(), label: String(p.label), note: String(p.note || ""), lat: p.lat ?? "", lng: p.lng ?? "", hazard: HAZ.some((h) => h[0] === p.hazard) ? p.hazard : "" }); added++; } });
     save(); render();
     toast(added ? added + " added to this phone." : "Nothing new to add: this phone already has it.");
     return true;
@@ -1005,6 +1188,36 @@
       case "bannerhide": S.ui.bannerDay = new Date().toISOString().slice(0, 10); save(); render(); break;
       case "bannergo": S.ui.tab = "storage"; S.ui.stkType = "soon"; stkQ = ""; save(); render(); window.scrollTo(0, 0); break;
       case "stkgroup": S.ui.stkGroup = d.v; save(); render(); break;
+      case "alertcheck": runAlerts(true); break;
+      case "alertauto": S.settings.alertsAuto = alertsOn() ? "off" : "on"; save(); render(); break;
+      case "alerthide": S.ui.alertHide = ymd(); save(); render(); break;
+      case "alertgo": S.ui.tab = "plan"; S.ui.open.alerts = true; save(); render(); { const t = document.getElementById("alerts"); if (t) t.scrollIntoView({ block: "start" }); } break;
+      case "alertrm": S.watch = S.watch.filter((p) => p.id !== d.id); delete S.alerts[d.id]; save(); render(); break;
+      case "alertgps": {
+        if (!navigator.geolocation) { toast(tx("This phone can't give its location here.")); break; }
+        toast(tx("Finding your location…"));
+        navigator.geolocation.getCurrentPosition((pos) => {
+          const lat = Math.round(pos.coords.latitude * 1000) / 1000, lng = Math.round(pos.coords.longitude * 1000) / 1000;
+          if (addWatch({ gps: true, name: tx("My location"), lat, lng })) { save(); render(); runAlerts(true); }
+        }, () => toast(tx("Couldn't get your location. Allow location for this app, or search a place instead.")), { timeout: 15000, maximumAge: 600000 });
+        break;
+      }
+      case "alertsearch": {
+        const q = (document.getElementById("alertQ") || {}).value || "";
+        if (q.trim().length < 2) { toast(tx("Type a town or city first.")); break; }
+        if (!navigator.onLine) { toast(tx("No internet. Showing the last check.")); break; }
+        ALERTS.search(q.trim()).then((r) => { alertResults = r; render(); }).catch(() => toast(tx("Couldn't reach the warning services. Try again later.")));
+        break;
+      }
+      case "alertadd": {
+        const r = alertResults && alertResults[Number(d.i)];
+        if (r && addWatch(r)) { alertResults = null; save(); render(); runAlerts(true); }
+        break;
+      }
+      case "famtext": sendFamilyText(d.id); break;
+      case "smsloc": S.ui.smsLoc = !S.ui.smsLoc; save(); render(); break;
+      case "applyupdate": window.location.reload(); break;
+      case "shoplist": shareShopList(); break;
       case "nexttip": S.ui.tipOff = (S.ui.tipOff || 0) + 1; save(); render(); break;
       case "monthgo": S.ui.tab = "plan"; S.ui.open.monthly = true; save(); render(); { const t = document.getElementById("monthly"); if (t) t.scrollIntoView({ block: "start" }); } break;
       case "monthcal": shareMonthCal(); break;
@@ -1039,13 +1252,14 @@
       case "closesettings": dlg.close ? dlg.close() : dlg.removeAttribute("open"); break;
       case "copybackup": {
         const ta = document.getElementById("backup");
-        ta.select();
+        ta.select(); S.settings.lastBackup = new Date().toISOString().slice(0, 10); save();
         (navigator.clipboard ? navigator.clipboard.writeText(ta.value) : Promise.reject()).then(
           () => toast("Backup copied. Paste it into a message to yourself."),
           () => { document.execCommand && document.execCommand("copy"); toast("Backup copied."); });
         break;
       }
       case "dlbackup": {
+        S.settings.lastBackup = new Date().toISOString().slice(0, 10); save();
         const blob = new Blob([backupText()], { type: "application/json" });
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
@@ -1168,7 +1382,11 @@
       setSt("Offline saving failed: a file is missing on the web host. Upload every file in the folder, including icons and fonts.");
       findMissing().then((miss) => { if (miss.length) setSt("Offline saving failed. These files are missing on the web host: " + miss.slice(0, 6).join(", ") + (miss.length > 6 ? " and more" : "") + ". Upload them, keeping the same folder names."); });
     }); };
-    navigator.serviceWorker.register("sw.js").then((reg) => { watch(reg.installing); reg.addEventListener("updatefound", () => watch(reg.installing)); })
+    const hadSw = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener("controllerchange", () => { if (hadSw && !updateReady) { updateReady = true; softRender(); } });
+    navigator.serviceWorker.register("sw.js").then((reg) => { watch(reg.installing); reg.addEventListener("updatefound", () => watch(reg.installing));
+      const chk = () => reg.update().catch(() => {}); setTimeout(chk, 4000);
+      document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") chk(); }); })
       .catch(() => setSt("Offline mode could not start. This browser or page may block it."));
     navigator.serviceWorker.ready.then(() => savedCount().then((n) => setSt(n ? "Ready: works without internet (" + n + " files saved)" : "Ready: works without internet")));
     setTimeout(() => { if (!window._st) setSt("Not saved for offline yet. Reload once with internet. If this stays, the files are not on an https address, or this browser blocks saving."); }, 6000);
@@ -1179,5 +1397,8 @@
   applySettings();
   if (location.hash && VIEWS[location.hash.slice(1)]) S.ui.tab = location.hash.slice(1);
   render(); playEnter();
+  setTimeout(autoAlerts, 1200);
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") autoAlerts(); });
+  window.addEventListener("online", autoAlerts);
   if (!storageOk) toast("This phone is blocking saving. Your changes will be lost when you close the app.");
 })();

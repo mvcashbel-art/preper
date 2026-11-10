@@ -88,6 +88,7 @@
 
     <h3>Back up your entries</h3>
     <p class="hint">Everything you type is saved only on this phone. If you change phones, copy this backup and paste it into the new one. Photos you add to a guide stay on this phone and are not in the backup.</p>
+    <p class="hint" id="lastBackup"></p>
     <textarea id="backup" readonly aria-label="Backup text" style="min-height:6rem;font-size:.8rem"></textarea>
     <div class="actions"><button class="btn small" data-a="copybackup">Copy backup</button><button class="btn small ghost" data-a="dlbackup">Download file</button></div>
     <label class="field"><span>Restore from a backup</span><textarea id="restoreText" placeholder="Paste a backup here" style="min-height:4rem;font-size:.8rem"></textarea></label>
@@ -107,6 +108,7 @@
 
 <script src="data.js"></script>
 <script src="tips.js"></script>
+<script src="alerts.js"></script>
 <script src="levels.js"></script>
 <script src="howto.js"></script>
 <script src="figures.js"></script>
