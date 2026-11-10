@@ -132,3 +132,15 @@ Everything you type stays on your own phone.
 - Monthly check has a backup item; Settings shows the last backup date.
 - "Send my shopping list" button in Plan.
 - Offline status should now say 25 files saved.
+
+## v19
+- **Map** (map icon at the top, beside Settings): your saved places (evacuation centers, safe places, flood, landslide, storm surge and fire spots), warnings from the last check, your location, and hospitals, clinics, police, fire stations, shelters and schools nearby. Tap "Add a place", then tap the map to save one. "Find help nearby" saves a list on the phone for offline.
+- Map pictures need internet (OpenStreetMap). Offline you still get a list with distance and direction from you or from home, plus a link to your maps app. For full offline maps, install the free Organic Maps app.
+- Optional rain radar and cloud picture (RainViewer). They switch themselves off if the service is not available.
+- **Emergency ID card** (Family tab): big text screen with name, blood type, allergies, conditions, medicines and contacts. Can be printed. It is in your backup but not in the family page you share.
+- **Family drill reminder** (Plan tab): appears when the last drill (Drill tab) was 6 months ago or never. "Remind me in a week" hides it. The Drill tab shows how long ago and gives a different scenario each month.
+- **Photos on places** (Family tab): add a photo, for example a picture of the barangay evacuation map. The photo shows in the map popup. Photos stay on the phone and are not in the backup.
+- **Listen** button on guides (English only, uses the phone's voice).
+- Warnings when the app is closed: see the separate `andam-push-alerts` package and its README.
+- New files to upload: `mapview.js` and the `lib` folder (`lib/leaflet.js`). Leaflet is BSD-2 licensed.
+- Offline status should now say 27 files saved.

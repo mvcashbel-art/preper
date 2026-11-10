@@ -59,7 +59,7 @@ const ALERTS = (() => {
       const c = f.geometry && f.geometry.coordinates || [], p = f.properties || {};
       const d = hav(lat, lng, c[1], c[0]), m = Number(p.mag) || 0;
       const lvl = (m >= 7 && d <= 400) || (m >= 6 && d <= 150) ? 4 : (m >= 6) || (m >= 5 && d <= 100) ? 3 : m >= 5 || (m >= 4.5 && d <= 150) ? 2 : d <= 200 ? 1 : 0;
-      return { k: "quake", lvl: p.tsunami === 1 ? Math.max(lvl, 3) : lvl, a: { m: r1(m), d: Math.round(d), ago: Math.max(0, Math.round((Date.now() - p.time) / 60000)), ts: p.tsunami === 1 ? 1 : 0 } };
+      return { k: "quake", ll: [c[1], c[0]], lvl: p.tsunami === 1 ? Math.max(lvl, 3) : lvl, a: { m: r1(m), d: Math.round(d), ago: Math.max(0, Math.round((Date.now() - p.time) / 60000)), ts: p.tsunami === 1 ? 1 : 0 } };
     }).filter((x) => x.lvl > 0).sort((a, b) => b.lvl - a.lvl || b.a.m - a.a.m);
     return list.slice(0, 3);
   }
@@ -80,7 +80,7 @@ const ALERTS = (() => {
       else if (cat === "floods" && ageD <= 5) { kind = "flood"; lvl = d <= 200 ? 2 : 0; }
       else if (cat === "landslides" && ageD <= 5) { kind = "landslide"; lvl = d <= 100 ? 2 : 0; }
       else if (cat === "wildfires" && ageD <= 3) { kind = "fire"; lvl = d <= 50 ? 2 : 0; }
-      if (lvl) out.push({ k: kind, lvl, a: { n: String(e.title || "").slice(0, 60), d: Math.round(d) } });
+      if (lvl) out.push({ k: kind, ll: [c[1], c[0]], lvl, a: { n: String(e.title || "").slice(0, 60), d: Math.round(d) } });
     });
     return out.sort((a, b) => b.lvl - a.lvl || a.a.d - b.a.d).slice(0, 4);
   }

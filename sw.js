@@ -1,6 +1,6 @@
 /* Andam service worker: makes the app work without internet.
    Bump VERSION whenever you change any file so phones pick up the update. */
-const VERSION = "andam-v18";
+const VERSION = "andam-v19";
 const ASSETS = [
   "./",
   "index.html",
@@ -8,6 +8,8 @@ const ASSETS = [
   "data.js",
   "tips.js",
   "alerts.js",
+  "lib/leaflet.js",
+  "mapview.js",
   "levels.js",
   "howto.js",
   "figures.js",

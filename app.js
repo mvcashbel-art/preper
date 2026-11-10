@@ -14,7 +14,7 @@
     drill: { steps: {}, last: "", found: "" },
     levels: { people: 5, goal: 2, done: {} },
     howto: { done: {}, got: {}, calc: {}, fill: {} },
-    stock: [], places: [], plan: { months: 6, warn: 30 }, checks: {},
+    stock: [], places: [], nearby: [], medid: {}, plan: { months: 6, warn: 30 }, checks: {},
     watch: [{ id: "home", name: "Isabel, Leyte", lat: 10.93, lng: 124.43, home: true }], alerts: {},
     settings: { theme: "auto", size: "m", motion: "auto", lang: "en" },
     ui: { tab: "plan", phase: 0, toBuy: false, open: {}, detail: {} }
@@ -533,11 +533,12 @@
     return `<details class="cat alertcard" data-cat="alerts" id="alerts" ${open ? "open" : ""}>
       <summary><h3>${esc(tx("Warnings near you"))}</h3><span class="count">${alertBusy ? esc(tx("Checking…")) : esc(ALERTS.levelName(worst, ceb()))}</span>${chevron}</summary>
       ${rows || `<p class="empty">${esc(tx("Add a place to watch."))}</p>`}
-      <div class="actions"><button class="btn small" data-a="alertcheck" ${alertBusy ? "disabled" : ""}>${esc(tx("Check now"))}</button><button class="btn small ghost" data-a="alertgps">${esc(tx("Use my location now"))}</button></div>
+      <div class="actions"><button class="btn small" data-a="alertcheck" ${alertBusy ? "disabled" : ""}>${esc(tx("Check now"))}</button><button class="btn small ghost" data-a="alertgps">${esc(tx("Use my location now"))}</button><button class="btn small ghost" data-a="map">${esc(tx("Open the map"))}</button></div>
       <div class="alrtadd"><input type="search" id="alertQ" placeholder="${esc(tx("Search a town or city to watch"))}" autocomplete="off" aria-label="${esc(tx("Search a town or city to watch"))}"><button class="btn small ghost" data-a="alertsearch">${esc(tx("Search"))}</button></div>
       ${alertResults ? (alertResults.length ? alertResults.map((r, i) => `<button class="btn small ghost resbtn" data-a="alertadd" data-i="${i}">+ ${esc(r.name)}</button>`).join("") : `<p class="hint">${esc(tx("No place found."))}</p>`) : ""}
       <div class="chips" style="margin-top:.6rem"><button class="chip" data-a="alertauto" aria-pressed="${alertsOn()}">${esc(tx("Check when I open the app"))}</button></div>
       <p class="hint">${esc(tx("A guide made from free forecasts and quake reports, not an official warning. When it matters, listen to PAGASA, PHIVOLCS and your LGU. It needs internet; offline you see the last check. Your location is only sent to these services to get the results."))}</p>
+      <p class="hint">${esc(tx("Want a message on your phone even when the app is closed? Use the Andam push alerts add-on (free ntfy app). The setup guide came with this app."))}</p>
       ${ph ? `<p class="hint">${esc(tx("Official sources (need internet)"))}: <a href="https://www.pagasa.dost.gov.ph/" target="_blank" rel="noopener">PAGASA</a> · <a href="https://www.phivolcs.dost.gov.ph/" target="_blank" rel="noopener">PHIVOLCS</a> · <a href="https://ndrrmc.gov.ph/" target="_blank" rel="noopener">NDRRMC</a></p>` : `<p class="hint">${esc(tx("Outside the Philippines, use your country's weather and disaster agency."))}</p>`}
       <p class="hint">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a> (CC BY 4.0) · Earthquakes: USGS · Storms and events: NASA EONET</p>
     </details>`;
@@ -608,6 +609,7 @@
     return `<section class="view">
       ${alertsCard()}
       ${tipCard()}
+      ${drillCard()}
       <h2>Readiness plan</h2>
       <p class="lede">Check things off as you get them. Start with the yellow “Start now” items: they are the cheapest and matter most.</p>
       <div class="tide">${seg}</div>
@@ -676,12 +678,14 @@
       <h3>${esc(tx("Important places"))}</h3>
       <div class="block"><p class="hint" style="margin:0">${esc(tx("Add the high ground, evacuation center, clinic and water source. Tap “Use my location” while standing there. The numbers work without internet."))}</p>
         ${placesHtml()}
-        <div class="actions"><button class="btn" data-a="addplace">${esc(tx("Add a place"))}</button></div></div>
+        <div class="actions"><button class="btn" data-a="addplace">${esc(tx("Add a place"))}</button><button class="btn ghost" data-a="map" data-focus="add">${esc(tx("Add on the map"))}</button></div></div>
 
       <h3>Emergency numbers</h3>
       <div class="block">${nums}
         <p class="hint">Add your barangay, rural health unit, municipal DRRM office, and the nearest hospital.</p>
         <div class="actions"><button class="btn" data-a="addnum">Add a number</button></div></div>
+
+      ${idForm()}
 
       <h3>${esc(tx("Share with family"))}</h3>
       <div class="block"><p class="hint" style="margin:0">${esc(tx("Send your family page (people, numbers, meeting places and important places) to a sister or parent. They add it to their phone. Nothing else is shared."))}</p>
@@ -701,11 +705,114 @@
         </div>
         <label class="field"><span>${esc(tx("Hazard or use"))}</span><select data-bind="places.${i}.hazard" data-re="1"><option value="">—</option>${HAZ.map(([v, l]) => `<option value="${v}" ${p.hazard === v ? "selected" : ""}>${esc(tx(l))}</option>`).join("")}</select></label>
         ${has ? `<p class="coords">${esc(p.lat)}, ${esc(p.lng)}</p>` : ""}
+        <div class="phrow"><span class="ph" data-ph="place_${esc(p.id)}"></span><label class="phbtn" for="ph_place_${esc(p.id)}">${esc(tx("Add a photo (for example the evacuation map or a route sign)"))}</label><input type="file" id="ph_place_${esc(p.id)}" accept="image/*" data-ph-in="place_${esc(p.id)}" hidden></div>
         <div class="actions"><button class="btn small" data-a="placegps" data-idx="${i}">${esc(tx("Use my location"))}</button>
           ${has ? `<a class="btn small ghost" href="geo:${esc(p.lat)},${esc(p.lng)}?q=${esc(p.lat)},${esc(p.lng)}(${encodeURIComponent(p.label || "Place")})">${esc(tx("Open in maps"))}</a>` : ""}
           <button class="btn danger small" data-a="rmplace" data-idx="${i}">${esc(tx("Remove"))}</button></div>
       </div>`;
     }).join("") + `<datalist id="placeKinds"><option value="High ground"><option value="Evacuation center"><option value="Clinic or hospital"><option value="Water source"><option value="Church"><option value="Relative's home"></datalist>`;
+  }
+
+
+  /* ---------- emergency ID card ---------- */
+  const BLOOD = ["", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+  const isoToday = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+  function idForm() {
+    const m = S.medid || {};
+    const f = (k, lab, type, ph) => `<label class="field"><span>${esc(tx(lab))}</span><input type="${type || "text"}" ${type === "tel" ? 'inputmode="tel"' : ""} data-bind="medid.${k}" value="${esc(m[k] || "")}" ${ph ? `placeholder="${esc(tx(ph))}"` : ""}></label>`;
+    const open = !!S.ui.open.idcard;
+    return `<details class="cat" data-cat="idcard" id="idcard" ${open ? "open" : ""}>
+      <summary><h3>${esc(tx("Emergency ID card"))}</h3><span class="count">${m.name ? esc(m.name) : esc(tx("Not filled in"))}</span>${chevron}</summary>
+      <p class="hint" style="margin:0">${esc(tx("A big, clear screen for a rescuer or a doctor if you cannot speak. Stays on this phone. It is not in the family page you share, but it is in your backup, so keep the backup private."))}</p>
+      <div class="grid2">${f("name", "Full name")}<label class="field"><span>${esc(tx("Blood type"))}</span><select data-bind="medid.blood">${BLOOD.map((b) => `<option value="${b}" ${m.blood === b ? "selected" : ""}>${b || "—"}</option>`).join("")}</select></label></div>
+      ${f("allergies", "Allergies", "text", "For example: penicillin, shrimp")}
+      ${f("conditions", "Medical conditions", "text", "For example: asthma, diabetes")}
+      ${f("meds", "Medicines taken", "text")}
+      <div class="grid2">${f("c1n", "Contact 1 name")}${f("c1p", "Contact 1 phone", "tel")}</div>
+      <div class="grid2">${f("c2n", "Contact 2 name")}${f("c2p", "Contact 2 phone", "tel")}</div>
+      ${f("addr", "Home address or barangay")}
+      ${f("notes", "Other notes", "text", "For example: doctor's name, wears glasses")}
+      <div class="actions"><button class="btn" data-a="idcard">${esc(tx("Show my ID card"))}</button></div>
+      <p class="hint">${esc(tx("Tip: open the card, take a screenshot, and set it as your lock screen picture so anyone can read it without your passcode."))}</p>
+    </details>`;
+  }
+  function idCardHtml() {
+    const m = S.medid || {}, row = (lab, v, cls) => (v ? `<div class="idrow ${cls || ""}"><small>${esc(tx(lab))}</small><b>${esc(v)}</b></div>` : "");
+    const contact = (n, p) => (p ? `<a class="idcall" href="${esc(telHref(p))}"><small>${esc(n || tx("Contact"))}</small><b>${esc(p)}</b></a>` : "");
+    const empty = !Object.keys(m).some((k) => k !== "upd" && m[k]);
+    return `<div class="idin"><div class="idbar"><b>${esc(tx("EMERGENCY ID"))}</b><span class="noprint"><button class="btn small ghost" data-a="idprint">${esc(tx("Print"))}</button> <button class="btn small ghost" data-a="idclose">${esc(tx("Close"))}</button></span></div>
+      ${empty ? `<p class="lede">${esc(tx("Nothing filled in yet. Go to Family, then Emergency ID card."))}</p>` : `
+      <h2 class="idname">${esc(m.name || "")}</h2>
+      ${m.blood ? `<div class="idblood"><small>${esc(tx("Blood type"))}</small><b>${esc(m.blood)}</b></div>` : ""}
+      ${row("Allergies", m.allergies, "idwarn")}${row("Medical conditions", m.conditions)}${row("Medicines taken", m.meds)}
+      ${(m.c1p || m.c2p) ? `<h3>${esc(tx("Call"))}</h3>${contact(m.c1n, m.c1p)}${contact(m.c2n, m.c2p)}` : ""}
+      ${row("Home address or barangay", m.addr)}${row("Other notes", m.notes)}
+      <p class="hint">${m.upd ? esc(tx("Updated")) + " " + esc(m.upd) + " · " : ""}Andam</p>`}
+    </div>`;
+  }
+  function openIdCard() {
+    const d = document.getElementById("iddlg");
+    d.innerHTML = idCardHtml();
+    if (ceb()) translateDom(d, true);
+    if (typeof d.showModal === "function") { if (!d.open) d.showModal(); } else d.setAttribute("open", "");
+  }
+
+  /* ---------- family drill reminder ---------- */
+  const DRILL_IDEAS = [
+    { en: "Night earthquake: practise drop, cover and hold on, then walk to your meeting place in the dark with your go-bag.", ceb: "Linog sa gabii: sulayi ang yuko, tago ug kapyot, dayon lakaw padulong sa tagboanan sa kangitngit dala ang go-bag." },
+    { en: "Typhoon warning: give everyone 10 minutes to charge phones, fill water, and pack the go-bag. Time it.", ceb: "Pasidaan sa bagyo: hatagi ang tanan og 10 ka minuto sa pag-charge sa telepono, pagpuno og tubig, ug pag-empake sa go-bag. Oraha." },
+    { en: "Flood: walk the real route to the high ground or evacuation center. Note anything that would be blocked.", ceb: "Baha: lakaw sa tinuod nga dalan paingon sa taas nga dapit o evacuation center. Sulati ang mga butang nga mababagan." },
+    { en: "Power out for 24 hours: cook, wash, and light the house without grid power. See what runs out first.", ceb: "Walay kuryente 24 ka oras: pagluto, paglaba, ug suga sa balay nga walay kuryente. Tan-awa kung unsa ang unang mahurot." },
+    { en: "Fire at night: find two ways out of every room and agree on one place to meet outside.", ceb: "Sunog sa gabii: pangitaa ang duha ka dalan paggawas sa matag lawak ug magkasabot sa usa ka tagboanan sa gawas." },
+    { en: "Phones down: try to reach each other with no signal. Use your meeting places and the out-of-town contact.", ceb: "Walay signal: sulayi nga magkita nga walay telepono. Gamita ang inyong tagboanan ug ang kontak sa layo." }
+  ];
+  function drillInfo() {
+    const last = S.drill.last, t0 = Date.parse(last + "T00:00:00");
+    if (!last || isNaN(t0)) return { never: true, due: true, days: null };
+    const days = Math.round((todayStart() - t0) / 864e5);
+    return { never: false, due: days >= 180, days };
+  }
+  const drillIdea = () => DRILL_IDEAS[(new Date().getMonth() + (drillInfo().never ? 0 : 1)) % DRILL_IDEAS.length];
+  function drillCard() {
+    const i = drillInfo();
+    if (!i.due || (S.ui.drillSnooze && S.ui.drillSnooze >= isoToday())) return "";
+    return `<div class="tipcard drillcard" role="note">
+      <div class="tiphead"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg><b>${esc(tx("Time for a family drill"))}</b></div>
+      <p>${esc(i.never ? tx("You have not done a drill yet. One hour now shows what would fail on a bad day.") : "Your last drill was about " + fmtDur(i.days) + " ago.")}</p>
+      <p><b>${esc(tx("Try this one"))}:</b> ${esc(lt(drillIdea()))}</p>
+      <div class="actions"><button class="btn small" data-a="tab" data-tab="drill">${esc(tx("Open the drill"))}</button><button class="btn small ghost" data-a="drillsnooze">${esc(tx("Remind me in a week"))}</button></div>
+    </div>`;
+  }
+
+  /* ---------- read a guide aloud (English only) ---------- */
+  const canSpeak = () => "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined" && !ceb();
+  const speakBtn = () => (canSpeak() ? `<button class="btn small ghost speakbtn" type="button" data-a="speak" aria-pressed="false">${esc(tx("Listen"))}</button>` : "");
+  let speaking = null;
+  function stopSpeak() {
+    if (!("speechSynthesis" in window)) return;
+    speechSynthesis.cancel();
+    if (speaking) { speaking.setAttribute("aria-pressed", "false"); speaking.textContent = tx("Listen"); speaking = null; }
+  }
+  function speakFrom(btn) {
+    if (!canSpeak()) return;
+    if (speaking === btn) { stopSpeak(); return; }
+    stopSpeak();
+    const body = btn.closest(".body"); if (!body) return;
+    const c = body.cloneNode(true);
+    c.querySelectorAll(".speakbtn, button, input, select, textarea, svg, figure, pre, .phrow, .pplbar, .noprint, .calc, .src").forEach((n) => n.remove());
+    c.querySelectorAll("li, p, h4, dt, dd, summary, .stx b, .facts span").forEach((n) => n.appendChild(document.createTextNode(". ")));
+    const txt = c.textContent.replace(/\s+/g, " ").replace(/\.\s*\./g, ".").replace(/([.!?:;])\s*\./g, "$1").trim();
+    const parts = txt.split(/(?<=[.!?:;])\s+/), chunks = []; let cur = "";
+    parts.forEach((p) => { if ((cur + " " + p).length > 200 && cur) { chunks.push(cur); cur = p; } else cur = cur ? cur + " " + p : p; });
+    if (cur) chunks.push(cur);
+    if (!chunks.length) return;
+    speaking = btn; btn.setAttribute("aria-pressed", "true"); btn.textContent = tx("Stop");
+    chunks.forEach((ch, i) => {
+      const u = new SpeechSynthesisUtterance(ch); u.lang = "en-US"; u.rate = 0.92;
+      if (i === chunks.length - 1) u.onend = () => { if (speaking === btn) stopSpeak(); };
+      u.onerror = () => { if (speaking === btn) stopSpeak(); };
+      speechSynthesis.speak(u);
+    });
   }
 
   /* ---------- quick text to the family ---------- */
@@ -855,7 +962,7 @@
     const facts = `<p class="facts"><span><b>${tx("Time:")}</b> ${esc(g.time)}</span><span><b>${tx("Cost:")}</b> ${esc(g.cost)}</span></p>`;
     return `<details class="guide hw" id="hw_${g.id}" data-cat="hw_${g.id}"${S.ui.open["hw_" + g.id] ? " open" : ""}>
       <summary>${ICONS[g.icon] || ""}<span class="lt"><b>${esc(g.title)}</b><small>${prog}</small></span></summary>
-      <div class="body"><p class="intro">${esc(g.intro)}</p>${hp ? `<label class="pplbar">${tx("Amounts are for")} <input type="number" inputmode="numeric" min="1" max="30" data-bind="levels.people" data-re="1" value="${nPeople()}" aria-label="${tx("How many people are you planning for?")}"> ${tx("people")}</label>` : ""}${facts}${g.calc ? calcBlock() : ""}${fill}${terms}${buy}${steps}${warn}${src}</div></details>`;
+      <div class="body">${speakBtn()}<p class="intro">${esc(g.intro)}</p>${hp ? `<label class="pplbar">${tx("Amounts are for")} <input type="number" inputmode="numeric" min="1" max="30" data-bind="levels.people" data-re="1" value="${nPeople()}" aria-label="${tx("How many people are you planning for?")}"> ${tx("people")}</label>` : ""}${facts}${g.calc ? calcBlock() : ""}${fill}${terms}${buy}${steps}${warn}${src}</div></details>`;
   }
 
   function viewGuides() {
@@ -865,7 +972,7 @@
       <summary><h3>${esc(title)}</h3><span class="count">${count}</span>${chevron}</summary><div class="gbody">${inner}</div></details>`;
     const groups = HOWTO_GROUPS.map(([name, ids], gi) => { const have = ids.filter((id) => byId[id]);
       return section("gs" + gi, gi === 0, tx(name), have.length, have.map((id) => renderHowto(byId[id])).join("")); }).join("");
-    const quick = GUIDES.map((g) => { const o = ceb() && CEB.quick[g.id]; return `<details class="guide"><summary>${esc(o ? o.title : g.title)}</summary><div class="body">${QFIG[g.id] ? figHtml(QFIG[g.id]) : ""}${o ? o.html : g.html}</div></details>`; }).join("");
+    const quick = GUIDES.map((g) => { const o = ceb() && CEB.quick[g.id]; return `<details class="guide"><summary>${esc(o ? o.title : g.title)}</summary><div class="body">${speakBtn()}${QFIG[g.id] ? figHtml(QFIG[g.id]) : ""}${o ? o.html : g.html}</div></details>`; }).join("");
     return `<section class="view">
       <h2>${esc(ceb() ? CEB.ui.Guides_title : "Guides")}</h2>
       <p class="lede">${esc(tx("Step by step: what to buy and what to do, with pictures. Tick things as you go. New to this? Open “Start here” first."))}</p>
@@ -883,6 +990,7 @@
     return `<section class="view">
       <h2>24-hour drill</h2>
       <p class="lede">A drill shows what really fails. Do one every six months and fix the biggest gap first.</p>
+      ${(() => { const i = drillInfo(); return `<div class="block"><p style="margin:0"><b>${esc(i.never ? tx("No drill recorded yet.") : "Last drill: " + fmtDur(i.days) + " ago")}</b></p><p class="hint" style="margin:.3rem 0 0"><b>${esc(tx("Try this one"))}:</b> ${esc(lt(drillIdea()))}</p><div class="actions"><button class="btn small" data-a="drilldone">${esc(tx("I did a drill today"))}</button></div></div>`; })()}
       <div class="block">
         ${DRILL.map((s) => `<div class="item" style="border-top:0"><div class="row" style="grid-template-columns:auto 1fr">
           <input class="chk" type="checkbox" id="x_${s.id}" data-bind="drill.steps.${s.id}" ${d.steps[s.id] ? "checked" : ""}>
@@ -989,6 +1097,7 @@
     window.scrollTo(0, y);
   }
   function setTab(t) {
+    stopSpeak();
     S.ui.tab = t; save(); render(); window.scrollTo(0, 0); playEnter();
   }
   let enterTimer;
@@ -1016,7 +1125,7 @@
   const dlg = document.getElementById("settings");
   function backupText() {
     const data = JSON.parse(JSON.stringify(S));
-    delete data.ui; delete data.alerts;
+    delete data.ui; delete data.alerts; delete data.nearby;
     return JSON.stringify({ app: "handa", v: 1, saved: new Date().toISOString(), data }, null, 1);
   }
   function openSettings() {
@@ -1060,6 +1169,8 @@
       img.src = url;
     });
   }
+  const dropPhoto = (k) => { photoDB().then(() => idb("readwrite", (st) => st.delete(k))).catch(() => {}); };
+  const getPhoto = (k) => photoDB().then(() => idb("readonly", (st) => st.get(k)));
   function hydratePhotos() {
     const slots = document.querySelectorAll("[data-ph]");
     if (!slots.length) return;
@@ -1224,7 +1335,7 @@
       case "stktype": S.ui.stkType = d.v; save(); render(); break;
       case "rmstock": { const r = S.stock.splice(Number(d.idx), 1)[0]; if (r) delete S.ui.open["s_" + r.id]; save(); render(); break; }
       case "addplace": S.places.push({ id: uid(), label: "", note: "", lat: "", lng: "" }); save(); render(); break;
-      case "rmplace": S.places.splice(Number(d.idx), 1); save(); render(); break;
+      case "rmplace": { const pl = S.places[Number(d.idx)]; if (pl) dropPhoto("place_" + pl.id); S.places.splice(Number(d.idx), 1); save(); render(); break; }
       case "placegps": {
         if (!navigator.geolocation) { toast("This phone can't find its location here."); break; }
         const i = Number(d.idx); toast("Finding your location…");
@@ -1233,6 +1344,13 @@
         }, () => toast("Couldn't get the location. Allow location for this app and try outdoors."), { enableHighAccuracy: true, timeout: 20000, maximumAge: 60000 });
         break;
       }
+      case "map": MAPV.open({ get S() { return S; }, save, toast, tx, ceb: ceb(), esc, HAZ, uid, render: () => render(), getPhoto, dropPhoto }, d.focus); break;
+      case "idcard": openIdCard(); break;
+      case "idclose": { const d2 = document.getElementById("iddlg"); d2.close ? d2.close() : d2.removeAttribute("open"); break; }
+      case "idprint": document.body.classList.add("pid"); window.print(); setTimeout(() => document.body.classList.remove("pid"), 800); break;
+      case "drilldone": S.drill.last = isoToday(); S.drill.steps = {}; delete S.ui.drillSnooze; save(); render(); toast(tx("Drill saved. Next one in about six months.")); break;
+      case "drillsnooze": { const d2 = new Date(); d2.setDate(d2.getDate() + 7); S.ui.drillSnooze = d2.getFullYear() + "-" + String(d2.getMonth() + 1).padStart(2, "0") + "-" + String(d2.getDate()).padStart(2, "0"); save(); render(); break; }
+      case "speak": speakFrom(el); break;
       case "shareapp": shareApp(); break;
       case "sharefam": {
         const code = familyCode();
@@ -1315,6 +1433,7 @@
       if (val) popId = el.id;
     }
     setPath(path, val);
+    if (path.startsWith("medid.") && path !== "medid.upd") S.medid.upd = isoToday();
     save();
     if (lad && lvReached(lad) >= S.levels.goal && reachBefore < S.levels.goal) toast(lad.name + " now reaches " + HZ[S.levels.goal - 1].name + ".");
     if (path.startsWith("settings.")) applySettings();
