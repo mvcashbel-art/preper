@@ -427,5 +427,29 @@ const GUIDES = [
       <li>Three of anything is a distress signal: three whistle blasts, three flashes of light, three fires, three shouts.</li>
       <li>Use a bright cloth, a mirror, or a flashlight in the open, and write HELP in big letters on the ground or roof.</li>
       <li>Stay put once you've signaled, unless it isn't safe.</li>
-    </ul>` }
+    </ul>` },
+  { id: "gd14", title: "Wash your hands", html: `
+    <ol>
+      <li>Wet your hands with clean water and put on soap.</li>
+      <li>Rub for 20 seconds: palms, backs of the hands, between the fingers, under the nails.</li>
+      <li>Rinse with clean water and dry with a clean cloth or in the air.</li>
+    </ol>
+    <p>Wash before eating or cooking, after the toilet, after cleaning a child, and after caring for someone who is sick.</p>
+    <p class="hint">No soap? Clean wood ash rubbed on wet hands is better than water alone. Pour water from a jug so the hands never touch the tap or the container.</p>` },
+  { id: "gd15", title: "Cook safely when the power is out", html: `
+    <ol>
+      <li>Cook outside, or in a very open place with a roof. Never indoors, and never in a closed room.</li>
+      <li>Keep a stove, charcoal or fire at least 1 meter from walls, roof, curtains and dry leaves.</li>
+      <li>Never leave a fire alone. Keep children and pets away. Keep a bucket of water or sand next to it.</li>
+      <li>When done, pour water on the coals and make sure they are cold before you leave.</li>
+    </ol>
+    <p class="callout">Smoke and fumes from charcoal, gas, kerosene and generators can kill, even if you smell nothing. Headache, dizziness or feeling sick: go into fresh air right away and get help.</p>` },
+  { id: "gd16", title: "Before you leave home", html: `
+    <ol>
+      <li>Switch off the main power. Close the LPG valve.</li>
+      <li>Take the go-bag, medicines, phone with a power bank, and drinking water.</li>
+      <li>Take your documents in a plastic bag.</li>
+      <li>Lock up. Tell your family and a neighbor where you are going.</li>
+      <li>Go to your evacuation center by the safe route. Never walk or drive through floodwater.</li>
+    </ol>` }
 ];

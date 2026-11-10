@@ -158,7 +158,34 @@ const CEB = {
     gd8: { title: "Baha", html: `
       <ul><li>Lakaw sa mas taas nga dapit sayo. Ayaw og lakaw o drive agi sa nagadagan nga tubig. Bisan gamay nga lalom makapukaw sa hamtong.</li>
       <li>Patya ang main nga kuryente kung nagtaas ang tubig ug luwas kini buhaton.</li>
-      <li>Likayi ang tubig-baha. Kung nakalubog ka niini, hugasi og maayo ug sultihi ang health center. Ang leptospirosis peligro, ug mahimong ihatag ang preventive nga tambal.</li></ul>` }
+      <li>Likayi ang tubig-baha. Kung nakalubog ka niini, hugasi og maayo ug sultihi ang health center. Ang leptospirosis peligro, ug mahimong ihatag ang preventive nga tambal.</li></ul>` },
+    gd9: { title: "Luwas nga pagkaon kung walay ref", html: `
+      <ul><li>Kan-a una ang presko ug luto nga pagkaon. Sunod ang frozen. Ang lutong pagkaon dili angay mapabilin sa gawas sulod sa sobra sa duha ka oras sa init.</li>
+      <li>Ilabay ang de-lata nga namanggas, nagtulo, o lawom ang lubag.</li>
+      <li>Hugasi ang kamot gamit ang sabon ug limpyong tubig sa dili pa mokaon o magluto.</li>
+      <li>Kung naduha-duha ka, ilabay na.</li></ul>` },
+    gd10: { title: "Pagsenyas og tabang", html: `
+      <ul><li>Ang tulo sa bisan unsa maoy senyas sa panginahanglan: tulo ka huyop sa pito, tulo ka silaw sa suga, tulo ka kalayo, tulo ka singgit.</li>
+      <li>Gamita ang hayag nga panapton, salamin, o flashlight sa abli nga dapit, ug isulat ang HELP sa dako nga letra sa yuta o atop.</li>
+      <li>Pabilin sa dapit human makasenyas, gawas kung dili kini luwas.</li></ul>` },
+    gd14: { title: "Hugasi ang kamot", html: `
+      <ol><li>Basaha ang kamot gamit ang limpyong tubig ug butangi og sabon.</li>
+      <li>Kuskusa sulod sa 20 segundo: palad, likod sa kamot, tunga sa mga tudlo, ilawom sa kuko.</li>
+      <li>Hunawa gamit ang limpyong tubig ug pauga-a gamit ang limpyong tela o hangin.</li></ol>
+      <p>Maghugas sa dili pa mokaon o magluto, human sa kasilyas, human maghinlo sa bata, ug human mag-atiman sa masakiton.</p>
+      <p class="hint">Walay sabon? Ang limpyong abo sa kahoy nga ikuskos sa basa nga kamot mas maayo kaysa tubig lang. Ibubo ang tubig gikan sa banga aron dili mahikap sa kamot ang gripo o sudlanan.</p>` },
+    gd15: { title: "Luwas nga pagluto kung walay kuryente", html: `
+      <ol><li>Pagluto sa gawas, o sa abli kaayo nga dapit nga naay atop. Dili sa sulod sa balay, ug dili sa sirado nga lawak.</li>
+      <li>Ibutang ang kalan, uling o kalayo labing menos 1 metro gikan sa dingding, atop, kurtina ug uga nga dahon.</li>
+      <li>Ayaw biyai ang kalayo. Ilikay ang bata ug binuhi. Butangi og timba nga tubig o balas sa kilid.</li>
+      <li>Kung tapos na, ibubo ang tubig sa baga ug siguroha nga bugnaw na sa dili ka mobiya.</li></ol>
+      <p class="callout">Ang aso gikan sa uling, gas, gaas ug generator makapatay, bisan wala nimo madungog ang baho. Naay sakit sa ulo, nahilo o nagkagrabe ang pamati? Gawas dayon sa presko nga hangin ug pangita og tabang.</p>` },
+    gd16: { title: "Sa dili pa mobiya sa balay", html: `
+      <ol><li>Patya ang main nga kuryente. Sirad-i ang balbula sa LPG.</li>
+      <li>Dad-a ang go-bag, tambal, telepono nga naay power bank, ug imnon nga tubig.</li>
+      <li>Dad-a ang imong mga dokumento sa plastik nga bag.</li>
+      <li>Kandadoi ang balay. Sultihi ang pamilya ug usa ka silingan kung asa ka paingon.</li>
+      <li>Adto sa evacuation center agi sa luwas nga dalan. Ayaw og lakaw o drive agi sa tubig-baha.</li></ol>` }
   }
 };
 
@@ -200,5 +227,8 @@ Object.assign(CEB.figs, {
   q_quake: "Linog: DROP sa kamot ug tuhod, COVER ilalom sa lig-on nga lamesa aron mapanalipdan ang ulo ug liog, HOLD ON hangtod mohunong ang uyog. Sa baybayon, dangat sa taas kung taas ang uyog.",
   q_flood: "Baha: lakaw sa mas taas nga dapit sayo. Ang mga 15 cm nga nagadagan nga tubig makapukaw sa hamtong ug ang 30 cm makalutaw sa daghang sakyanan. Ayaw tabok o drive niini.",
   q_food: "Pagkaon nga walay ref: pangaon sa una ang presko ug luto, itaktak ang hubag, tulo o lubog nga lata, hugasi ang kamot gamit ang sabon ug limpyong tubig. Kung nagduha, ilabay.",
-  q_signal: "Pagsenyas og tabang: tulo sa bisan unsa (pito, suga, kalayo, singgit), hayag nga panapton o salamin, ug HELP nga dako sa yuta. Pabilin kung nakasenyas na."
+  q_signal: "Pagsenyas og tabang: tulo sa bisan unsa (pito, suga, kalayo, singgit), hayag nga panapton o salamin, ug HELP nga dako sa yuta. Pabilin kung nakasenyas na.",
+  q_hands: "Hugasi ang kamot: basaha ug gamitan og sabon, kuskusa sulod sa 20 segundo (palad, likod, tunga sa tudlo, ilawom sa kuko), unya hunawa ug pauga-a gamit ang limpyo nga tela.",
+  q_fire: "Pagluto nga luwas: sa gawas lang, labing menos 1 metro gikan sa dingding ug masunog nga butang, dili biyaan, ug naay tubig o balas sa kilid. Kung tapos na, tunawi og tubig ang baga.",
+  q_leave: "Sa dili pa mobiya: patya ang main nga kuryente ug sirad-i ang LPG, dad-a ang go-bag, tambal, telepono ug papeles, unya adto sa evacuation center agi sa luwas nga dalan."
 });

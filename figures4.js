@@ -240,4 +240,79 @@ FIGS.q_signal = {
   }
 };
 
-const QFIG = { gd1: "q_water", gd2: "q_bleed", gd3: "q_cpr", gd4: "q_burn", gd5: "q_ors", gd6: "q_typhoon", gd7: "q_quake", gd8: "q_flood", gd9: "q_food", gd10: "q_signal" };
+FIGS.q_hands = {
+  cap: "Wash your hands: wet them and use soap, rub for 20 seconds (palms, backs, between the fingers, under the nails), then rinse and dry with a clean cloth.",
+  get svg() {
+    const c = _cx;
+    return _qs(`
+    ${_pn(1, `${_num(1)}
+      <path class="o fb" d="M${c[0] - 28} 48h30q8 0 8 8v10h-10v-6h-28z"/>
+      <circle class="fb q-drop" cx="${c[0] + 12}" cy="68" r="2.6"/><circle class="fb q-drop d2" cx="${c[0] + 12}" cy="68" r="2.6"/>
+      <rect class="o fa" x="${c[0] - 26}" y="106" width="40" height="22" rx="10"/>
+      <rect class="o fs" x="${c[0] + 20}" y="112" width="18" height="12" rx="4"/>
+      ${_pc(1, T("Wet hands,", "Basaha ang kamot,"), T("use soap", "gamita ang sabon"))}`)}
+    ${_pn(2, `${_num(2)}
+      <g class="q-shake"><rect class="o fa" x="${c[1] - 36}" y="92" width="48" height="22" rx="10"/><rect class="o fa" x="${c[1] - 12}" y="104" width="48" height="22" rx="10"/></g>
+      <circle class="o fb q-bubble" cx="${c[1] - 20}" cy="88" r="4"/><circle class="o fb q-bubble b2" cx="${c[1] + 6}" cy="96" r="3.2"/><circle class="o fb q-bubble b3" cx="${c[1] + 26}" cy="100" r="4"/>
+      <text class="ft xl" x="${c[1]}" y="70" text-anchor="middle">20 s</text>
+      ${_pc(2, T("Rub 20 seconds", "Kuskusa 20 segundo"), T("fingers, nails", "tunga sa tudlo, kuko"))}`)}
+    ${_pn(3, `${_num(3)}
+      <circle class="fb q-drop" cx="${c[2] - 18}" cy="52" r="2.6"/><circle class="fb q-drop d2" cx="${c[2] - 4}" cy="52" r="2.6"/><circle class="fb q-drop d3" cx="${c[2] + 10}" cy="52" r="2.6"/>
+      <path class="o fg" d="M${c[2] - 26} 96h52v32h-52z"/><path class="o dash" d="M${c[2] - 26} 108h52M${c[2] - 26} 118h52"/>
+      <circle class="fs o" cx="${c[2] + 30}" cy="86" r="10"/><path class="o" d="M${c[2] + 25} 86l4 4 7-8"/>
+      ${_pc(3, T("Rinse, dry", "Hunaw, pauga"), T("with clean cloth", "sa limpyong tela"))}`)}
+    ${_warn(T("Before eating or cooking, and after the toilet.", "Sa dili pa mokaon o magluto, ug human sa kasilyas."))}`, T("Wet, soap and rub for 20 seconds, rinse and dry", "Basa, sabon ug kuskos sulod sa 20 segundo, hunaw ug pauga"));
+  }
+};
+
+FIGS.q_fire = {
+  cap: "Cook safely: only outside, at least 1 meter from walls and dry things, never alone, with water or sand beside you. When done, drown the coals with water.",
+  get svg() {
+    const c = _cx;
+    return _qs(`
+    ${_pn(1, `${_num(1)}
+      <path class="o fa" d="M${c[0] - 44} 128V100L${c[0] - 26} 84l18 16v28z"/>
+      <rect class="o" x="${c[0] - 34}" y="106" width="10" height="12" rx="1"/>
+      <path class="o fb" d="M${c[0] + 6} 128h30l-4-14h-22z"/><path class="o fs q-flame" d="M${c[0] + 12} 114q8-22 16 0z"/>
+      <path class="o q-steam" d="M${c[0] + 14} 92q-4-6 0-12" style="stroke:var(--muted)"/>
+      <path class="o" d="M${c[0] - 20} 70l16-16M${c[0] - 4} 70l-16-16" style="stroke:var(--danger)"/>
+      ${_pc(1, T("Cook outside,", "Pagluto sa gawas,"), T("never indoors", "dili sa sulod"))}`)}
+    ${_pn(2, `${_num(2)}
+      <path class="o fb" d="M${c[1] - 44} 128h30l-4-14h-22z"/><path class="o fs q-flame" d="M${c[1] - 38} 114q8-22 16 0z"/>
+      <path class="fl dash" d="M${c[1] - 8} 108h34"/><text class="ft s" x="${c[1] + 10}" y="100" text-anchor="middle">1 m</text>
+      <path class="o" d="M${c[1] + 34} 70v58" style="stroke-width:5"/>
+      <path class="o fw" d="M${c[1] + 8} 124h20l-2 12h-16z" style="fill-opacity:.5"/>
+      ${_pc(2, T("Keep 1 m away", "Pa-1 metro layo"), T("never alone", "dili biyaan"))}`)}
+    ${_pn(3, `${_num(3)}
+      <path class="o fb" d="M${c[2] - 26} 128h48l-6-12h-36z"/>
+      <path class="o q-steam" d="M${c[2] - 14} 108q-5-8 0-16" style="stroke:var(--muted)"/><path class="o q-steam b2" d="M${c[2] + 4} 108q-5-8 0-16" style="stroke:var(--muted)"/>
+      <path class="o fw" d="M${c[2] + 6} 46l24 10-6 22-24-10z" style="fill-opacity:.6"/>
+      <circle class="fb q-drop" cx="${c[2] - 8}" cy="70" r="2.6"/><circle class="fb q-drop d2" cx="${c[2] - 14}" cy="70" r="2.6"/>
+      ${_pc(3, T("Water on coals", "Tubig sa baga"), T("until cold", "hangtud bugnaw"))}`)}
+    ${_warn(T("Smoke can kill. Dizzy or headache? Go to fresh air.", "Ang aso makapatay. Nahilo o sakit ulo? Gawas sa presko nga hangin."))}`, T("Cook outside, keep clear of walls, then put coals out with water", "Pagluto sa gawas, layo sa dingding, unya patya ang baga sa tubig"));
+  }
+};
+
+FIGS.q_leave = {
+  cap: "Before you leave: switch off the main power and close the LPG valve, take the go-bag, medicines, phone and documents, then go to the evacuation center by the safe route.",
+  get svg() {
+    const c = _cx;
+    return _qs(`
+    ${_pn(1, `${_num(1)}
+      <rect class="o fa" x="${c[0] - 36}" y="66" width="26" height="46" rx="5"/><rect class="o fs q-hold" x="${c[0] - 29}" y="74" width="12" height="16" rx="2"/>
+      <rect class="o fb" x="${c[0] + 8}" y="78" width="26" height="46" rx="9"/><path class="o" d="M${c[0] + 14} 78v-8h14v8M${c[0] + 21} 70v-6"/>
+      ${_pc(1, T("Power off,", "Patya ang kuryente,"), T("close LPG", "sirad-i ang LPG"))}`)}
+    ${_pn(2, `${_num(2)}
+      <rect class="o fb" x="${c[1] + 12}" y="62" width="20" height="26" rx="2"/><path class="o" d="M${c[1] + 16} 70h12M${c[1] + 16} 76h12"/>
+      <g class="q-hold"><rect class="o fa" x="${c[1] - 34}" y="76" width="44" height="52" rx="10"/><path class="o" d="M${c[1] - 22} 76v-8q0-8 10-8t10 8v8"/><path class="o" d="M${c[1] - 26} 104h28"/></g>
+      ${_pc(2, T("Take go-bag,", "Dad-a ang go-bag,"), T("papers, medicines", "papeles, tambal"))}`)}
+    ${_pn(3, `${_num(3)}
+      <circle class="o fs" cx="${c[2] - 34}" cy="84" r="7"/><path class="o" d="M${c[2] - 34} 91v22M${c[2] - 34} 98l-8 8M${c[2] - 34} 98l8 6M${c[2] - 34} 113l-6 13M${c[2] - 34} 113l6 13"/>
+      <path class="fl q-wind" d="M${c[2] - 18} 104h34"/>
+      <path class="o fa" d="M${c[2] + 14} 128v-22l16-14 16 14v22z"/><path class="o" d="M${c[2] + 26} 128v-12h8v12"/>
+      ${_pc(3, T("Go to the center", "Adto sa evacuation"), T("by the safe route", "sa luwas nga dalan"))}`)}
+    ${_warn(T("Tell family where you go. Never cross floodwater.", "Ingna ang pamilya kung asa ka paingon. Ayaw tabok sa baha."))}`, T("Switch off power and gas, take the bag, go to the center", "Patya ang kuryente ug gas, dad-a ang bag, adto sa evacuation"));
+  }
+};
+
+const QFIG = { gd1: "q_water", gd2: "q_bleed", gd3: "q_cpr", gd4: "q_burn", gd5: "q_ors", gd6: "q_typhoon", gd7: "q_quake", gd8: "q_flood", gd9: "q_food", gd10: "q_signal", gd14: "q_hands", gd15: "q_fire", gd16: "q_leave" };

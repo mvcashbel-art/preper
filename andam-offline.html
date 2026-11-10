@@ -536,6 +536,19 @@ details.guide.hw,details.cat{scroll-margin-top:4.2rem}
 @media (max-width:420px){.nav button{font-size:.62rem}}
 
 .grpl{align-self:center;color:var(--muted);font-size:.85rem;margin-right:.2rem}
+
+/* v17: tip of the day, monthly check, seasons */
+.tipcard{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--signal);border-radius:.7rem;padding:.8rem 1rem;margin:0 0 1rem}
+.tipcard .tiphead{display:flex;align-items:center;gap:.5rem;color:var(--accent)}
+.tipcard .tiphead svg{width:1.4rem;height:1.4rem;flex:none}
+.tipcard p{margin:.4rem 0}
+.tipcard .actions{margin:.2rem 0 0}
+.tipcard .tipdue{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:.6rem 0 0}
+.chkrow{display:flex;align-items:center;gap:.7rem;min-height:2.9rem;padding:.35rem 0;border-top:1px solid var(--line)}
+.chkrow:first-of-type{border-top:0}
+.chkrow span{flex:1;min-width:0}
+.chkrow .btn{flex:none}
+.season{margin:.6rem 0 1rem}.season h4{margin:.2rem 0 .3rem}.season:not(.now){opacity:.85}
 </style>
 </head>
 <body>
@@ -1055,7 +1068,113 @@ const GUIDES = [
       <li>Three of anything is a distress signal: three whistle blasts, three flashes of light, three fires, three shouts.</li>
       <li>Use a bright cloth, a mirror, or a flashlight in the open, and write HELP in big letters on the ground or roof.</li>
       <li>Stay put once you've signaled, unless it isn't safe.</li>
-    </ul>` }
+    </ul>` },
+  { id: "gd14", title: "Wash your hands", html: `
+    <ol>
+      <li>Wet your hands with clean water and put on soap.</li>
+      <li>Rub for 20 seconds: palms, backs of the hands, between the fingers, under the nails.</li>
+      <li>Rinse with clean water and dry with a clean cloth or in the air.</li>
+    </ol>
+    <p>Wash before eating or cooking, after the toilet, after cleaning a child, and after caring for someone who is sick.</p>
+    <p class="hint">No soap? Clean wood ash rubbed on wet hands is better than water alone. Pour water from a jug so the hands never touch the tap or the container.</p>` },
+  { id: "gd15", title: "Cook safely when the power is out", html: `
+    <ol>
+      <li>Cook outside, or in a very open place with a roof. Never indoors, and never in a closed room.</li>
+      <li>Keep a stove, charcoal or fire at least 1 meter from walls, roof, curtains and dry leaves.</li>
+      <li>Never leave a fire alone. Keep children and pets away. Keep a bucket of water or sand next to it.</li>
+      <li>When done, pour water on the coals and make sure they are cold before you leave.</li>
+    </ol>
+    <p class="callout">Smoke and fumes from charcoal, gas, kerosene and generators can kill, even if you smell nothing. Headache, dizziness or feeling sick: go into fresh air right away and get help.</p>` },
+  { id: "gd16", title: "Before you leave home", html: `
+    <ol>
+      <li>Switch off the main power. Close the LPG valve.</li>
+      <li>Take the go-bag, medicines, phone with a power bank, and drinking water.</li>
+      <li>Take your documents in a plastic bag.</li>
+      <li>Lock up. Tell your family and a neighbor where you are going.</li>
+      <li>Go to your evacuation center by the safe route. Never walk or drive through floodwater.</li>
+    </ol>` }
+];
+</script>
+<script>/* Andam v17: tip of the day, monthly check, season reminders.
+   Each text has English (en) and Bisaya (ceb). `g` is an optional step-by-step guide id (opens in Guides). */
+
+const TIPS = [
+  { en: "Keep at least 4 liters of drinking water per person for each day you want to cover. A 19-liter jug lasts one person about 5 days.", ceb: "Tipigi og dili moubos sa 4 ka litro nga tubig kada tawo matag adlaw. Ang 19-litro nga galon molungtad sa usa ka tawo og mga 5 ka adlaw.", g: "water" },
+  { en: "A typhoon is coming? Fill clean containers with water before the pipes or the power stop.", ceb: "Moabot ang bagyo? Pun-a og tubig ang limpyong sudlanan sa dili pa mohunong ang tubo o kuryente.", g: "water" },
+  { en: "When a typhoon warning comes out, charge your phones, power banks and flashlights right away.", ceb: "Kung naay pahibalo sa bagyo, i-charge dayon ang mga telepono, power bank ug flashlight.", g: "solar2" },
+  { en: "Use the oldest cans and packs first, and put new ones at the back. Then nothing sits on the shelf until it expires.", ceb: "Gamita una ang labing karaan nga de-lata ug pakete, ug ibutang sa luyo ang bag-o. Sa ingon walay mahurot nga naglingkod ra sa estante.", g: "food" },
+  { en: "Put IDs, birth certificates, land papers and insurance in a plastic bag or waterproof pouch. Keep copies in a second place.", ceb: "Ibutang ang ID, birth certificate, papeles sa yuta ug insurance sa plastik o waterproof nga pouch. Tipigi ang kopya sa laing lugar.", g: "bag" },
+  { en: "Pick a place to meet if home is not safe, and a second place outside your area. Write both in the Family tab.", ceb: "Pili og lugar nga imong tagboan kung dili luwas ang balay, ug usa pa gawas sa inyong lugar. Isulat ang duha sa Pamilya.", g: "comms" },
+  { en: "Write the important phone numbers on paper. A dead phone cannot show them.", ceb: "Isulat sa papel ang importanteng numero sa telepono. Ang patay nga telepono dili makapakita niini." },
+  { en: "A text message often goes through when a call does not. Send a short “I am OK” to your family.", ceb: "Ang text kasagaran moagi bisan dili ang tawag. Magpadala og mubo nga “okay ra ko” sa imong pamilya.", g: "comms" },
+  { en: "Never walk or drive through moving floodwater. It knocks people down and carries vehicles away. Turn around.", ceb: "Ayaw og lakaw o drayb sa nagadagayday nga tubig-baha. Mapukan ang tawo ug madala ang sakyanan. Mobalik na lang." },
+  { en: "Earthquake: drop to the floor, get under a sturdy table, and hold on until the shaking stops.", ceb: "Linog: dumapa sa salog, mag-ilawom sa lig-on nga lamesa, ug kupti kini hangtud mohunong ang linog." },
+  { en: "After a quake, if you smell gas, close the LPG valve, open windows and go outside. Do not switch anything on or strike a flame.", ceb: "Human sa linog, kung naay baho sa gas, sirad-i ang balbula sa LPG, ablihi ang bintana ug gawas. Ayaw og ablihi ang suga o mag-ukit og kalayo.", g: "cook" },
+  { en: "Never run a generator, charcoal stove or gas heater indoors or in a closed room. The fumes (carbon monoxide) can kill you quietly.", ceb: "Ayaw og gamit sa generator, uling nga kalan o gas heater sulod sa balay o sirado nga lawak. Ang aso (carbon monoxide) makapatay nga hilom ra.", g: "gen" },
+  { en: "Keep generator fuel outside the living area, in proper containers, away from fire. Use the oldest fuel first.", ceb: "Tipigi ang gasolina sa generator sa gawas sa puy-anan, sa maayong sudlanan, layo sa kalayo. Gamita una ang labing karaan.", g: "gen" },
+  { en: "Wash your hands with soap for 20 seconds before eating or cooking and after the toilet. It prevents most stomach sickness.", ceb: "Hugasi ang kamot gamit ang sabon sulod sa 20 segundo sa dili pa mokaon o magluto ug human sa kasilyas. Makapugong kini sa kadaghanang sakit sa tiyan.", g: "san" },
+  { en: "Ask your doctor about keeping a few weeks of your regular medicines in stock, and check their dates.", ceb: "Pangutan-a ang imong doktor bahin sa pagtipig og pipila ka semana nga regular nga tambal, ug susiha ang petsa niini." },
+  { en: "Every 6 months, empty the go-bag, replace water and food, and check that the clothes still fit.", ceb: "Matag 6 ka bulan, kuhaa ang sulod sa go-bag, ilisi ang tubig ug pagkaon, ug tan-awa kung motaman pa ang sinina.", g: "bag" },
+  { en: "Keep some cash in small bills. Shops may have no change and ATMs may be down.", ceb: "Tipigi ang gamay nga kuwarta sa gagmay nga bills. Basin walay sukli ang tindahan ug dili mugana ang ATM." },
+  { en: "Before a typhoon, fill the tank of your motorbike or car to at least half.", ceb: "Sa dili pa ang bagyo, pun-a ang tangke sa motorsiklo o sakyanan bisan tunga man lang." },
+  { en: "Check the roof, trim branches that hang over the house, and tie down loose roofing before typhoon season.", ceb: "Susiha ang atop, putli ang mga sanga nga nagbitay sa balay, ug higpita ang luag nga yero sa dili pa ang tag-bagyo.", g: "shelter" },
+  { en: "Store or tie down loose things that can fly in strong wind: drums, sheets of iron, chairs.", ceb: "Tipigi o higpita ang luag nga butang nga mahimong ilabay sa kusog nga hangin: drum, yero, lingkuranan.", g: "shelter" },
+  { en: "Know where your evacuation center is and walk the route once, so you do not have to find it in the dark.", ceb: "Hibaloi kung asa ang inyong evacuation center ug sulayi ang dalan kausa, aron dili ka magpangita sa kangitngit." },
+  { en: "A battery or hand-crank radio keeps working when the phone signal does not. Keep spare batteries.", ceb: "Ang radyo nga baterya o gipihit mugana pa bisan walay signal sa telepono. Tipigi ang dugang baterya.", g: "comms" },
+  { en: "Keep rice in sealed containers, dry and off the floor. It stops moisture and weevils.", ceb: "Tipigi ang bugas sa sirado nga sudlanan, uga ug dili sa salog. Mapugngan niini ang basa ug ang gukod.", g: "food" },
+  { en: "Fast food to grow: kangkong, pechay, sweet potato (kamote) and malunggay. Start one pot today.", ceb: "Dali tamnon: kangkong, pechay, kamote ug malunggay. Sugdi karon ang usa ka kaldero.", g: "grow" },
+  { en: "No way to boil water? Plain unscented bleach, about 2 drops per liter of clear water, wait 30 minutes.", ceb: "Walay pamaagi sa pagpabukal? Plain nga walay-baho nga bleach, mga 2 ka tulo kada litro sa klaro nga tubig, hulata og 30 minutos.", g: "water" },
+  { en: "Check on your elderly and sick neighbors first. Neighbors help each other before anyone else can arrive.", ceb: "Tan-awa una ang tigulang ug masakiton nga silingan. Ang silingan mag-ayuda sa usag usa sa dili pa moabot ang uban." },
+  { en: "Take photos of your home and valuables once a year. They help with records and claims.", ceb: "Pagkuha og hulagway sa balay ug bililhon nga gamit kausa sa usa ka tuig. Makatabang kini sa rekord ug claim." },
+  { en: "Teach children their full name, parents’ names and one phone number, and practice saying it.", ceb: "Tudloi ang mga bata sa ilang bug-os nga ngalan, ngalan sa ginikanan ug usa ka numero sa telepono, ug pasulayi sa pagsulti." },
+  { en: "Keep a flashlight and a pair of shoes by the bed. After a quake there may be broken glass on the floor.", ceb: "Butangi og flashlight ug sapatos ang kilid sa higdaanan. Human sa linog basin naay bungkag nga bildo sa salog." },
+  { en: "Use LED lamps instead of candles at night when you can. Candles cause house fires in blackouts.", ceb: "Gamita ang LED nga suga puli sa kandila sa gabii kung kaya. Ang kandila hinungdan sa sunog sa panahon sa brownout.", g: "solar2" },
+  { en: "Check your first-aid kit every few months and replace what is used or expired.", ceb: "Susiha ang first-aid kit kada pipila ka bulan ug ilisi ang nagamit o nahurot na.", g: "med" },
+  { en: "Recharge a stored power bank every 3 months. Unused batteries slowly lose charge.", ceb: "I-charge ang gitipigan nga power bank matag 3 ka bulan. Ang dili gamiton nga baterya hinay-hinay mawad-an og charge.", g: "solar2" },
+  { en: "Save copies of your documents on your phone too. Photos of IDs and certificates are better than nothing.", ceb: "Tipigi usab ang kopya sa dokumento sa imong telepono. Ang hulagway sa ID ug sertipiko mas maayo kaysa walay kopya." },
+  { en: "When the power is out, eat fresh fish, meat and vegetables first. An unopened fridge stays cold for about 4 hours.", ceb: "Kung walay kuryente, kan-a una ang presko nga isda, karne ug utanon. Ang wala maablihi nga ref mabugnaw pa og mga 4 ka oras.", g: "food" },
+  { en: "Keep a manual can opener with your canned food. It is easy to forget.", ceb: "Butangi og manwal nga abre-lata ang imong de-latang pagkaon. Dali ra kini nga makalimtan.", g: "food" },
+  { en: "To save phone battery: lower the brightness, close apps, and use airplane mode when there is no signal.", ceb: "Aron makatipid sa baterya sa telepono: ubos-a ang kahayag sa screen, sirad-i ang apps, ug gamita ang airplane mode kung walay signal.", g: "solar2" },
+  { en: "A bucket toilet with a trash bag, a little ash or sawdust, and a lid works when the water stops.", ceb: "Ang timba nga kasilyas nga naay plastik, gamay nga abo o lagot, ug takup mugana kung mohunong ang tubig.", g: "san" },
+  { en: "After a flood, throw away any food that touched floodwater, even if it looks fine. Cans must be washed and disinfected.", ceb: "Human sa baha, ilabay ang pagkaon nga nahikap sa tubig-baha bisan murag maayo pa. Ang de-lata kinahanglan hugasan ug i-disinfect.", g: "food" },
+  { en: "In hot months drink water often, rest in the shade at midday, and never leave a child or a pet in a closed vehicle.", ceb: "Sa init nga mga bulan, inom og tubig kanunay, pahulay sa landong sa udto, ug ayaw biyai ang bata o binuhi sa sirado nga sakyanan." }
+];
+
+/* Monthly check: tick everything once a month. Resets on the 1st. `tab` opens a tab for that item. */
+const MONTHLY = [
+  { id: "m1", en: "Test the flashlights and the radio. Replace weak batteries.", ceb: "Sulayi ang flashlight ug radyo. Ilisi ang huyang nga baterya." },
+  { id: "m2", en: "Charge the power banks and phones. Top up the solar or battery power station.", ceb: "I-charge ang power bank ug telepono. Pun-a ang solar o baterya sa power station." },
+  { id: "m3", en: "Look in the go-bag: clothes, medicines, documents, water.", ceb: "Tan-awa ang go-bag: sinina, tambal, dokumento, tubig." },
+  { id: "m4", en: "Open Storage and use or replace what is close to expiring.", ceb: "Abli ang Tipiganan ug gamita o ilisi ang hapit na mahurot.", tab: "storage" },
+  { id: "m5", en: "Check that the stored drinking water is clean and the containers are covered.", ceb: "Susiha kung limpyo ang gitipigan nga tubig ug natabunan ang sudlanan." },
+  { id: "m6", en: "Check the first-aid kit and refill what was used.", ceb: "Susiha ang first-aid kit ug pun-a ang nagamit." },
+  { id: "m7", en: "Check that phone numbers and the meeting place are still right.", ceb: "Susiha kung husto pa ang numero sa telepono ug ang tagboanan.", tab: "family" },
+  { id: "m8", en: "Check the LPG and fuel: no smell, valves closed, enough stored.", ceb: "Susiha ang LPG ug gasolina: walay baho, sirado ang balbula, igo ang tinipigan." }
+];
+
+/* Season reminders (Philippines). months are 1-12. */
+const SEASONS = [
+  { id: "hot", months: [3, 4, 5], en: "Hot months and getting ready (March to May)", ceb: "Init nga mga bulan ug pag-andam (Marso hangtud Mayo)", items: [
+    { en: "Drink water often and rest in the shade at midday.", ceb: "Inom og tubig kanunay ug pahulay sa landong sa udto." },
+    { en: "Keep food cold or cook only what you will eat. Heat spoils food fast.", ceb: "Tipigi nga bugnaw ang pagkaon o lutoa lang ang kan-on. Dali madunot ang pagkaon sa init." },
+    { en: "Check the roof and gutters. Fix leaks before the rains.", ceb: "Susiha ang atop ug alulod. Ayoha ang tagas sa dili pa ang ulan." },
+    { en: "Trim branches near the house and tie down loose roofing.", ceb: "Putli ang sanga nga duol sa balay ug higpita ang luag nga yero." },
+    { en: "Top up water, food and the go-bag. Stores are cheaper and calmer now.", ceb: "Pun-a ang tubig, pagkaon ug go-bag. Mas barato ug mas hayahay mopalit karon." }
+  ] },
+  { id: "ty", months: [6, 7, 8, 9, 10, 11], en: "Typhoon season (June to November)", ceb: "Tag-bagyo (Hunyo hangtud Nobyembre)", items: [
+    { en: "Listen to PAGASA and the local government for warnings.", ceb: "Paminaw sa PAGASA ug lokal nga gobyerno alang sa pahibalo." },
+    { en: "Keep the go-bag by the door and the phones charged.", ceb: "Ibutang ang go-bag duol sa pultahan ug i-charge ang mga telepono." },
+    { en: "Know your evacuation center and the way there. Keep the fuel tank at least half full.", ceb: "Hibaloi ang evacuation center ug ang dalan padulong niini. Tipigi nga tunga ang gasolina sa tangke." },
+    { en: "Before a typhoon: fill water containers, bring in loose things, switch off the main power if flooding starts.", ceb: "Sa dili pa ang bagyo: pun-a ang sudlanan sa tubig, sulod-a ang luag nga butang, patya ang main switch kung mosugod ang baha." },
+    { en: "After: stay away from fallen power lines and floodwater. Boil drinking water.", ceb: "Human: likayi ang nahulog nga linya sa kuryente ug tubig-baha. Pabukala ang imnon nga tubig." }
+  ] },
+  { id: "rain", months: [12, 1, 2], en: "Cooler, rainy months (December to February)", ceb: "Bugnaw ug maulan nga mga bulan (Disyembre hangtud Pebrero)", items: [
+    { en: "Heavy rain can cause floods and landslides in Eastern Visayas. Watch the slopes and the river.", ceb: "Ang kusog nga ulan mahimong hinungdan sa baha ug pagguba sa bakilid sa Sidlakang Bisayas. Bantayi ang bakilid ug sapa." },
+    { en: "Keep dry clothes and blankets in plastic bags.", ceb: "Tipigi sa plastik nga bag ang uga nga sinina ug habol." },
+    { en: "Keep the go-bag ready. Floods can come at night.", ceb: "Andama ang go-bag. Ang baha mahimong moabot sa gabii." },
+    { en: "Once a year: update documents, photos and phone numbers, and replace stored water.", ceb: "Kausa sa usa ka tuig: i-update ang dokumento, hulagway ug numero sa telepono, ug ilisi ang gitipigan nga tubig." },
+    { en: "Dry your shoes and wet clothes, and keep food off the floor to stop mold.", ceb: "Pauga-a ang sapatos ug basa nga sinina, ug ayaw ibutang ang pagkaon sa salog aron dili mag-amag." }
+  ] }
 ];
 </script>
 <script>/* Handa levels: every area as a ladder from small to big, matched to how long you want to last.
@@ -2819,7 +2938,82 @@ FIGS.q_signal = {
   }
 };
 
-const QFIG = { gd1: "q_water", gd2: "q_bleed", gd3: "q_cpr", gd4: "q_burn", gd5: "q_ors", gd6: "q_typhoon", gd7: "q_quake", gd8: "q_flood", gd9: "q_food", gd10: "q_signal" };
+FIGS.q_hands = {
+  cap: "Wash your hands: wet them and use soap, rub for 20 seconds (palms, backs, between the fingers, under the nails), then rinse and dry with a clean cloth.",
+  get svg() {
+    const c = _cx;
+    return _qs(`
+    ${_pn(1, `${_num(1)}
+      <path class="o fb" d="M${c[0] - 28} 48h30q8 0 8 8v10h-10v-6h-28z"/>
+      <circle class="fb q-drop" cx="${c[0] + 12}" cy="68" r="2.6"/><circle class="fb q-drop d2" cx="${c[0] + 12}" cy="68" r="2.6"/>
+      <rect class="o fa" x="${c[0] - 26}" y="106" width="40" height="22" rx="10"/>
+      <rect class="o fs" x="${c[0] + 20}" y="112" width="18" height="12" rx="4"/>
+      ${_pc(1, T("Wet hands,", "Basaha ang kamot,"), T("use soap", "gamita ang sabon"))}`)}
+    ${_pn(2, `${_num(2)}
+      <g class="q-shake"><rect class="o fa" x="${c[1] - 36}" y="92" width="48" height="22" rx="10"/><rect class="o fa" x="${c[1] - 12}" y="104" width="48" height="22" rx="10"/></g>
+      <circle class="o fb q-bubble" cx="${c[1] - 20}" cy="88" r="4"/><circle class="o fb q-bubble b2" cx="${c[1] + 6}" cy="96" r="3.2"/><circle class="o fb q-bubble b3" cx="${c[1] + 26}" cy="100" r="4"/>
+      <text class="ft xl" x="${c[1]}" y="70" text-anchor="middle">20 s</text>
+      ${_pc(2, T("Rub 20 seconds", "Kuskusa 20 segundo"), T("fingers, nails", "tunga sa tudlo, kuko"))}`)}
+    ${_pn(3, `${_num(3)}
+      <circle class="fb q-drop" cx="${c[2] - 18}" cy="52" r="2.6"/><circle class="fb q-drop d2" cx="${c[2] - 4}" cy="52" r="2.6"/><circle class="fb q-drop d3" cx="${c[2] + 10}" cy="52" r="2.6"/>
+      <path class="o fg" d="M${c[2] - 26} 96h52v32h-52z"/><path class="o dash" d="M${c[2] - 26} 108h52M${c[2] - 26} 118h52"/>
+      <circle class="fs o" cx="${c[2] + 30}" cy="86" r="10"/><path class="o" d="M${c[2] + 25} 86l4 4 7-8"/>
+      ${_pc(3, T("Rinse, dry", "Hunaw, pauga"), T("with clean cloth", "sa limpyong tela"))}`)}
+    ${_warn(T("Before eating or cooking, and after the toilet.", "Sa dili pa mokaon o magluto, ug human sa kasilyas."))}`, T("Wet, soap and rub for 20 seconds, rinse and dry", "Basa, sabon ug kuskos sulod sa 20 segundo, hunaw ug pauga"));
+  }
+};
+
+FIGS.q_fire = {
+  cap: "Cook safely: only outside, at least 1 meter from walls and dry things, never alone, with water or sand beside you. When done, drown the coals with water.",
+  get svg() {
+    const c = _cx;
+    return _qs(`
+    ${_pn(1, `${_num(1)}
+      <path class="o fa" d="M${c[0] - 44} 128V100L${c[0] - 26} 84l18 16v28z"/>
+      <rect class="o" x="${c[0] - 34}" y="106" width="10" height="12" rx="1"/>
+      <path class="o fb" d="M${c[0] + 6} 128h30l-4-14h-22z"/><path class="o fs q-flame" d="M${c[0] + 12} 114q8-22 16 0z"/>
+      <path class="o q-steam" d="M${c[0] + 14} 92q-4-6 0-12" style="stroke:var(--muted)"/>
+      <path class="o" d="M${c[0] - 20} 70l16-16M${c[0] - 4} 70l-16-16" style="stroke:var(--danger)"/>
+      ${_pc(1, T("Cook outside,", "Pagluto sa gawas,"), T("never indoors", "dili sa sulod"))}`)}
+    ${_pn(2, `${_num(2)}
+      <path class="o fb" d="M${c[1] - 44} 128h30l-4-14h-22z"/><path class="o fs q-flame" d="M${c[1] - 38} 114q8-22 16 0z"/>
+      <path class="fl dash" d="M${c[1] - 8} 108h34"/><text class="ft s" x="${c[1] + 10}" y="100" text-anchor="middle">1 m</text>
+      <path class="o" d="M${c[1] + 34} 70v58" style="stroke-width:5"/>
+      <path class="o fw" d="M${c[1] + 8} 124h20l-2 12h-16z" style="fill-opacity:.5"/>
+      ${_pc(2, T("Keep 1 m away", "Pa-1 metro layo"), T("never alone", "dili biyaan"))}`)}
+    ${_pn(3, `${_num(3)}
+      <path class="o fb" d="M${c[2] - 26} 128h48l-6-12h-36z"/>
+      <path class="o q-steam" d="M${c[2] - 14} 108q-5-8 0-16" style="stroke:var(--muted)"/><path class="o q-steam b2" d="M${c[2] + 4} 108q-5-8 0-16" style="stroke:var(--muted)"/>
+      <path class="o fw" d="M${c[2] + 6} 46l24 10-6 22-24-10z" style="fill-opacity:.6"/>
+      <circle class="fb q-drop" cx="${c[2] - 8}" cy="70" r="2.6"/><circle class="fb q-drop d2" cx="${c[2] - 14}" cy="70" r="2.6"/>
+      ${_pc(3, T("Water on coals", "Tubig sa baga"), T("until cold", "hangtud bugnaw"))}`)}
+    ${_warn(T("Smoke can kill. Dizzy or headache? Go to fresh air.", "Ang aso makapatay. Nahilo o sakit ulo? Gawas sa presko nga hangin."))}`, T("Cook outside, keep clear of walls, then put coals out with water", "Pagluto sa gawas, layo sa dingding, unya patya ang baga sa tubig"));
+  }
+};
+
+FIGS.q_leave = {
+  cap: "Before you leave: switch off the main power and close the LPG valve, take the go-bag, medicines, phone and documents, then go to the evacuation center by the safe route.",
+  get svg() {
+    const c = _cx;
+    return _qs(`
+    ${_pn(1, `${_num(1)}
+      <rect class="o fa" x="${c[0] - 36}" y="66" width="26" height="46" rx="5"/><rect class="o fs q-hold" x="${c[0] - 29}" y="74" width="12" height="16" rx="2"/>
+      <rect class="o fb" x="${c[0] + 8}" y="78" width="26" height="46" rx="9"/><path class="o" d="M${c[0] + 14} 78v-8h14v8M${c[0] + 21} 70v-6"/>
+      ${_pc(1, T("Power off,", "Patya ang kuryente,"), T("close LPG", "sirad-i ang LPG"))}`)}
+    ${_pn(2, `${_num(2)}
+      <rect class="o fb" x="${c[1] + 12}" y="62" width="20" height="26" rx="2"/><path class="o" d="M${c[1] + 16} 70h12M${c[1] + 16} 76h12"/>
+      <g class="q-hold"><rect class="o fa" x="${c[1] - 34}" y="76" width="44" height="52" rx="10"/><path class="o" d="M${c[1] - 22} 76v-8q0-8 10-8t10 8v8"/><path class="o" d="M${c[1] - 26} 104h28"/></g>
+      ${_pc(2, T("Take go-bag,", "Dad-a ang go-bag,"), T("papers, medicines", "papeles, tambal"))}`)}
+    ${_pn(3, `${_num(3)}
+      <circle class="o fs" cx="${c[2] - 34}" cy="84" r="7"/><path class="o" d="M${c[2] - 34} 91v22M${c[2] - 34} 98l-8 8M${c[2] - 34} 98l8 6M${c[2] - 34} 113l-6 13M${c[2] - 34} 113l6 13"/>
+      <path class="fl q-wind" d="M${c[2] - 18} 104h34"/>
+      <path class="o fa" d="M${c[2] + 14} 128v-22l16-14 16 14v22z"/><path class="o" d="M${c[2] + 26} 128v-12h8v12"/>
+      ${_pc(3, T("Go to the center", "Adto sa evacuation"), T("by the safe route", "sa luwas nga dalan"))}`)}
+    ${_warn(T("Tell family where you go. Never cross floodwater.", "Ingna ang pamilya kung asa ka paingon. Ayaw tabok sa baha."))}`, T("Switch off power and gas, take the bag, go to the center", "Patya ang kuryente ug gas, dad-a ang bag, adto sa evacuation"));
+  }
+};
+
+const QFIG = { gd1: "q_water", gd2: "q_bleed", gd3: "q_cpr", gd4: "q_burn", gd5: "q_ors", gd6: "q_typhoon", gd7: "q_quake", gd8: "q_flood", gd9: "q_food", gd10: "q_signal", gd14: "q_hands", gd15: "q_fire", gd16: "q_leave" };
 </script>
 <script>/* Handa v4: Bisaya (Cebuano) text. English stays the default.
    Anything not translated here shows in English. Please have a Bisaya speaker read it
@@ -2981,7 +3175,34 @@ const CEB = {
     gd8: { title: "Baha", html: `
       <ul><li>Lakaw sa mas taas nga dapit sayo. Ayaw og lakaw o drive agi sa nagadagan nga tubig. Bisan gamay nga lalom makapukaw sa hamtong.</li>
       <li>Patya ang main nga kuryente kung nagtaas ang tubig ug luwas kini buhaton.</li>
-      <li>Likayi ang tubig-baha. Kung nakalubog ka niini, hugasi og maayo ug sultihi ang health center. Ang leptospirosis peligro, ug mahimong ihatag ang preventive nga tambal.</li></ul>` }
+      <li>Likayi ang tubig-baha. Kung nakalubog ka niini, hugasi og maayo ug sultihi ang health center. Ang leptospirosis peligro, ug mahimong ihatag ang preventive nga tambal.</li></ul>` },
+    gd9: { title: "Luwas nga pagkaon kung walay ref", html: `
+      <ul><li>Kan-a una ang presko ug luto nga pagkaon. Sunod ang frozen. Ang lutong pagkaon dili angay mapabilin sa gawas sulod sa sobra sa duha ka oras sa init.</li>
+      <li>Ilabay ang de-lata nga namanggas, nagtulo, o lawom ang lubag.</li>
+      <li>Hugasi ang kamot gamit ang sabon ug limpyong tubig sa dili pa mokaon o magluto.</li>
+      <li>Kung naduha-duha ka, ilabay na.</li></ul>` },
+    gd10: { title: "Pagsenyas og tabang", html: `
+      <ul><li>Ang tulo sa bisan unsa maoy senyas sa panginahanglan: tulo ka huyop sa pito, tulo ka silaw sa suga, tulo ka kalayo, tulo ka singgit.</li>
+      <li>Gamita ang hayag nga panapton, salamin, o flashlight sa abli nga dapit, ug isulat ang HELP sa dako nga letra sa yuta o atop.</li>
+      <li>Pabilin sa dapit human makasenyas, gawas kung dili kini luwas.</li></ul>` },
+    gd14: { title: "Hugasi ang kamot", html: `
+      <ol><li>Basaha ang kamot gamit ang limpyong tubig ug butangi og sabon.</li>
+      <li>Kuskusa sulod sa 20 segundo: palad, likod sa kamot, tunga sa mga tudlo, ilawom sa kuko.</li>
+      <li>Hunawa gamit ang limpyong tubig ug pauga-a gamit ang limpyong tela o hangin.</li></ol>
+      <p>Maghugas sa dili pa mokaon o magluto, human sa kasilyas, human maghinlo sa bata, ug human mag-atiman sa masakiton.</p>
+      <p class="hint">Walay sabon? Ang limpyong abo sa kahoy nga ikuskos sa basa nga kamot mas maayo kaysa tubig lang. Ibubo ang tubig gikan sa banga aron dili mahikap sa kamot ang gripo o sudlanan.</p>` },
+    gd15: { title: "Luwas nga pagluto kung walay kuryente", html: `
+      <ol><li>Pagluto sa gawas, o sa abli kaayo nga dapit nga naay atop. Dili sa sulod sa balay, ug dili sa sirado nga lawak.</li>
+      <li>Ibutang ang kalan, uling o kalayo labing menos 1 metro gikan sa dingding, atop, kurtina ug uga nga dahon.</li>
+      <li>Ayaw biyai ang kalayo. Ilikay ang bata ug binuhi. Butangi og timba nga tubig o balas sa kilid.</li>
+      <li>Kung tapos na, ibubo ang tubig sa baga ug siguroha nga bugnaw na sa dili ka mobiya.</li></ol>
+      <p class="callout">Ang aso gikan sa uling, gas, gaas ug generator makapatay, bisan wala nimo madungog ang baho. Naay sakit sa ulo, nahilo o nagkagrabe ang pamati? Gawas dayon sa presko nga hangin ug pangita og tabang.</p>` },
+    gd16: { title: "Sa dili pa mobiya sa balay", html: `
+      <ol><li>Patya ang main nga kuryente. Sirad-i ang balbula sa LPG.</li>
+      <li>Dad-a ang go-bag, tambal, telepono nga naay power bank, ug imnon nga tubig.</li>
+      <li>Dad-a ang imong mga dokumento sa plastik nga bag.</li>
+      <li>Kandadoi ang balay. Sultihi ang pamilya ug usa ka silingan kung asa ka paingon.</li>
+      <li>Adto sa evacuation center agi sa luwas nga dalan. Ayaw og lakaw o drive agi sa tubig-baha.</li></ol>` }
   }
 };
 
@@ -3023,7 +3244,10 @@ Object.assign(CEB.figs, {
   q_quake: "Linog: DROP sa kamot ug tuhod, COVER ilalom sa lig-on nga lamesa aron mapanalipdan ang ulo ug liog, HOLD ON hangtod mohunong ang uyog. Sa baybayon, dangat sa taas kung taas ang uyog.",
   q_flood: "Baha: lakaw sa mas taas nga dapit sayo. Ang mga 15 cm nga nagadagan nga tubig makapukaw sa hamtong ug ang 30 cm makalutaw sa daghang sakyanan. Ayaw tabok o drive niini.",
   q_food: "Pagkaon nga walay ref: pangaon sa una ang presko ug luto, itaktak ang hubag, tulo o lubog nga lata, hugasi ang kamot gamit ang sabon ug limpyong tubig. Kung nagduha, ilabay.",
-  q_signal: "Pagsenyas og tabang: tulo sa bisan unsa (pito, suga, kalayo, singgit), hayag nga panapton o salamin, ug HELP nga dako sa yuta. Pabilin kung nakasenyas na."
+  q_signal: "Pagsenyas og tabang: tulo sa bisan unsa (pito, suga, kalayo, singgit), hayag nga panapton o salamin, ug HELP nga dako sa yuta. Pabilin kung nakasenyas na.",
+  q_hands: "Hugasi ang kamot: basaha ug gamitan og sabon, kuskusa sulod sa 20 segundo (palad, likod, tunga sa tudlo, ilawom sa kuko), unya hunawa ug pauga-a gamit ang limpyo nga tela.",
+  q_fire: "Pagluto nga luwas: sa gawas lang, labing menos 1 metro gikan sa dingding ug masunog nga butang, dili biyaan, ug naay tubig o balas sa kilid. Kung tapos na, tunawi og tubig ang baga.",
+  q_leave: "Sa dili pa mobiya: patya ang main nga kuryente ug sirad-i ang LPG, dad-a ang go-bag, tambal, telepono ug papeles, unya adto sa evacuation center agi sa luwas nga dalan."
 });
 </script>
 <script>/* Handa: Bisaya (Cebuano) for the rest of the app: Plan, Levels, Family, Comms, Drill, Settings.
@@ -3236,6 +3460,13 @@ addX([
   ["Easily spoiled (meat, fish, milk)", "Dali madunot (karne, isda, gatas)"], ["Vegetables and fruit", "Utanon ug prutas"], ["Canned and dry food", "De-lata ug uga nga pagkaon"],
   ["Group by", "Hugpa sumala sa"],
   ["Vegetables, fruit, meat, fish and milk spoil fast, so they are flagged 3 days ahead.", "Ang utanon, prutas, karne, isda ug gatas dali madunot, busa gi-ila 3 ka adlaw daan."],
+  ["Tip of the day", "Tambag karon"], ["Open the guide", "Abli ang giya"], ["Next tip", "Sunod nga tambag"],
+  ["Monthly check", "Binulan nga susi"], ["Monthly check done", "Human na ang binulan nga susi"], ["Do it now", "Buhata karon"], ["Open", "Abli"], ["of", "sa"], ["Now", "Karon"],
+  ["Ten minutes once a month keeps everything ready. The ticks start over on the 1st.", "Napulo ka minuto kausa sa usa ka bulan, andam ang tanan. Magsugod pag-usab ang mga tsek sa 1."],
+  ["Remind me every month (calendar)", "Pahinumdoman ko matag bulan (kalendaryo)"],
+  ["Saved Andam-monthly-check.ics. Open it to add the reminder to your calendar.", "Na-save ang Andam-monthly-check.ics. Ablihi kini aron madugang ang pahinumdom sa imong kalendaryo."],
+  ["Season reminders", "Pahinumdom sa panahon"],
+  ["What to do in each part of the year. The one for this season is on top.", "Unsay buhaton sa matag bahin sa tuig. Ang alang karon nga panahon naa sa ibabaw."],
   ["Search your items", "Pangitaa ang imong mga butang"], ["No place set", "Wala pa'y gitakdang lugar"],
   ["Nothing here.", "Walay makita dinhi."], ["Nothing matches your search.", "Walay mohaum sa imong gipangita."],
   ["Nothing stored yet. Add what you have: rice, water, medicine, batteries.", "Wala pa'y natipigan. Idugang unsay naa nimo: bugas, tubig, tambal, baterya."],
@@ -3641,7 +3872,7 @@ function translateDom(root, on) {
     drill: { steps: {}, last: "", found: "" },
     levels: { people: 5, goal: 2, done: {} },
     howto: { done: {}, got: {}, calc: {}, fill: {} },
-    stock: [], places: [], plan: { months: 6, warn: 30 },
+    stock: [], places: [], plan: { months: 6, warn: 30 }, checks: {},
     settings: { theme: "auto", size: "m", motion: "auto", lang: "en" },
     ui: { tab: "plan", phase: 0, toBuy: false, open: {}, detail: {} }
   });
@@ -3974,7 +4205,73 @@ function translateDom(root, on) {
     toast(tx("Saved Andam-expiry-dates.ics. Open it to add the dates to your calendar."));
   }
 
+  /* ---------- tip of the day, monthly check, season reminders ---------- */
+  const lt = (o) => (ceb() && o.ceb) || o.en;
+  const ymd = () => { const d = new Date(); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); };
+  const monthKey = () => { const d = new Date(); return d.getFullYear() + "_" + (d.getMonth() + 1); };
+  const mKey = (m) => "m" + monthKey() + "_" + m.id;
+  const monthDone = () => MONTHLY.filter((m) => S.checks[mKey(m)]).length;
+  const curSeason = () => SEASONS.find((x) => x.months.includes(new Date().getMonth() + 1)) || SEASONS[0];
+  const sKey = (se, k) => "s" + new Date().getFullYear() + "_" + se.id + "_" + k;
+  function pruneChecks() { // old months and years are forgotten
+    const m = "m" + monthKey() + "_", y = "s" + new Date().getFullYear() + "_";
+    Object.keys(S.checks).forEach((k) => { if (!(k.startsWith(m) || k.startsWith(y))) delete S.checks[k]; });
+  }
+  function tipIdx() {
+    if (S.ui.tipDay !== ymd()) { S.ui.tipDay = ymd(); S.ui.tipOff = 0; }
+    return (Math.floor(todayStart() / 864e5) + (S.ui.tipOff || 0)) % TIPS.length;
+  }
+  function tipCard() {
+    const t = TIPS[tipIdx()], n = monthDone();
+    return `<div class="tipcard" role="note">
+      <div class="tiphead"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.9.7 1.5 1.6 1.5 2.6V16h4v-.5c0-1 .6-1.9 1.5-2.6A6 6 0 0 0 12 3z"/></svg><b>${esc(tx("Tip of the day"))}</b></div>
+      <p>${esc(lt(t))}</p>
+      <div class="actions">${t.g ? `<button class="btn small" data-a="hwgo" data-id="${t.g}">${esc(tx("Open the guide"))}</button>` : ""}<button class="btn small ghost" data-a="nexttip">${esc(tx("Next tip"))}</button></div>
+      ${n < MONTHLY.length ? `<p class="tipdue"><span class="tag soon">${esc(tx("Monthly check"))} ${n}/${MONTHLY.length}</span> <button class="btn small ghost" data-a="monthgo">${esc(tx("Do it now"))}</button></p>` : `<p class="tipdue"><span class="tag">${esc(tx("Monthly check done"))}</span></p>`}
+    </div>`;
+  }
+  const chkRow = (key, text, extra) => `<label class="chkrow"><input class="chk" type="checkbox" data-bind="checks.${key}" data-re="1" ${S.checks[key] ? "checked" : ""}><span>${esc(text)}</span>${extra || ""}</label>`;
+  function monthlyBlock() {
+    const n = monthDone(), open = !!S.ui.open.monthly;
+    const rows = MONTHLY.map((m) => chkRow(mKey(m), lt(m), m.tab ? `<button class="btn small ghost" type="button" data-a="tab" data-tab="${m.tab}">${esc(tx("Open"))}</button>` : "")).join("");
+    return `<details class="cat" data-cat="monthly" id="monthly" ${open ? "open" : ""}>
+      <summary><h3>${esc(tx("Monthly check"))}</h3><span class="count">${n} ${esc(tx("of"))} ${MONTHLY.length}</span>${chevron}
+        <span class="mini"><i style="width:${Math.round((n / MONTHLY.length) * 100)}%"></i></span></summary>
+      <p class="blurb">${esc(tx("Ten minutes once a month keeps everything ready. The ticks start over on the 1st."))}</p>
+      ${rows}
+      <div class="actions"><button class="btn small ghost" data-a="monthcal">${esc(tx("Remind me every month (calendar)"))}</button></div>
+    </details>`;
+  }
+  function seasonBlock() {
+    const now = curSeason(), open = S.ui.open.season === undefined ? false : S.ui.open.season;
+    const nowDone = now.items.filter((_, k) => S.checks[sKey(now, k)]).length;
+    const one = (se) => `<div class="season ${se === now ? "now" : ""}"><h4>${esc(lt(se))}${se === now ? ` <span class="tag soon">${esc(tx("Now"))}</span>` : ""}</h4>${se.items.map((it, k) => chkRow(sKey(se, k), lt(it))).join("")}</div>`;
+    return `<details class="cat" data-cat="season" id="season" ${open ? "open" : ""}>
+      <summary><h3>${esc(tx("Season reminders"))}</h3><span class="count">${nowDone} ${esc(tx("of"))} ${now.items.length}</span>${chevron}</summary>
+      <p class="blurb">${esc(tx("What to do in each part of the year. The one for this season is on top."))}</p>
+      ${one(now)}${SEASONS.filter((se) => se !== now).map(one).join("")}
+    </details>`;
+  }
+  function monthIcs() {
+    const d = new Date(); if (d.getDate() > 1) d.setMonth(d.getMonth() + 1); d.setDate(1);
+    const p2 = (n) => String(n).padStart(2, "0"), start = d.getFullYear() + p2(d.getMonth() + 1) + "01";
+    const nx = new Date(d.getFullYear(), d.getMonth(), 2), end = nx.getFullYear() + p2(nx.getMonth() + 1) + p2(nx.getDate());
+    const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+    const desc = MONTHLY.map((m) => "- " + m.en).join("\\n");
+    return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Andam//Monthly check//EN", "CALSCALE:GREGORIAN", "BEGIN:VEVENT", "UID:monthly-check@andam", "DTSTAMP:" + stamp,
+      "DTSTART;VALUE=DATE:" + start, "DTEND;VALUE=DATE:" + end, "RRULE:FREQ=MONTHLY", "SUMMARY:Andam: monthly readiness check", "DESCRIPTION:" + desc,
+      "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:Andam monthly check", "TRIGGER:PT9H", "END:VALARM", "END:VEVENT", "END:VCALENDAR"].join("\r\n") + "\r\n";
+  }
+  async function shareMonthCal() {
+    const file = new File([monthIcs()], "Andam-monthly-check.ics", { type: "text/calendar" });
+    try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "Andam" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
+    const a = document.createElement("a"); a.href = URL.createObjectURL(file); a.download = "Andam-monthly-check.ics";
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    toast(tx("Saved Andam-monthly-check.ics. Open it to add the reminder to your calendar."));
+  }
+
   function viewPlan() {
+    pruneChecks();
     const items = allItems();
     const tot = { 1: 0, 2: 0, 3: 0 }, done = { 1: 0, 2: 0, 3: 0 };
     let planned = 0, bought = 0;
@@ -4019,6 +4316,7 @@ function translateDom(root, on) {
     }).join("");
 
     return `<section class="view">
+      ${tipCard()}
       <h2>Readiness plan</h2>
       <p class="lede">Check things off as you get them. Start with the yellow “Start now” items: they are the cheapest and matter most.</p>
       <div class="tide">${seg}</div>
@@ -4030,6 +4328,7 @@ function translateDom(root, on) {
       </div>
       <div class="block"><label class="field" style="margin:0"><span>${esc(tx("Months to finish buying"))}</span><input type="number" inputmode="numeric" min="1" max="60" data-bind="plan.months" data-re="1" value="${Math.max(1, Number(S.plan.months) || 6)}"></label>
         <p class="hint" style="margin:.5rem 0 0">${planned - bought > 0 ? "About " + peso((planned - bought) / Math.max(1, Number(S.plan.months) || 6)) + " a month for what is still to buy." : "Open Details on an item and type the price you found, then the monthly amount shows here."}</p></div>
+      ${monthlyBlock()}${seasonBlock()}
       <div class="chips" role="group" aria-label="Filters">${chips}</div>
       ${cats || '<p class="empty">Nothing matches this filter. Try “All”.</p>'}
       <p class="hint" style="margin-top:1.25rem">The cost tag is the rough price of one item. Peso figures in Details come from Philippine shop listings seen in November 2026. Prices change, so check before you buy.</p>
@@ -4564,6 +4863,9 @@ function translateDom(root, on) {
       case "bannerhide": S.ui.bannerDay = new Date().toISOString().slice(0, 10); save(); render(); break;
       case "bannergo": S.ui.tab = "storage"; S.ui.stkType = "soon"; stkQ = ""; save(); render(); window.scrollTo(0, 0); break;
       case "stkgroup": S.ui.stkGroup = d.v; save(); render(); break;
+      case "nexttip": S.ui.tipOff = (S.ui.tipOff || 0) + 1; save(); render(); break;
+      case "monthgo": S.ui.tab = "plan"; S.ui.open.monthly = true; save(); render(); { const t = document.getElementById("monthly"); if (t) t.scrollIntoView({ block: "start" }); } break;
+      case "monthcal": shareMonthCal(); break;
       case "stktype": S.ui.stkType = d.v; save(); render(); break;
       case "rmstock": { const r = S.stock.splice(Number(d.idx), 1)[0]; if (r) delete S.ui.open["s_" + r.id]; save(); render(); break; }
       case "addplace": S.places.push({ id: uid(), label: "", note: "", lat: "", lng: "" }); save(); render(); break;

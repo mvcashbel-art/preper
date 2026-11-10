@@ -521,3 +521,16 @@ details.guide.hw,details.cat{scroll-margin-top:4.2rem}
 @media (max-width:420px){.nav button{font-size:.62rem}}
 
 .grpl{align-self:center;color:var(--muted);font-size:.85rem;margin-right:.2rem}
+
+/* v17: tip of the day, monthly check, seasons */
+.tipcard{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--signal);border-radius:.7rem;padding:.8rem 1rem;margin:0 0 1rem}
+.tipcard .tiphead{display:flex;align-items:center;gap:.5rem;color:var(--accent)}
+.tipcard .tiphead svg{width:1.4rem;height:1.4rem;flex:none}
+.tipcard p{margin:.4rem 0}
+.tipcard .actions{margin:.2rem 0 0}
+.tipcard .tipdue{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:.6rem 0 0}
+.chkrow{display:flex;align-items:center;gap:.7rem;min-height:2.9rem;padding:.35rem 0;border-top:1px solid var(--line)}
+.chkrow:first-of-type{border-top:0}
+.chkrow span{flex:1;min-width:0}
+.chkrow .btn{flex:none}
+.season{margin:.6rem 0 1rem}.season h4{margin:.2rem 0 .3rem}.season:not(.now){opacity:.85}

@@ -114,3 +114,10 @@ Everything you type stays on your own phone.
 - Grouped by type (easily spoiled, vegetables and fruit, canned and dry food, medicine, water, batteries, other) or by where it is kept. Search, filter chips, and an "Expiring soon" filter.
 - Vegetables, fruit, meat, fish and milk are flagged 3 days before they spoil; everything else uses your chosen reminder time.
 - The expiry list moved out of Plan into Storage; "See them" on the top banner opens it.
+
+## v17
+- **Tip of the day** card at the top of Plan (38 tips, English and Bisaya). "Next tip" shows another; many tips open the matching step-by-step guide.
+- **Monthly check** (8 ticks, starts over on the 1st), with a "Monthly check 3/8" badge in the tip card and a calendar file that repeats every month.
+- **Season reminders** for hot months, typhoon season and the cooler rainy months. The current season is on top.
+- 3 new animated quick guides: Wash your hands, Cook safely when the power is out, Before you leave home. Quick guides "Food safety" and "Signal for help" now also have Bisaya text.
+- New file `tips.js` must be uploaded with the rest.

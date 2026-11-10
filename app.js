@@ -14,7 +14,7 @@
     drill: { steps: {}, last: "", found: "" },
     levels: { people: 5, goal: 2, done: {} },
     howto: { done: {}, got: {}, calc: {}, fill: {} },
-    stock: [], places: [], plan: { months: 6, warn: 30 },
+    stock: [], places: [], plan: { months: 6, warn: 30 }, checks: {},
     settings: { theme: "auto", size: "m", motion: "auto", lang: "en" },
     ui: { tab: "plan", phase: 0, toBuy: false, open: {}, detail: {} }
   });
@@ -347,7 +347,73 @@
     toast(tx("Saved Andam-expiry-dates.ics. Open it to add the dates to your calendar."));
   }
 
+  /* ---------- tip of the day, monthly check, season reminders ---------- */
+  const lt = (o) => (ceb() && o.ceb) || o.en;
+  const ymd = () => { const d = new Date(); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); };
+  const monthKey = () => { const d = new Date(); return d.getFullYear() + "_" + (d.getMonth() + 1); };
+  const mKey = (m) => "m" + monthKey() + "_" + m.id;
+  const monthDone = () => MONTHLY.filter((m) => S.checks[mKey(m)]).length;
+  const curSeason = () => SEASONS.find((x) => x.months.includes(new Date().getMonth() + 1)) || SEASONS[0];
+  const sKey = (se, k) => "s" + new Date().getFullYear() + "_" + se.id + "_" + k;
+  function pruneChecks() { // old months and years are forgotten
+    const m = "m" + monthKey() + "_", y = "s" + new Date().getFullYear() + "_";
+    Object.keys(S.checks).forEach((k) => { if (!(k.startsWith(m) || k.startsWith(y))) delete S.checks[k]; });
+  }
+  function tipIdx() {
+    if (S.ui.tipDay !== ymd()) { S.ui.tipDay = ymd(); S.ui.tipOff = 0; }
+    return (Math.floor(todayStart() / 864e5) + (S.ui.tipOff || 0)) % TIPS.length;
+  }
+  function tipCard() {
+    const t = TIPS[tipIdx()], n = monthDone();
+    return `<div class="tipcard" role="note">
+      <div class="tiphead"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.9.7 1.5 1.6 1.5 2.6V16h4v-.5c0-1 .6-1.9 1.5-2.6A6 6 0 0 0 12 3z"/></svg><b>${esc(tx("Tip of the day"))}</b></div>
+      <p>${esc(lt(t))}</p>
+      <div class="actions">${t.g ? `<button class="btn small" data-a="hwgo" data-id="${t.g}">${esc(tx("Open the guide"))}</button>` : ""}<button class="btn small ghost" data-a="nexttip">${esc(tx("Next tip"))}</button></div>
+      ${n < MONTHLY.length ? `<p class="tipdue"><span class="tag soon">${esc(tx("Monthly check"))} ${n}/${MONTHLY.length}</span> <button class="btn small ghost" data-a="monthgo">${esc(tx("Do it now"))}</button></p>` : `<p class="tipdue"><span class="tag">${esc(tx("Monthly check done"))}</span></p>`}
+    </div>`;
+  }
+  const chkRow = (key, text, extra) => `<label class="chkrow"><input class="chk" type="checkbox" data-bind="checks.${key}" data-re="1" ${S.checks[key] ? "checked" : ""}><span>${esc(text)}</span>${extra || ""}</label>`;
+  function monthlyBlock() {
+    const n = monthDone(), open = !!S.ui.open.monthly;
+    const rows = MONTHLY.map((m) => chkRow(mKey(m), lt(m), m.tab ? `<button class="btn small ghost" type="button" data-a="tab" data-tab="${m.tab}">${esc(tx("Open"))}</button>` : "")).join("");
+    return `<details class="cat" data-cat="monthly" id="monthly" ${open ? "open" : ""}>
+      <summary><h3>${esc(tx("Monthly check"))}</h3><span class="count">${n} ${esc(tx("of"))} ${MONTHLY.length}</span>${chevron}
+        <span class="mini"><i style="width:${Math.round((n / MONTHLY.length) * 100)}%"></i></span></summary>
+      <p class="blurb">${esc(tx("Ten minutes once a month keeps everything ready. The ticks start over on the 1st."))}</p>
+      ${rows}
+      <div class="actions"><button class="btn small ghost" data-a="monthcal">${esc(tx("Remind me every month (calendar)"))}</button></div>
+    </details>`;
+  }
+  function seasonBlock() {
+    const now = curSeason(), open = S.ui.open.season === undefined ? false : S.ui.open.season;
+    const nowDone = now.items.filter((_, k) => S.checks[sKey(now, k)]).length;
+    const one = (se) => `<div class="season ${se === now ? "now" : ""}"><h4>${esc(lt(se))}${se === now ? ` <span class="tag soon">${esc(tx("Now"))}</span>` : ""}</h4>${se.items.map((it, k) => chkRow(sKey(se, k), lt(it))).join("")}</div>`;
+    return `<details class="cat" data-cat="season" id="season" ${open ? "open" : ""}>
+      <summary><h3>${esc(tx("Season reminders"))}</h3><span class="count">${nowDone} ${esc(tx("of"))} ${now.items.length}</span>${chevron}</summary>
+      <p class="blurb">${esc(tx("What to do in each part of the year. The one for this season is on top."))}</p>
+      ${one(now)}${SEASONS.filter((se) => se !== now).map(one).join("")}
+    </details>`;
+  }
+  function monthIcs() {
+    const d = new Date(); if (d.getDate() > 1) d.setMonth(d.getMonth() + 1); d.setDate(1);
+    const p2 = (n) => String(n).padStart(2, "0"), start = d.getFullYear() + p2(d.getMonth() + 1) + "01";
+    const nx = new Date(d.getFullYear(), d.getMonth(), 2), end = nx.getFullYear() + p2(nx.getMonth() + 1) + p2(nx.getDate());
+    const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+    const desc = MONTHLY.map((m) => "- " + m.en).join("\\n");
+    return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Andam//Monthly check//EN", "CALSCALE:GREGORIAN", "BEGIN:VEVENT", "UID:monthly-check@andam", "DTSTAMP:" + stamp,
+      "DTSTART;VALUE=DATE:" + start, "DTEND;VALUE=DATE:" + end, "RRULE:FREQ=MONTHLY", "SUMMARY:Andam: monthly readiness check", "DESCRIPTION:" + desc,
+      "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:Andam monthly check", "TRIGGER:PT9H", "END:VALARM", "END:VEVENT", "END:VCALENDAR"].join("\r\n") + "\r\n";
+  }
+  async function shareMonthCal() {
+    const file = new File([monthIcs()], "Andam-monthly-check.ics", { type: "text/calendar" });
+    try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "Andam" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
+    const a = document.createElement("a"); a.href = URL.createObjectURL(file); a.download = "Andam-monthly-check.ics";
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    toast(tx("Saved Andam-monthly-check.ics. Open it to add the reminder to your calendar."));
+  }
+
   function viewPlan() {
+    pruneChecks();
     const items = allItems();
     const tot = { 1: 0, 2: 0, 3: 0 }, done = { 1: 0, 2: 0, 3: 0 };
     let planned = 0, bought = 0;
@@ -392,6 +458,7 @@
     }).join("");
 
     return `<section class="view">
+      ${tipCard()}
       <h2>Readiness plan</h2>
       <p class="lede">Check things off as you get them. Start with the yellow “Start now” items: they are the cheapest and matter most.</p>
       <div class="tide">${seg}</div>
@@ -403,6 +470,7 @@
       </div>
       <div class="block"><label class="field" style="margin:0"><span>${esc(tx("Months to finish buying"))}</span><input type="number" inputmode="numeric" min="1" max="60" data-bind="plan.months" data-re="1" value="${Math.max(1, Number(S.plan.months) || 6)}"></label>
         <p class="hint" style="margin:.5rem 0 0">${planned - bought > 0 ? "About " + peso((planned - bought) / Math.max(1, Number(S.plan.months) || 6)) + " a month for what is still to buy." : "Open Details on an item and type the price you found, then the monthly amount shows here."}</p></div>
+      ${monthlyBlock()}${seasonBlock()}
       <div class="chips" role="group" aria-label="Filters">${chips}</div>
       ${cats || '<p class="empty">Nothing matches this filter. Try “All”.</p>'}
       <p class="hint" style="margin-top:1.25rem">The cost tag is the rough price of one item. Peso figures in Details come from Philippine shop listings seen in November 2026. Prices change, so check before you buy.</p>
@@ -937,6 +1005,9 @@
       case "bannerhide": S.ui.bannerDay = new Date().toISOString().slice(0, 10); save(); render(); break;
       case "bannergo": S.ui.tab = "storage"; S.ui.stkType = "soon"; stkQ = ""; save(); render(); window.scrollTo(0, 0); break;
       case "stkgroup": S.ui.stkGroup = d.v; save(); render(); break;
+      case "nexttip": S.ui.tipOff = (S.ui.tipOff || 0) + 1; save(); render(); break;
+      case "monthgo": S.ui.tab = "plan"; S.ui.open.monthly = true; save(); render(); { const t = document.getElementById("monthly"); if (t) t.scrollIntoView({ block: "start" }); } break;
+      case "monthcal": shareMonthCal(); break;
       case "stktype": S.ui.stkType = d.v; save(); render(); break;
       case "rmstock": { const r = S.stock.splice(Number(d.idx), 1)[0]; if (r) delete S.ui.open["s_" + r.id]; save(); render(); break; }
       case "addplace": S.places.push({ id: uid(), label: "", note: "", lat: "", lng: "" }); save(); render(); break;
