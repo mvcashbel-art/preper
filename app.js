@@ -46,15 +46,15 @@
     toast(tx("Getting the app ready…"));
     let html;
     try { html = await buildAppFile(); } catch (e) { toast(tx("Couldn't prepare the file. Open the app once with internet, then try again.")); return; }
-    const file = new File([html], "Handa.html", { type: "text/html" });
+    const file = new File([html], "Andam.html", { type: "text/html" });
     try {
-      if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "Handa" }); return; }
+      if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "Andam" }); return; }
     } catch (e) { if (e && e.name === "AbortError") return; }
     const a = document.createElement("a");
-    a.href = URL.createObjectURL(file); a.download = "Handa.html";
+    a.href = URL.createObjectURL(file); a.download = "Andam.html";
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-    toast(tx("Saved as Handa.html in your Downloads. Send it with Bluetooth, Nearby Share or a USB stick."));
+    toast(tx("Saved as Andam.html in your Downloads. Send it with Bluetooth, Nearby Share or a USB stick."));
   }
 
   function merge(base, src) {
@@ -628,7 +628,7 @@
     translateDom(document.querySelector(".nav"), ceb());
     if (window._st) { const so = document.getElementById("offlineStatus"); if (so) so.textContent = tx(window._st); }
     translateDom(document.getElementById("settings"), ceb());
-    document.title = ceb() ? "Handa – Pag-andam sa pamilya" : "Handa – Family readiness";
+    document.title = ceb() ? "Andam – Pag-andam para sa kaluwasan" : "Andam – Prep for survival";
   }
 
   /* ---------- settings dialog ---------- */
@@ -810,14 +810,14 @@
       case "shareapp": shareApp(); break;
       case "sharefam": {
         const code = familyCode();
-        const msg = "Handa family page. Open Handa, go to Family, paste this under Share with family, and tap Add to this phone:\n\n" + code;
-        if (navigator.share) navigator.share({ title: "Handa family page", text: msg }).catch(() => {});
+        const msg = "Andam family page. Open Andam, go to Family, paste this under Share with family, and tap Add to this phone:\n\n" + code;
+        if (navigator.share) navigator.share({ title: "Andam family page", text: msg }).catch(() => {});
         else (navigator.clipboard ? navigator.clipboard.writeText(msg) : Promise.reject()).then(() => toast("Copied. Paste it in a message."), () => toast("Couldn't copy on this phone."));
         break;
       }
       case "impfam": {
         const ta = document.getElementById("famIn");
-        if (!importFamily(ta && ta.value)) toast("That doesn't look like a Handa family page. Paste the whole text.");
+        if (!importFamily(ta && ta.value)) toast("That doesn't look like an Andam family page. Paste the whole text.");
         break;
       }
       case "phdel": idb("readwrite", (st) => st.delete(d.k)).then(() => { const el = document.querySelector('[data-ph="' + d.k + '"]'); if (el) el.innerHTML = ""; }).catch(() => {}); break;
@@ -836,7 +836,7 @@
         const blob = new Blob([backupText()], { type: "application/json" });
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = "handa-backup-" + new Date().toISOString().slice(0, 10) + ".json";
+        a.download = "andam-backup-" + new Date().toISOString().slice(0, 10) + ".json";
         document.body.appendChild(a); a.click(); a.remove();
         setTimeout(() => URL.revokeObjectURL(a.href), 2000);
         break;
@@ -849,7 +849,7 @@
           S = merge(defaults(), obj.data); S.ui = ui;
           save(); applySettings(); render(); dlg.close && dlg.close();
           toast("Backup restored.");
-        } catch (err) { toast("That doesn't look like a Handa backup. Paste the whole text."); }
+        } catch (err) { toast("That doesn't look like an Andam backup. Paste the whole text."); }
         break;
       }
       case "reset":
@@ -937,7 +937,7 @@
   const status = document.getElementById("offlineStatus");
   const setSt = (m) => { window._st = m; status.textContent = tx(m); };
   const savedCount = () => (window.caches
-    ? caches.keys().then((ks) => { const k = ks.find((x) => x.indexOf("handa-") === 0); return k ? caches.open(k).then((c) => c.keys()).then((r) => r.length) : 0; }).catch(() => 0)
+    ? caches.keys().then((ks) => { const k = ks.find((x) => x.indexOf("andam-") === 0); return k ? caches.open(k).then((c) => c.keys()).then((r) => r.length) : 0; }).catch(() => 0)
     : Promise.resolve(0));
   if (location.protocol === "file:") {
     setSt("This single file works without internet");

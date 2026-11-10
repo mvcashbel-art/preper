@@ -28,7 +28,7 @@ const HOWTO2 = [
   {
     id: "app", title: "Using this app: a simple guide", icon: "calc",
     time: "5 minutes", cost: "Free",
-    intro: "Handa is an app that works on your phone, even with no internet. Your ticks and notes stay on your phone only.",
+    intro: "Andam is an app that works on your phone, even with no internet. Your ticks and notes stay on your phone only.",
     buy: [],
     steps: [
       { fig: "phone_tabs", t: "Open the address you were given", d: "Your helper will send you a web address. Open it on your phone." },

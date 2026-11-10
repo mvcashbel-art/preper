@@ -69,7 +69,7 @@ const CEB = {
     app: {
       title: "Paggamit niini nga app: simple nga giya",
       time: "5 minutos", cost: "Libre",
-      intro: "Ang Handa usa ka app nga mugana sa imong telepono bisan walay internet. Ang imong mga tsek ug nota magpabilin sa imong telepono ra.",
+      intro: "Ang Andam usa ka app nga mugana sa imong telepono bisan walay internet. Ang imong mga tsek ug nota magpabilin sa imong telepono ra.",
       steps: [
         { t: "Ablihi ang address nga gihatag kanimo", d: "Ang imong katabang mopadala og web address. Ablihi kini sa imong telepono." },
         { t: "Ibutang sa home screen", d: "Android (Chrome): i-tap ang 3 ka tuldok, unya “Install app” o “Add to Home screen”. iPhone (Safari): i-tap ang Share button, unya “Add to Home Screen”." },

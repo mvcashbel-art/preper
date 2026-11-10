@@ -1,4 +1,4 @@
-# Handa: family readiness app
+# Andam (Prep for survival): family readiness app
 
 Handa works on phones and keeps working without internet after the first visit.
 Everything you type stays on your own phone.
@@ -61,15 +61,15 @@ Everything you type stays on your own phone.
 - **People count**: the number you set in Levels ("How many people") now changes the amounts in the guides and on the Plan list (water, rice, cans, jugs, space, bags). In guide text, `{n}` is the people count, `{ppl}` is "5 people", `{n*12}` is 12 per person, `{n*12/19}` rounds up.
 - **Tap a section** in Plan, Levels or Guides: it opens, the one you had open closes, and the page scrolls so it sits at the top.
 - **Offline**:
-  1. Put the `handa` folder on any HTTPS host (GitHub Pages, Netlify, Cloudflare Pages).
+  1. Put the `andam` folder on any HTTPS host (GitHub Pages, Netlify, Cloudflare Pages).
   2. On each phone, open the address once with internet. The app saves every file itself (the service worker, `sw.js`). Settings should then say "Ready: works without internet".
   3. Install it ("Add to Home screen"). After that it opens with no internet, and updates itself when you are next online (change `VERSION` in `sw.js` when you change files).
-  4. `handa-offline.html` is the same app in one file. It needs no hosting: save it in the phone's Files, on a USB stick, or send it in a chat, then open it in Chrome. Caveat: on some phones a file opened this way may not keep what you type. If the app warns that saving is blocked, use the hosted copy instead.
+  4. `andam-offline.html` is the same app in one file. It needs no hosting: save it in the phone's Files, on a USB stick, or send it in a chat, then open it in Chrome. Caveat: on some phones a file opened this way may not keep what you type. If the app warns that saving is blocked, use the hosted copy instead.
 
 ## v7: "Send this app"
 
-- Settings has a new "Send this app to another phone" button. It packs the whole app into one file (`Handa.html`) from the saved copy, with no internet, and opens the phone's share menu (Bluetooth, Nearby Share). If the phone can't share files it saves the file to Downloads instead.
-- Where to put the files: GitHub Pages is fine and is free. Put the `handa` folder contents in a repository, turn on Pages, and open the address once on every phone. Keep `handa-offline.html` in the same repository too (people can download it), and a copy on a USB stick and on the NOMAD server.
+- Settings has a new "Send this app to another phone" button. It packs the whole app into one file (`Andam.html`) from the saved copy, with no internet, and opens the phone's share menu (Bluetooth, Nearby Share). If the phone can't share files it saves the file to Downloads instead.
+- Where to put the files: GitHub Pages is fine and is free. Put the `andam` folder contents in a repository, turn on Pages, and open the address once on every phone. Keep `andam-offline.html` in the same repository too (people can download it), and a copy on a USB stick and on the NOMAD server.
 
 ## v8: guide sections
 
@@ -82,3 +82,8 @@ Everything you type stays on your own phone.
 ## v10
 
 - If offline saving fails because files are missing on the web host, Settings now lists the missing file names (for example `icons/maskable-512.png`). Upload them with the same folder names. GitHub Pages is case-sensitive: `Fonts/` and `fonts/` are different folders.
+
+## v11: renamed to Andam (Prep for survival)
+
+- The app is now called **Andam – Prep for survival** (header, install name, share file `Andam.html`, backups `andam-backup-…`). Entries already saved on phones are kept: the internal storage names (`handa.v1`, backups and family codes marked `handa`) were left as they were on purpose.
+- The first time a phone opens v11 it saves a fresh copy under the new cache name `andam-v11` and removes the old one.
