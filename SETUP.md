@@ -87,3 +87,12 @@ Everything you type stays on your own phone.
 
 - The app is now called **Andam – Prep for survival** (header, install name, share file `Andam.html`, backups `andam-backup-…`). Entries already saved on phones are kept: the internal storage names (`handa.v1`, backups and family codes marked `handa`) were left as they were on purpose.
 - The first time a phone opens v11 it saves a fresh copy under the new cache name `andam-v11` and removes the old one.
+
+## v12: logo
+
+- New logo: the letter A drawn as a shelter with a lantern flame inside. Files: `icons/logo.svg` (source), `icon-192.png`, `icon-512.png`, `maskable-512.png`, `apple-touch-icon.png` (home screen icons), and the small mark in the header. The subtitle is hidden on very narrow screens (under 360 px).
+
+## v13: round logo
+
+- The logo is now round everywhere: the header badge, the browser tab icon and the home-screen icons (`icon-192.png`, `icon-512.png`). `maskable-512.png` and `apple-touch-icon.png` stay full squares on purpose: Android and iPhone cut them into a circle or rounded square themselves.
+- Changing files only shows after the browser loads the new copy: reload twice (the first reload fetches it, the second shows it). To check what the host has, open `your-address/sw.js` and read the version line (`andam-v13`).

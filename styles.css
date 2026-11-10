@@ -44,7 +44,8 @@ a{color:var(--accent)}
   padding-top:env(safe-area-inset-top)}
 :root[data-theme="dark"] .top, :root:not([data-theme="light"]) .top{}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;min-height:3.5rem;gap:.75rem}
-.brand{display:flex;align-items:baseline;gap:.6rem;min-width:0}
+.brand{display:flex;align-items:center;gap:.55rem;min-width:0}
+.brand .logo{height:2.6rem;width:2.6rem;flex:none}
 .brand h1{margin:0;font:700 2rem/1 var(--head);letter-spacing:.01em}
 .brand span{font-size:.9rem;opacity:.92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .icon-btn{width:2.75rem;height:2.75rem;display:grid;place-items:center;border-radius:.6rem;
@@ -492,3 +493,4 @@ details.guide.hw,details.cat{scroll-margin-top:4.2rem}
 .gsec>summary h3{color:var(--accent)}
 .gsec .gbody{padding:.2rem 0 .6rem}
 .gsec{scroll-margin-top:3.8rem}
+@media (max-width:359px){.brand span{display:none}}

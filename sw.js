@@ -1,6 +1,6 @@
 /* Andam service worker: makes the app work without internet.
    Bump VERSION whenever you change any file so phones pick up the update. */
-const VERSION = "andam-v11";
+const VERSION = "andam-v13";
 const ASSETS = [
   "./",
   "index.html",
@@ -20,6 +20,7 @@ const ASSETS = [
   "icons/icon-512.png",
   "icons/maskable-512.png",
   "icons/apple-touch-icon.png",
+  "icons/logo.svg",
   "fonts/atkinson-400.woff2",
   "fonts/atkinson-700.woff2",
   "fonts/barlow-cond-600.woff2",
