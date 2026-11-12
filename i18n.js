@@ -185,7 +185,86 @@ const CEB = {
       <li>Dad-a ang go-bag, tambal, telepono nga naay power bank, ug imnon nga tubig.</li>
       <li>Dad-a ang imong mga dokumento sa plastik nga bag.</li>
       <li>Kandadoi ang balay. Sultihi ang pamilya ug usa ka silingan kung asa ka paingon.</li>
-      <li>Adto sa evacuation center agi sa luwas nga dalan. Ayaw og lakaw o drive agi sa tubig-baha.</li></ol>` }
+      <li>Adto sa evacuation center agi sa luwas nga dalan. Ayaw og lakaw o drive agi sa tubig-baha.</li></ol>` },
+    gd17: { title: "Pagkasakal", html: `
+      <p>Molihok kung ang tawo dili makasulti, makaubo o makaginhawa, o gigunitan ang iyang tutunlan. Kung makaubo pa siya, pasagdi siya nga mag-ubo.</p>
+      <p><b>Hamtong o bata nga labaw sa 1 ka tuig:</b></p>
+      <ol><li>Singgit og tabang. Barog sa luyo sa tawo.</li>
+      <li>Hatagi og 5 ka kusog nga antak sa likod, sa tunga sa abaga, gamit ang tumoy sa imong palad.</li>
+      <li>Dayon hatagi og hangtud 5 ka pug-ot sa tiyan: higot ang kamao sa ibabaw sa pusod, gunita sa laing kamot, ug pug-ta og kusog paingon sa sulod ug taas.</li>
+      <li>Balika ang 5 ka antak ug 5 ka pug-ot hangtud mogawas ang nakasangko o mahagba ang tawo.</li></ol>
+      <p><b>Masuso nga ubos sa 1 ka tuig:</b> ihaylo ang masuso nga nakadapa sa imong butkon, mas ubos ang ulo kaysa lawas. Hatagi og 5 ka antak sa likod, dayon balihon ug hatagi og 5 ka pug-ot sa dughan gamit ang duha ka tudlo sa tunga sa dughan. Balika.</p>
+      <p>Kung dili na motubag ang tawo, mohangyo og tabang ug sugdi ang CPR. Ang bisan kinsa nga nasakal ipa-check sa doktor human niini.</p>
+      <p class="hint">Buntis o hilabihan ka dako nga tawo: dughan ang pug-ta imbes tiyan.</p>` },
+    gd18: { title: "Bali nga bukog o pilay", html: `
+      <p>Timailhan: kusog nga sakit, hubag, baliko o lahi nga porma, dili na maglihok o dili na makabarog.</p>
+      <ol><li>Pahulaya ang tawo nga dili maglihok. Ayaw sulayi nga ituwid ang baliko nga bukton o tiil.</li>
+      <li>Pahunong una ang dugo (pugngi gamit ang limpyo nga tela). Taplaki ang bukas nga samad.</li>
+      <li>Sa splint ipalig-on ang bahin: tul-id nga sungkod, rolyo nga diyaryo o gipilo nga karton sa duha ka kilid, higta gamit ang tela sa ibabaw ug ubos sa samad. Ayaw pag-higot og hugot kaayo: ang tudlo kinahanglan nga mahabilin nga rosas ug mainit.</li>
+      <li>Ipataas kini kaysa kasingkasing kung mahimo. Cold nga tela sa hubag sulod sa 20 ka minuto sa matag higayon, ayaw ibutang ang yelo direkta sa panit.</li>
+      <li>Adto sa doktor o ospital. Gamita ang stretcher o pas-ana ang tawo kung ang tiil, hips, likod o liog ang nasamdan.</li></ol>
+      <p class="hint">Samad sa liog o likod, o ang bukog migawas sa panit: ayaw ibalhin ang tawo gawas kung naay peligro (sunog, pagkahugno). Mohangyo og tabang.</p>` },
+    gd19: { title: "Heat stroke (pagkaluya sa kainit)", html: `
+      <p>Timailhan: init kaayo nga panit, kalibog, paghikap, paspas nga pulso, sakit sa ulo, kombulsyon. Mahimong mohunong ang tawo sa pagpawis. Emergency kini.</p>
+      <ol><li>Ibalhin ang tawo sa landong o bugnaw nga dapit. Mohangyo og tabang (911) o dad-a sa ospital.</li>
+      <li>Hukasa ang sobra nga sinina. Palabyon dayon ang lawas: basa nga tela o espongha sa liog, ilok ug singit, palaypayi ang tawo, ug ibubo ang bugnaw (dili yelo) nga tubig sa panit.</li>
+      <li>Kung bug-os nga mata ug makalulun, hatagi og gamay nga tulo-tulo nga bugnaw nga tubig. Ayaw pugsa ang tawo nga naay kalibog o inantok.</li>
+      <li>Padayon sa pagpabugnaw hangtud moabot ang tabang. Kung mohunong ang tawo sa pagtubag o paghinga, sugdi ang CPR.</li></ol>
+      <p class="hint">Paglikay: inom og tubig kanunay, pahulay sa landong sa udto, ug ayaw biyai ang bata o tigulang sa sirado nga sakyanan o init nga lawak.</p>` },
+    gd20: { title: "Pangaon sa man-og ug iro", html: `
+      <p><b>Pangaon sa man-og</b></p>
+      <ol><li>Dumili sa man-og. Pakalmaha ang tawo ug pabilina nga dili maglihok: ang paglihok nagpadali sa pagkaylap sa hilo.</li>
+      <li>Pabilina ang gipangaon nga bukton o tiil nga dili maglihok ug gamay nga mas ubos kaysa kasingkasing. Hukasa ang singsing ug relo sa dili pa mohubag.</li>
+      <li>Adto dayon sa ospital. Pas-ana ang tawo kung mahimo. Kung luwas, hinumdomi kung unsa ang hitsura sa man-og. Ayaw ihaw o dakpa kini.</li></ol>
+      <p><b>Ayaw</b> pagtigi sa samad, ayaw suyopa, ayaw sunoga, ayaw gamita ang hugot nga higot, ug ayaw butangi og tambal nga dahon o yelo.</p>
+      <p><b>Pangaon sa iro, iring o ubang hayop</b></p>
+      <ol><li>Hugasi dayon ang samad gamit ang sabon ug mahinagayon nga tubig sulod sa 15 ka minuto.</li>
+      <li>Adto sa animal bite center o health center sa samang adlaw alang sa bakuna kontra rabies, bisan kung himsog tan-awon ang hayop. Kung mahimo, bantayi ang hayop.</li></ol>
+      <p class="hint">Ang rabies halos kanunay makamatay kung nagsugod na ang sintomas, apan ang bakuna nga gihatag sayo makapugong niini.</p>` },
+    gd21: { title: "Human sa baha: hugaw nga tubig ug leptospirosis", html: `
+      <p>Ang tubig-baha ug lapok mahimong magdala og mikrobyo gikan sa ihi sa hayop, hugaw ug samad. Usa niini ang leptospirosis.</p>
+      <ol><li>Likayi ang tubig-baha kung mahimo. Kung kinahanglan nga molakaw, magsul-ob og taas nga botas ug taplaki ang samad. Ayaw paligo, ug ayaw pasagdi nga magduwa ang bata niini.</li>
+      <li>Maghugas gamit ang sabon ug limpyong tubig human niini, ug uga-a ang tiil. Hinloi ang bisan unsang samad ug pabilina nga natabonan.</li>
+      <li>Ayaw inom sa tubig-baha o gamita sa paghugas og pagkaon o plato. Pagpabukal og tubig sulod sa 1 ka minuto una, o gamita ang imong tablet sa pagpanglimpyo sa tubig o bleach.</li>
+      <li>Ilabay ang pagkaon nga nahikap sa tubig-baha, gawas sa selyado nga lata nga mahimo nimong hugasan ug uga-on una.</li></ol>
+      <p><b>Adto sa health center sulod sa 1 ngadto sa 2 ka adlaw</b> kung naglakaw ka sa tubig-baha, labi na kung naay samad. Mahimo kang hatagan og tambal alang sa paglikay. Adto dayon kung makabaton og hilanat, pula nga mata, hilabihang sakit sa kaunoran (labi na sa bitiis), dilaw nga panit o mata, o mikunhod ang ihi sa misunod nga mga semana.</p>
+      <p class="hint">Ayaw hurot og tambal nga ikaw ra. Ang health worker ang mohukom.</p>` },
+    gd22: { title: "Pagkakuryente ug nahulog nga alambre", html: `
+      <ol><li>Ayaw hikapa ang tawo o ang alambre. Mahimong moagi kanimo ang kuryente.</li>
+      <li>Patya ang kuryente sa main switch o breaker kung luwas nimo kini maabot, o pahangyoa ang usa ka tawo nga tawagan ang kompanya sa kuryente.</li>
+      <li>Kung dili nimo mapatay, isalibay ang tawo o alambre gamit ang uga nga butang nga dili mokonduktor, sama sa uga nga sungkod nga kahoy o uga nga silya nga plastik. Barog sa uga nga butang.</li>
+      <li>Mohangyo og tabang (911). Kung luwas na, susiha ang paghinga. Kung dili na mo-hinga, sugdi ang CPR.</li>
+      <li>Ang paso gikan sa kuryente mahimong lawom. Tabuni kini sa limpyo nga tela ug dad-a ang tawo sa doktor, bisan kung maayo ang iyang gibati.</li></ol>
+      <p><b>Nahulog nga alambre sa gawas:</b> pabilin labing menos 10 metros ang gilay-on (mga duha ka dugayon sa jeepney), pasidaan ang uban, ug ilhon ang matag alambre nga naay kuryente. Kung ang alambre mohikap sa imong sakyanan, pabilin sa sulod ug hulata ang tabang gawas kung naay sunog.</p>
+      <p class="hint">Human sa baha o bagyo, ayaw hikapa ang switch o appliance nga basa ang kamot o nagtindog sa tubig.</p>` },
+    gd23: { title: "Timailhan sa stroke ug atake sa kasingkasing", html: `
+      <p><b>Stroke: hinumdomi ang FAST</b></p>
+      <ul><li><b>F</b>ace (nawong): ang usa ka kilid nanglubay kung mongisi.</li>
+      <li><b>A</b>rms (bukton): ang usa ka bukton mahuyang o mokunhod kung gipataas ang duha.</li>
+      <li><b>S</b>peech (pagsulti): mabantok, katingad-an, o dili makasulti.</li>
+      <li><b>T</b>ime (oras): tawag sa 911 ug adto dayon sa ospital. Hinumdomi kung kanus-a nagsugod.</li></ul>
+      <p>Kalit nga grabeng sakit sa ulo, pagkawala sa panan-aw, o kalisud sa paglakaw mahimo usab nga stroke. Ayaw hatagi og pagkaon o inumon.</p>
+      <p><b>Atake sa kasingkasing</b></p>
+      <ul><li>Pabug-at, pugos o sakit sa dughan, mokaylap sa bukton, apapangig, liog o likod. Pagpawis, pagkahilo, kakulang sa gininhawa. Ang mga babaye ug tigulang mahimong mobati lang og kakapoy, kasakit o kakulang sa gininhawa.</li>
+      <li>Mohangyo dayon og tabang. Paglingkura ang tawo, luagi ang hugot nga sinina, ug pabilina nga kalmado ug dili maglihok.</li>
+      <li>Kung mohunong siya sa pagtubag ug dili normal ang paghinga, sugdi ang CPR.</li></ul>
+      <p class="hint">Ayaw paghulat nga mawala ra. Importante ang minuto. Ayaw pasagdi nga maglakaw o magmaneho siya nga mag-inusara.</p>` },
+    gd24: { title: "Tagas sa gas (LPG)", html: `
+      <p>Naamoy nimo ang gas (murag bulok nga itlog o repolyo), nadunggan ang sitsit, o nagtagas ang tangke.</p>
+      <ol><li>Walay siga. Walay posporo, lighter o kandila. Ayaw i-on o i-off ang suga, bentilador o telepono, ug ayaw bunsa ang plug: ang kislap mahimong makasiga sa gas.</li>
+      <li>Kung luwas ug paspas, sirad-i ang balbula sa tangke (lingia paingon sa tuo).</li>
+      <li>Abri ang mga pultahan ug bintana. Paggawa ang tanan sa gawas, layo sa balay, ug pabilina ang bata ug mga binuhi nga kauban nimo.</li>
+      <li>Gikan sa luwas nga gilay-on, tawga ang estasyon sa bomba (BFP) o ang imong barangay. Ayaw na pag-balik sa sulod.</li>
+      <li>Biyai ang tangke sa gawas sa abli nga dapit hangtud nga masusi sa propesyonal. Ayaw pagsulay og tagas gamit ang siga. Hagoti og tubig nga sabon ang mga dugtong: ang mga bula nagpakita og tagas.</li></ol>
+      <p class="hint">Ibutang ang tangke nga nagbarog, sa gawas o abli nga dapit, layo sa init. Ilisan ang daan nga hose ug regulator.</p>` },
+    gd25: { title: "Hilanat ug dengue", html: `
+      <p>Ang dengue mokaylap pinaagi sa lamok nga mopaak sa adlaw. Kuwestiyona kini kung kalit ug taas nga hilanat sulod sa 2 ngadto sa 7 ka adlaw, grabeng sakit sa ulo, sakit sa luyo sa mata, sakit sa lawas ug lutahan, o pantal.</p>
+      <ol><li>Pahulay ug inom og daghang tubig (tubig, oral rehydration solution, sabaw).</li>
+      <li>Alang sa hilanat o sakit, paracetamol lang. <b>Ayaw</b> inom og aspirin o ibuprofen: mahimo kining makapakusog sa pagdugo.</li>
+      <li>Magpakonsulta sa doktor sayo. Ayaw paghulat nga mograbe.</li></ol>
+      <p><b>Adto dayon sa ospital</b> kung mikunhod ang hilanat apan mograbe ang tawo: grabeng sakit sa tiyan, dili mohunong nga pagsuka, pagdugo (gilagid, ilong, itom nga tae), bugnaw o basa nga panit, hilabihang ka-antukon o kakulba, o lisod mamata.</p>
+      <p><b>Paglikay (4S):</b> Pangitaa ug laglagon ang mga dapit nga nagtigom og tubig (lata, goma, kaldero, alulod); Panalipod sa kaugalingon gamit ang taas nga sinina ug repellent; Sayo nga pagpakonsulta; Suportahi ang pag-spray kung naay outbreak. Tabuni ang sudlanan sa tubig ug ilisi kada semana ang tubig sa plorera.</p>
+      <p class="hint">Ang bisan unsang hilanat sa masuso nga ubos sa 3 ka bulan, o hilanat nga molapas sa 3 ka adlaw sa bisan kinsa, kinahanglan og doktor.</p>` }
   }
 };
 

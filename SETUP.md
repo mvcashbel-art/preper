@@ -144,3 +144,8 @@ Everything you type stays on your own phone.
 - Warnings when the app is closed: see the separate `andam-push-alerts` package and its README.
 - New files to upload: `mapview.js` and the `lib` folder (`lib/leaflet.js`). Leaflet is BSD-2 licensed.
 - Offline status should now say 27 files saved.
+
+## v20
+- 9 new quick guides (Guides tab, "Quick guides"), each in English and Bisaya: Choking, Broken bone or sprain, Heat stroke, Snake and dog bites, After a flood (dirty water and leptospirosis), Electric shock and fallen wires, Stroke and heart attack signs, Gas (LPG) leak, Fever and dengue.
+- Upload the changed files: `data.js`, `i18n.js`, `sw.js`, and this `SETUP.md`. Settings should still say 27 files saved.
+- Please have a Bisaya speaker read the new Bisaya text once. These are first-aid and safety instructions, so wording matters.

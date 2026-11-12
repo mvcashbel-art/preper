@@ -451,5 +451,106 @@ const GUIDES = [
       <li>Take your documents in a plastic bag.</li>
       <li>Lock up. Tell your family and a neighbor where you are going.</li>
       <li>Go to your evacuation center by the safe route. Never walk or drive through floodwater.</li>
-    </ol>` }
+    </ol>` },
+  { id: "gd17", title: "Choking", html: `
+    <p>Act if the person cannot speak, cough or breathe, or grabs their throat. If they can cough, let them keep coughing.</p>
+    <p><b>Adult or child over 1 year:</b></p>
+    <ol>
+      <li>Shout for help. Stand behind the person.</li>
+      <li>Give 5 hard back blows between the shoulder blades with the heel of your hand.</li>
+      <li>Then give up to 5 abdominal thrusts: make a fist above the belly button, grip it with your other hand, and pull hard inward and upward.</li>
+      <li>Keep alternating 5 back blows and 5 thrusts until the object comes out or the person collapses.</li>
+    </ol>
+    <p><b>Baby under 1 year:</b> lay the baby face down along your forearm, head lower than the body. Give 5 back blows, then turn the baby over and give 5 chest thrusts with two fingers in the middle of the chest. Repeat.</p>
+    <p>If the person stops responding, call for help and start CPR. Anyone who was choking should be checked by a doctor afterward.</p>
+    <p class="hint">Pregnant or very large person: give chest thrusts instead of abdominal thrusts.</p>` },
+  { id: "gd18", title: "Broken bone or sprain", html: `
+    <p>Signs: strong pain, swelling, a bent or odd shape, cannot move or put weight on it.</p>
+    <ol>
+      <li>Keep the person still. Do not try to straighten a bent limb.</li>
+      <li>Stop any bleeding first (press with a clean cloth). Cover open wounds.</li>
+      <li>Hold the limb still with a splint: a straight stick, rolled newspaper or folded cardboard on both sides, tied with cloth above and below the injury. Not too tight: fingers and toes must stay pink and warm.</li>
+      <li>Rest it higher than the heart if you can. Cold cloth on the swelling for 20 minutes at a time, never ice directly on skin.</li>
+      <li>Get to a doctor or hospital. Use a stretcher or carry the person if the leg, hip, back or neck is hurt.</li>
+    </ol>
+    <p class="hint">Neck or back injury, or a bone coming through the skin: do not move the person unless there is danger (fire, collapse). Call for help.</p>` },
+  { id: "gd19", title: "Heat stroke", html: `
+    <p>Signs: very hot skin, confusion, fainting, fast pulse, headache, seizures. The person may stop sweating. This is an emergency.</p>
+    <ol>
+      <li>Move the person to shade or a cool place. Call for help (911) or get them to a hospital.</li>
+      <li>Take off extra clothing. Cool the body fast: wet cloths or a sponge on the neck, armpits and groin, fan the person, pour cool (not ice-cold) water on the skin.</li>
+      <li>If fully awake and able to swallow, give small sips of cool water. Never force drinks on someone who is confused or drowsy.</li>
+      <li>Keep cooling until help comes. If the person stops responding or breathing, start CPR.</li>
+    </ol>
+    <p class="hint">Prevent it: drink water often, rest in shade at midday, and never leave a child or older person in a closed car or hot room.</p>` },
+  { id: "gd20", title: "Snake and dog bites", html: `
+    <p><b>Snake bite</b></p>
+    <ol>
+      <li>Move away from the snake. Keep the person calm and still: movement spreads venom faster.</li>
+      <li>Keep the bitten arm or leg still and a little below the heart. Take off rings and watches before it swells.</li>
+      <li>Go to a hospital now. Carry the person if you can. If you can do it safely, note what the snake looked like. Do not chase or catch it.</li>
+    </ol>
+    <p><b>Do not</b> cut the bite, suck it, burn it, use a tight tourniquet, or put herbs or ice on it.</p>
+    <p><b>Dog, cat or other animal bite</b></p>
+    <ol>
+      <li>Wash the wound right away with soap and running water for 15 minutes.</li>
+      <li>Go to an animal bite center or health center the same day for rabies shots, even if the animal looked healthy. If you can, keep the animal under watch.</li>
+    </ol>
+    <p class="hint">Rabies is almost always deadly once symptoms start, but shots given early prevent it.</p>` },
+  { id: "gd21", title: "After a flood: dirty water and leptospirosis", html: `
+    <p>Floodwater and mud can carry germs from animal urine, sewage and cuts. Leptospirosis is one of them.</p>
+    <ol>
+      <li>Stay out of floodwater when you can. If you must wade, wear tall boots and cover cuts. Do not swim, and do not let children play in it.</li>
+      <li>Wash with soap and clean water afterward, and dry your feet. Clean any cut and keep it covered.</li>
+      <li>Do not drink floodwater or use it to wash food or dishes. Boil water for 1 minute first, or use your water treatment tablets or bleach.</li>
+      <li>Throw away food that touched floodwater, except sealed cans, which you can wash and dry first.</li>
+    </ol>
+    <p><b>Go to a health center within 1 to 2 days</b> if you waded in floodwater, especially with a cut. They may give a preventive medicine. Go at once if you get fever, red eyes, bad muscle pain (especially calves), yellow skin or eyes, or less urine in the weeks that follow.</p>
+    <p class="hint">Do not take medicine for this on your own. Let the health worker decide.</p>` },
+  { id: "gd22", title: "Electric shock and fallen wires", html: `
+    <ol>
+      <li>Do not touch the person or the wire. Electricity can pass through you.</li>
+      <li>Switch off the power at the main switch or breaker if you can reach it safely, or ask someone to call the electric company.</li>
+      <li>If you cannot switch it off, push the person or the wire away with something dry that does not conduct, such as a dry wooden stick or a dry plastic chair. Stand on something dry.</li>
+      <li>Call for help (911). Once it is safe, check breathing. If the person is not breathing, start CPR.</li>
+      <li>Burns from electric shock can be deep. Cover them loosely with a clean cloth and get the person to a doctor, even if they feel fine.</li>
+    </ol>
+    <p><b>Fallen wire outside:</b> stay at least 10 meters away (about two jeepney lengths), warn others, and treat every wire as live. If a wire touches your car, stay inside and wait for help unless there is fire.</p>
+    <p class="hint">After a flood or typhoon, never touch switches or appliances with wet hands or while standing in water.</p>` },
+  { id: "gd23", title: "Stroke and heart attack signs", html: `
+    <p><b>Stroke: think FAST</b></p>
+    <ul>
+      <li><b>F</b>ace: one side droops when they smile.</li>
+      <li><b>A</b>rms: one arm is weak or drifts down when both are raised.</li>
+      <li><b>S</b>peech: slurred, strange, or they cannot speak.</li>
+      <li><b>T</b>ime: call 911 and go to a hospital right away. Note when it started.</li>
+    </ul>
+    <p>Sudden bad headache, loss of vision, or trouble walking can also be a stroke. Do not give food or drink.</p>
+    <p><b>Heart attack</b></p>
+    <ul>
+      <li>Pressure, squeezing or pain in the chest, spreading to the arm, jaw, neck or back. Sweating, nausea, short breath. Women and older people may only feel tired, sick or short of breath.</li>
+      <li>Call for help at once. Sit the person down, loosen tight clothing, and keep them calm and still.</li>
+      <li>If they stop responding and are not breathing normally, start CPR.</li>
+    </ul>
+    <p class="hint">Do not wait to see if it passes. Minutes matter. Do not let them walk or drive themselves.</p>` },
+  { id: "gd24", title: "Gas (LPG) leak", html: `
+    <p>You smell gas (like rotten eggs or cabbage), hear a hiss, or the tank is leaking.</p>
+    <ol>
+      <li>No flames. No matches, lighters or candles. Do not switch lights, fans or phones on or off, and do not unplug anything: a spark can ignite the gas.</li>
+      <li>If it is safe and quick, close the valve on the tank (turn clockwise).</li>
+      <li>Open doors and windows. Get everyone outside, away from the house, and keep children and pets with you.</li>
+      <li>From a safe distance, call the fire station (BFP) or your barangay. Do not go back in.</li>
+      <li>Leave the tank outside in the open until a professional has checked it. Never test for leaks with a flame. Brush soapy water on joints: bubbles show a leak.</li>
+    </ol>
+    <p class="hint">Store the tank upright, outside or in an open place, away from heat. Replace old hoses and regulators.</p>` },
+  { id: "gd25", title: "Fever and dengue", html: `
+    <p>Dengue spreads by day-biting mosquitoes. Suspect it with sudden high fever for 2 to 7 days, bad headache, pain behind the eyes, body and joint pain, or a rash.</p>
+    <ol>
+      <li>Rest and drink plenty of fluids (water, oral rehydration solution, soup).</li>
+      <li>For fever or pain, paracetamol only. Do <b>not</b> take aspirin or ibuprofen: they can make bleeding worse.</li>
+      <li>See a doctor early. Do not wait for it to get worse.</li>
+    </ol>
+    <p><b>Go to a hospital immediately</b> when the fever drops but the person gets worse: severe belly pain, vomiting that will not stop, bleeding (gums, nose, black stool), cold or clammy skin, very sleepy or restless, or hard to wake.</p>
+    <p><b>Prevent it (4S):</b> Search and destroy places where water collects (cans, tires, pots, gutters); Self-protection with long sleeves and repellent; Seek early consultation; Support spraying in outbreaks. Cover water containers and change flower vase water weekly.</p>
+    <p class="hint">Any fever in a baby under 3 months, or a fever that lasts more than 3 days in anyone, needs a doctor.</p>` }
 ];
