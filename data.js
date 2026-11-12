@@ -552,5 +552,47 @@ const GUIDES = [
     </ol>
     <p><b>Go to a hospital immediately</b> when the fever drops but the person gets worse: severe belly pain, vomiting that will not stop, bleeding (gums, nose, black stool), cold or clammy skin, very sleepy or restless, or hard to wake.</p>
     <p><b>Prevent it (4S):</b> Search and destroy places where water collects (cans, tires, pots, gutters); Self-protection with long sleeves and repellent; Seek early consultation; Support spraying in outbreaks. Cover water containers and change flower vase water weekly.</p>
-    <p class="hint">Any fever in a baby under 3 months, or a fever that lasts more than 3 days in anyone, needs a doctor.</p>` }
+    <p class="hint">Any fever in a baby under 3 months, or a fever that lasts more than 3 days in anyone, needs a doctor.</p>` },
+  { id: "gd26", title: "Drowning and water rescue", html: `
+    <p>Many rescuers drown trying to save someone. <b>Do not jump in</b> unless you are trained.</p>
+    <ol>
+      <li>Shout for help and send someone to call 911.</li>
+      <li><b>Reach or throw.</b> Hold out a pole, branch or cloth from the shore while you lie down or hold something solid. Or throw a rope, a floating bottle, a plastic jug or a cooler.</li>
+      <li>Pull the person to safety. Lay them on their back on firm ground.</li>
+      <li>If the person is <b>not breathing</b>: tilt the head back and give <b>5 rescue breaths</b> mouth to mouth. Then start chest compressions (see the CPR guide) and keep going until help comes or the person breathes.</li>
+      <li>If breathing: put them on their side, take off wet clothes and cover them with something dry and warm.</li>
+    </ol>
+    <p><b>Everyone who nearly drowned needs a doctor</b>, even if they seem fine. Water in the lungs can cause trouble hours later.</p>
+    <p class="hint">In a flood, never walk or drive through moving water. 15 cm of fast water can knock an adult down.</p>` },
+  { id: "gd27", title: "Lightning", html: `
+    <p>If you can hear thunder, you are close enough to be hit.</p>
+    <ol>
+      <li>Go <b>inside a building</b> or a car with a hard roof. Close the windows.</li>
+      <li>Stay away from windows, wires, metal pipes, taps and anything plugged in. Unplug appliances if you can do it early.</li>
+      <li>Outside with no shelter: get off hills, open fields, beaches and the water. Stay away from tall lone trees, poles and metal fences. <b>Last resort only:</b> crouch low on the balls of your feet with your head tucked in. Do not lie flat.</li>
+      <li>Wait <b>30 minutes</b> after the last thunder before you go out again.</li>
+    </ol>
+    <p><b>A person hit by lightning is safe to touch.</b> Call 911. If they are not breathing, start CPR right away. Many people hit by lightning survive when CPR is started early.</p>
+    <p class="hint">Count the seconds between flash and thunder. If it is under 30, go in now.</p>` },
+  { id: "gd28", title: "Cuts, wounds and infection", html: `
+    <ol>
+      <li>Wash your hands first, or use clean gloves.</li>
+      <li><b>Stop the bleeding</b> by pressing firmly with a clean cloth. (For heavy bleeding, see the Heavy bleeding guide.)</li>
+      <li>Rinse the wound with a lot of clean running water, for several minutes. Safe boiled-and-cooled water is fine. Remove dirt gently.</li>
+      <li>Cover with a clean bandage or cloth. Change it every day, and whenever it is wet or dirty.</li>
+      <li>Check the <b>tetanus shot</b>. If it is more than 5 to 10 years old, or you do not know, or the wound is dirty or deep, ask a clinic for a booster.</li>
+    </ol>
+    <p><b>See a doctor</b> for a deep or gaping cut, a bite, a wound from rusty metal, or a wound with dirt you cannot get out.</p>
+    <p><b>Signs of infection:</b> more redness, swelling or pain after the second day, warm skin, pus or a bad smell, red lines going up the arm or leg, or fever. Go to a clinic the same day.</p>
+    <p class="hint">Do not put alcohol, soy sauce, toothpaste or coffee on a wound. They harm the skin.</p>` },
+  { id: "gd29", title: "Fever in a child", html: `
+    <ol>
+      <li>Give <b>plenty of fluids</b>: breast milk, water, oral rehydration solution. Small sips often.</li>
+      <li>Dress the child lightly. A lukewarm sponge bath is fine. No cold water or alcohol rubs.</li>
+      <li>For discomfort, you may give <b>paracetamol</b>. Follow the label for the child's weight and age, or ask a pharmacist or doctor. <b>Never give aspirin to a child.</b></li>
+      <li>Watch the child. A child who drinks, plays a little and wakes easily is usually okay.</li>
+    </ol>
+    <p><b>Go to a doctor or hospital now</b> if: the baby is under 3 months old with any fever; the fever lasts more than 3 days; the child is very sleepy, hard to wake or limp; has a stiff neck, a rash that does not fade when pressed, trouble breathing, will not drink, keeps vomiting, or has little or no urine.</p>
+    <p><b>If the child has a seizure (fits):</b> lay them on their side on a soft place, move hard things away, do not put anything in the mouth, and do not hold them down. Note the time. Most stop within 5 minutes. Call for help if it lasts more than 5 minutes, or if it is the first time.</p>
+    <p class="hint">Dengue and measles can start as a plain fever. See the Fever and dengue guide too.</p>` }
 ];

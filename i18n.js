@@ -264,7 +264,49 @@ const CEB = {
       <li>Magpakonsulta sa doktor sayo. Ayaw paghulat nga mograbe.</li></ol>
       <p><b>Adto dayon sa ospital</b> kung mikunhod ang hilanat apan mograbe ang tawo: grabeng sakit sa tiyan, dili mohunong nga pagsuka, pagdugo (gilagid, ilong, itom nga tae), bugnaw o basa nga panit, hilabihang ka-antukon o kakulba, o lisod mamata.</p>
       <p><b>Paglikay (4S):</b> Pangitaa ug laglagon ang mga dapit nga nagtigom og tubig (lata, goma, kaldero, alulod); Panalipod sa kaugalingon gamit ang taas nga sinina ug repellent; Sayo nga pagpakonsulta; Suportahi ang pag-spray kung naay outbreak. Tabuni ang sudlanan sa tubig ug ilisi kada semana ang tubig sa plorera.</p>
-      <p class="hint">Ang bisan unsang hilanat sa masuso nga ubos sa 3 ka bulan, o hilanat nga molapas sa 3 ka adlaw sa bisan kinsa, kinahanglan og doktor.</p>` }
+      <p class="hint">Ang bisan unsang hilanat sa masuso nga ubos sa 3 ka bulan, o hilanat nga molapas sa 3 ka adlaw sa bisan kinsa, kinahanglan og doktor.</p>` },
+    gd26: { title: "Nalumos ug pagluwas sa tubig", html: `
+    <p>Daghang nagluwas ang nalumos kay misulod sa tubig. <b>Ayaw og saka</b> sa tubig gawas kon nabansay ka.</p>
+    <ol>
+      <li>Singgit og tabang ug paadtoa ang usa nga motawag sa 911.</li>
+      <li><b>Abti o labay.</b> Ipaabot ang sungkod, sanga o panapton gikan sa daplin samtang nagpahigda ka o nagkupot sa lig-on nga butang. O labayi og pisi, botelya nga naay hangin, plastik nga galon o cooler.</li>
+      <li>Kuhaa ang tawo paingon sa luwas. Ipahigda siya nga nawong paingon sa itaas sa lig-on nga yuta.</li>
+      <li>Kon <b>wala siya nagginhawa</b>: ipaatras ang ulo ug hatagi og <b>5 ka ginhawa</b> gikan sa baba. Unya sugdi ang pagpislit sa dughan (tan-awa ang CPR nga giya) ug ayaw undang hangtod moabot ang tabang o mobalik ang ginhawa.</li>
+      <li>Kon nagginhawa: ipahigda siya sa kilid, hukasa ang basa nga bisti ug tabuni og uga ug init nga butang.</li>
+    </ol>
+    <p><b>Ang tanan nga hapit nalumos kinahanglan magpatan-aw sa doktor</b>, bisan kon murag maayo na. Ang tubig sa baga mahimong makadaot human sa pipila ka oras.</p>
+    <p class="hint">Kon baha, ayaw og tabok o drive sa nagaagos nga tubig. Ang 15 sentimetros nga kusog nga tubig makapukan sa hamtong.</p>` },
+    gd27: { title: "Kilat", html: `
+    <p>Kon nadungog nimo ang dalugdog, duol na ka aron tamaan.</p>
+    <ol>
+      <li>Sulod sa <b>building</b> o sakyanan nga naay lig-on nga atop. Sirad-i ang mga bintana.</li>
+      <li>Ilakaw gikan sa bintana, alambre, puthaw nga tubo, gripo ug bisan unsang naka-plug. I-unplug ang mga gamit kon kaya sa sayo.</li>
+      <li>Kon naa ka sa gawas ug walay silungan: biya sa bungtod, abli nga uma, baybayon ug tubig. Ilakaw gikan sa nag-inusarang taas nga kahoy, poste ug puthaw nga koral. <b>Kataposang paagi lang:</b> molingkod nga ubos, tiilan lang ang naghikap sa yuta ug ang ulo gi-tago. Ayaw pagpahigda.</li>
+      <li>Paabota ang <b>30 minutos</b> human sa katapusang dalugdog sa dili pa mogawas.</li>
+    </ol>
+    <p><b>Luwas hikapon ang tawo nga natamaan sa kilat.</b> Tawag sa 911. Kon wala siya nagginhawa, sugdi dayon ang CPR. Daghan ang naluwas kon sayo nasugdan ang CPR.</p>
+    <p class="hint">Isipa ang segundo tali sa lamiaw ug dalugdog. Kon ubos sa 30, sulod na dayon.</p>` },
+    gd28: { title: "Samad, hiwa ug impeksyon", html: `
+    <ol>
+      <li>Hugasi una ang imong kamot, o gamita ang limpyong guwantes.</li>
+      <li><b>Patya ang pagdugo</b> pinaagi sa lig-on nga pagpislit gamit ang limpyong panapton. (Kon grabe ang dugo, tan-awa ang giya sa Grabeng pagdugo.)</li>
+      <li>Hugasi ang samad sa daghang limpyong tubig nga nagaagos, sulod sa pipila ka minutos. Okay ang luwas nga gilat-an ug gipabugnaw nga tubig. Kuhaa ang hugaw nga hinayhinay.</li>
+      <li>Tabuni og limpyong benda o panapton. Ilisi kada adlaw, ug kon basa o hugaw na.</li>
+      <li>Susiha ang <b>tetanus shot</b>. Kon sobra na sa 5 hangtod 10 ka tuig, o wala nimo mahibaw-i, o hugaw o lawom ang samad, pangayo og booster sa klinika.</li>
+    </ol>
+    <p><b>Magpatan-aw sa doktor</b> kon lawom o nagbuka ang hiwa, nasaksak o nakagat, naigo sa daan nga puthaw, o naay hugaw nga dili mawagtang.</p>
+    <p><b>Timailhan sa impeksyon:</b> mas pula, mas bukol o mas sakit human sa ikaduhang adlaw, init nga panit, nana o dili maayong baho, pula nga linya paingon sa buton o tiil, o hilanat. Adto sa klinika sa samang adlaw.</p>
+    <p class="hint">Ayaw butangi og alkohol, toyo, toothpaste o kape ang samad. Makadaot kini sa panit.</p>` },
+    gd29: { title: "Hilanat sa bata", html: `
+    <ol>
+      <li>Hatagi og <b>daghang ilimnon</b>: gatas sa inahan, tubig, oral rehydration solution. Gamay nga lamoy, kanunay.</li>
+      <li>Sul-ia og nipis nga bisti ang bata. Okay ang punas sa bugnaw-bugnaw nga tubig. Ayaw og bugnaw kaayo nga tubig o alkohol.</li>
+      <li>Para sa kasakit, mahimo nimo hatagan og <b>paracetamol</b>. Sunda ang label base sa gibug-aton ug edad sa bata, o pangutan-a ang parmasyutiko o doktor. <b>Ayaw gayud hatagi og aspirin ang bata.</b></li>
+      <li>Bantayi ang bata. Kon moinom, magdula og gamay ug dali mahigmata, kasagaran okay ra.</li>
+    </ol>
+    <p><b>Adto dayon sa doktor o ospital</b> kon: ubos sa 3 ka bulan ang bata ug naay bisan unsang hilanat; molapas sa 3 ka adlaw ang hilanat; sulop kaayo, lisod pukawon o luya; gahi ang liog, naay pantal nga dili mawala kon pislitan, lisod ginhawa, dili moinom, kanunay og suka, o gamay ra kaayo o walay ihi.</p>
+    <p><b>Kon masuko (nagkurog-kurog) ang bata:</b> ipahigda sa kilid sa humok nga lugar, ilakaw ang gahi nga butang, ayaw butangi og bisan unsa ang baba, ug ayaw pugngi. Hinumdomi ang oras. Kasagaran mohunong sulod sa 5 minutos. Mangayo og tabang kon molapas sa 5 minutos, o kon unang higayon.</p>
+    <p class="hint">Ang dengue ug tipdas mahimong magsugod sa yano nga hilanat. Basaha usab ang giya sa Hilanat ug dengue.</p>` }
   }
 };
 

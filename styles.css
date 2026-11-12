@@ -159,7 +159,8 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none}
 /* bottom nav */
 .nav{position:fixed;inset:auto 0 0 0;z-index:30;background:var(--surface);box-shadow:var(--shadow);
   padding-bottom:env(safe-area-inset-bottom)}
-.nav .wrap{display:grid;grid-template-columns:repeat(7,1fr);padding:0}
+.nav .wrap{display:grid;grid-template-columns:repeat(var(--n,4),1fr);padding:0}
+.nav button[hidden]{display:none}
 .nav button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:.15rem;
   padding:.5rem .1rem .45rem;min-height:3.6rem;font-size:.7rem;color:var(--muted);position:relative}
 .nav svg{width:1.55rem;height:1.55rem}
@@ -519,7 +520,7 @@ details.guide.hw,details.cat{scroll-margin-top:4.2rem}
 .stkitem .stkname{flex:1 1 7rem;font-weight:600;overflow-wrap:anywhere;min-width:0}
 .stkitem .stkqty{color:var(--muted);font-size:.85rem}
 .stkitem .stkbody{padding:.2rem 0 .8rem}
-@media (max-width:420px){.nav button{font-size:.62rem}}
+@media (max-width:420px){.nav button{font-size:.68rem}}
 
 .grpl{align-self:center;color:var(--muted);font-size:.85rem;margin-right:.2rem}
 
@@ -1273,3 +1274,44 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .speakbtn[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
 .ppho img{display:block;width:12rem;max-width:100%;max-height:9rem;object-fit:cover;margin-top:.4rem;border-radius:.3rem}
 @media print{body.pid>*:not(#iddlg){display:none!important}body.pid #iddlg{display:block!important;position:static!important;width:100%!important;height:auto!important}.noprint{display:none!important}}
+
+/* ---- Home, More, help, drill (v21) ---- */
+.hello{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.8rem}
+.hello h2{margin:0;font-size:1.5rem}
+.langrow{margin:0}
+.bigrow{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.4rem 0 1rem}
+.bigbtn{border:0;border-radius:1rem;padding:1.1rem .8rem;min-height:6.2rem;color:#fff;text-align:left;display:flex;flex-direction:column;justify-content:center;gap:.25rem;cursor:pointer;font:inherit}
+.bigbtn span{font-size:1.3rem;font-weight:800;line-height:1.15}
+.bigbtn small{font-size:.85rem;opacity:.95}
+.bigbtn.danger{background:#A8321D}
+.bigbtn.ok{background:#1E7A4C}
+.bigbtn:active{transform:scale(.98)}
+.firststeps .fsrow{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-top:1px solid var(--line)}
+.firststeps .fsrow:first-of-type{border-top:0}
+.firststeps .fsrow span:nth-child(2){flex:1}
+.firststeps .fsrow.done{opacity:.6}
+.fsmark{font-weight:800;color:var(--accent)}
+.situ{display:grid;gap:.45rem;margin:.4rem 0 1rem}
+.situbtn{display:flex;justify-content:space-between;align-items:center;gap:.6rem;text-align:left;width:100%;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:.8rem;padding:.85rem 1rem;font:inherit;font-size:1.02rem;font-weight:600;cursor:pointer;min-height:3.2rem}
+.situbtn span:last-child{font-size:1.4rem;color:var(--accent)}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.4rem 0 1rem}
+.tile{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:1rem;padding:.9rem .8rem;display:flex;flex-direction:column;align-items:flex-start;gap:.4rem;text-align:left;font:inherit;cursor:pointer;min-width:0}
+.tile b{font-size:1rem}
+.tile .tag{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tic{display:inline-flex;width:2.6rem;height:2.6rem;border-radius:.8rem;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent);align-items:center;justify-content:center;flex:none}
+.tic svg{width:1.5rem;height:1.5rem}
+.tag.ok{background:color-mix(in srgb,var(--ok,#1f7a3d) 18%,transparent);color:var(--ok,#1f7a3d)}
+.tag.bad{background:color-mix(in srgb,var(--danger,#b3261e) 18%,transparent);color:var(--danger,#b3261e)}
+.tag.soon{background:color-mix(in srgb,#b26a00 20%,transparent);color:#8a5200}
+.morelist{display:grid;gap:.5rem;margin-top:.6rem}
+.morebtn{display:flex;align-items:center;gap:.8rem;text-align:left;width:100%;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:.9rem;padding:.75rem .9rem;font:inherit;cursor:pointer}
+.morebtn b{display:block;font-size:1.02rem}
+.morebtn small{display:block;color:var(--muted,inherit);opacity:.8;font-size:.85rem}
+.helpdlg .idin{display:grid;gap:.7rem}
+.bigcall{display:block;background:#A8321D;color:#fff;border-radius:1rem;padding:1rem;text-decoration:none;text-align:center}
+.bigcall b{display:block;font-size:2.6rem;line-height:1.1}
+.idcall.small b{font-size:1.15rem}
+.drillbig{font-size:4rem;font-weight:800;text-align:center;margin:.2rem 0;font-variant-numeric:tabular-nums;font-family:system-ui,sans-serif}
+.drillsteps{padding-left:1.2rem;font-size:1.05rem;display:grid;gap:.4rem}
+@media (max-width:360px){.bigrow,.tiles{grid-template-columns:1fr}}
+@media print{.sg ul ul{margin:0}}

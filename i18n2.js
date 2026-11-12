@@ -523,6 +523,47 @@ addX([
   ["Add a photo (for example the evacuation map or a route sign)", "Dugang og litrato (pananglitan ang evacuation map o karatula sa dalan)"]
 ]);
 
+/* ---- v21: Home, help, More, drill alarm, fridge sheet ---- */
+addX([
+  ["Home", "Home"], ["More", "Dugang"],
+  ["Hello! What do you need?", "Kumusta! Unsa imong kinahanglan?"],
+  ["I need help now", "Kinahanglan nako og tabang karon"], ["Call, text, first aid", "Tawag, text, unang tabang"],
+  ["I'm safe", "Luwas ako"], ["Tell my family", "Ipahibalo sa akong pamilya"],
+  ["What's happening?", "Unsa ang nahitabo?"], ["Check your things", "Susiha ang imong mga gamit"],
+  ["Tap to check", "Pislita aron susihon"], ["Warning", "Pasidaan"], ["Watch", "Bantayi"], ["All clear", "Walay peligro"],
+  ["Map", "Mapa"], ["My family", "Akong pamilya"], ["My things", "Akong mga gamit"], ["Family drill", "Praktis sa pamilya"], ["What to get next", "Unsa ang sunod nga paliton"],
+  ["Nothing added yet", "Wala pay nadugang"], ["item needs attention", "ka butang ang kinahanglan tutukan"], ["items need attention", "ka butang ang kinahanglan tutukan"], ["All OK", "Maayo tanan"],
+  ["number saved", "ka numero ang na-save"], ["numbers saved", "ka numero ang na-save"], ["Time to practice", "Panahon na sa praktis"], ["Done recently", "Bag-o lang gihimo"],
+  ["Everything in Andam", "Tanan sa Andam"], ["Get ready in 3 small steps", "Pagpangandam sa 3 ka gagmay nga lakang"],
+  ["Add your family's phone numbers", "Idugang ang numero sa telepono sa imong pamilya"], ["Choose a place where the family meets", "Pagpili og lugar nga pagatagboan sa pamilya"],
+  ["Write down the water you store", "Isulat ang tubig nga imong gitipigan"], ["Do it", "Buhata"],
+  ["Plan", "Plano"], ["The checklist of things to get", "Ang listahan sa mga butang nga paliton"], ["Get ready step by step", "Pagpangandam sa matag lakang"],
+  ["What you have stored and when it expires", "Unsay imong gitipigan ug kanus-a mahurot"], ["Radios, signals and how we reach each other", "Radyo, signal ug unsaon pag-kontak sa usag usa"],
+  ["Practice with your family, with an alarm and timer", "Pag-praktis uban sa pamilya, naay alarma ug timer"], ["Evacuation centers, hazards and help nearby", "Evacuation center, peligro ug tabang nga duol"],
+  ["Your medical details in big letters", "Imong medikal nga detalye sa dagko nga letra"], ["One page for the fridge", "Usa ka panid para sa pridyider"],
+  ["Language, text size, backup", "Pinulongan, gidak-on sa letra, backup"],
+  ["EMERGENCY HELP", "EMERGENCY NGA TABANG"], ["Emergency hotline", "Emergency hotline"], ["Philippine Red Cross", "Philippine Red Cross"],
+  ["Text my family: I need help", "I-text ang akong pamilya: kinahanglan nako og tabang"], ["Show my Emergency ID card", "Ipakita ang akong Emergency ID card"],
+  ["Call someone", "Tawagi ang usa"], ["First aid and danger, step by step", "Unang tabang ug peligro, matag lakang"],
+  ["First aid helps until a doctor can see the person. If you can, call for help first.", "Ang unang tabang makatabang hangtod makita sa doktor ang tawo. Kon kaya, mangayo una og tabang."],
+  ["Layout", "Pagkatakda"], ["Simple: 4 buttons at the bottom", "Yano: 4 ka buton sa ubos"], ["Full: more buttons at the bottom", "Tibuok: daghan pang buton sa ubos"],
+  ["Practice run with an alarm", "Praktis nga naay alarma"], ["Starts a timer. Everyone gets to the meeting place. Try it when everyone is home.", "Magsugod og timer. Ang tanan moadto sa tagboanan. Sulayi kon naa ang tanan sa balay."],
+  ["Start with alarm", "Sugdi nga naay alarma"], ["Start quietly", "Sugdi nga hilom"], ["Add the next drill to my calendar", "Idugang ang sunod nga praktis sa akong kalendaryo"], ["Last practice run", "Kataposang praktis"],
+  ["DRILL", "PRAKTIS"], ["DRILL DONE", "TAPOS NA ANG PRAKTIS"], ["Goal: everyone at the meeting place in 10 minutes.", "Tumong: ang tanan naa na sa tagboanan sulod sa 10 minutos."],
+  ["Drop, cover your head, hold on (until the shaking stops).", "Lugmok, taboni ang ulo, kapot (hangtod mohunong ang linog)."],
+  ["Take your go-bag and your family's papers.", "Dad-a ang go-bag ug ang papel sa pamilya."],
+  ["Walk to your meeting place together. Do not run.", "Lakaw nga magkuyog paingon sa tagboanan. Ayaw og dalagan."],
+  ["Count everyone. Call out each name.", "Isipa ang tanan. Tawga ang matag ngalan."],
+  ["We are all at the meeting place", "Naa na mi tanan sa tagboanan"],
+  ["Good. You were at the meeting place within 10 minutes.", "Maayo. Naa na mo sa tagboanan sulod sa 10 minutos."],
+  ["It took longer than 10 minutes. That is useful to know: find what slowed you down.", "Milapas sa 10 minutos. Mapuslanon kini nga mahibaw-an: pangitaa kon unsay nagpahinay."],
+  ["Save this drill", "I-save kining praktis"], ["Drill saved. Next one in about six months.", "Na-save ang praktis. Ang sunod mga unom ka bulan."],
+  ["Saved the calendar file. Open it to add the reminder to your calendar.", "Na-save ang file sa kalendaryo. Ablihi kini aron madugang ang pahinumdom."],
+  ["Evacuation", "Pagbakwit"], ["Route", "Dalan"], ["Stay away from", "Likayi ang"],
+  ["How to get to the evacuation center (roads, landmarks)", "Unsaon pag-adto sa evacuation center (dalan, landmark)"],
+  ["For example: down the main road, left at the church, past the bridge", "Pananglitan: ubos sa dakong dalan, wala sa simbahan, lapas sa taytayan"]
+]);
+
 /* ---- Levels: area names, intros, step titles ---- */
 addX([
   ["Food", "Pagkaon"],

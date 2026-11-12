@@ -37,6 +37,9 @@
 
 <nav class="nav" aria-label="Main">
   <div class="wrap">
+    <button data-a="tab" data-tab="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h5v-6h3v6h5V10"/></svg>
+      <span data-i="Home">Home</span></button>
     <button data-a="tab" data-tab="plan">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1.2 1.2L7 5M3.5 12l1.2 1.2L7 11M3.5 18l1.2 1.2L7 17"/></svg>
       <span data-i="Plan">Plan</span></button>
@@ -58,6 +61,9 @@
     <button data-a="tab" data-tab="drill">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg>
       <span data-i="Drill">Drill</span></button>
+    <button data-a="tab" data-tab="more">
+      <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><circle cx="5.5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="18.5" cy="12" r="1.9"/></svg>
+      <span data-i="More">More</span></button>
   </div>
 </nav>
 
@@ -66,6 +72,10 @@
 <dialog id="mapdlg" class="mapdlg" aria-label="Map"></dialog>
 
 <dialog id="iddlg" class="iddlg" aria-label="Emergency ID"></dialog>
+
+<dialog id="helpdlg" class="iddlg helpdlg" aria-label="Emergency help"></dialog>
+
+<dialog id="drilldlg" class="iddlg helpdlg" aria-label="Drill"></dialog>
 
 <dialog id="settings" aria-labelledby="settingsTitle">
   <div class="dlg">
@@ -83,6 +93,8 @@
     </div>
     <label class="field"><span>Language / Pinulongan</span>
       <select id="lang" data-bind="settings.lang" data-re="1"><option value="en">English</option><option value="ceb">Bisaya</option></select></label>
+    <label class="field"><span>Layout</span>
+      <select id="navmode" data-bind="settings.nav" data-re="1"><option value="simple">Simple: 4 buttons at the bottom</option><option value="full">Full: more buttons at the bottom</option></select></label>
     <label class="field"><span>Animations</span>
       <select id="motion" data-bind="settings.motion"><option value="auto">On (follow my phone's setting)</option><option value="off">Off (saves battery)</option></select></label>
 

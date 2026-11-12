@@ -149,3 +149,13 @@ Everything you type stays on your own phone.
 - 9 new quick guides (Guides tab, "Quick guides"), each in English and Bisaya: Choking, Broken bone or sprain, Heat stroke, Snake and dog bites, After a flood (dirty water and leptospirosis), Electric shock and fallen wires, Stroke and heart attack signs, Gas (LPG) leak, Fever and dengue.
 - Upload the changed files: `data.js`, `i18n.js`, `sw.js`, and this `SETUP.md`. Settings should still say 27 files saved.
 - Please have a Bisaya speaker read the new Bisaya text once. These are first-aid and safety instructions, so wording matters.
+
+## v21: friendlier Andam
+- **New Home screen** (first tab). Big buttons: "I need help now" (911, Red Cross 143, text the family, your ID card, call your people, first-aid guides) and "I'm safe" (texts your family). Below: "What's happening?" (earthquake, typhoon, flood, fire, someone hurt, fever, no power, no water, leaving home) opens the right guide in one tap. Tiles show warnings, family numbers, your stored things and the next drill. "Get ready in 3 small steps" shows until done.
+- **Simple layout by default**: only 4 buttons at the bottom (Home, Guides, Family, More). Everything else is under More. Settings > Layout > Full brings back the extra buttons.
+- English / Bisaya switch is on the Home screen.
+- **Fridge sheet** (More > Print the family sheet) now has evacuation centers, safe places, places to avoid and a route. Add the route in Family, under the meeting places.
+- **Drill alarm and timer** (Drill tab): "Start with alarm" plays a siren and vibrates, then counts up to the 10-minute goal. "Add the next drill to my calendar" makes a calendar file with reminders every 6 months. A closed web page cannot ring an alarm, so the calendar does that part.
+- 4 new guides, English and Bisaya: Drowning and water rescue, Lightning, Cuts/wounds and infection, Fever in a child.
+- Upload every changed file: `app.js`, `index.html`, `styles.css`, `data.js`, `i18n.js`, `i18n2.js`, `sw.js`, `SETUP.md`. No new files. Settings should still say 27 files saved.
+- Please have a Bisaya speaker read the new guides and the help screen once.

@@ -174,7 +174,8 @@ a.btn{display:inline-flex;align-items:center;text-decoration:none}
 /* bottom nav */
 .nav{position:fixed;inset:auto 0 0 0;z-index:30;background:var(--surface);box-shadow:var(--shadow);
   padding-bottom:env(safe-area-inset-bottom)}
-.nav .wrap{display:grid;grid-template-columns:repeat(7,1fr);padding:0}
+.nav .wrap{display:grid;grid-template-columns:repeat(var(--n,4),1fr);padding:0}
+.nav button[hidden]{display:none}
 .nav button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:.15rem;
   padding:.5rem .1rem .45rem;min-height:3.6rem;font-size:.7rem;color:var(--muted);position:relative}
 .nav svg{width:1.55rem;height:1.55rem}
@@ -534,7 +535,7 @@ details.guide.hw,details.cat{scroll-margin-top:4.2rem}
 .stkitem .stkname{flex:1 1 7rem;font-weight:600;overflow-wrap:anywhere;min-width:0}
 .stkitem .stkqty{color:var(--muted);font-size:.85rem}
 .stkitem .stkbody{padding:.2rem 0 .8rem}
-@media (max-width:420px){.nav button{font-size:.62rem}}
+@media (max-width:420px){.nav button{font-size:.68rem}}
 
 .grpl{align-self:center;color:var(--muted);font-size:.85rem;margin-right:.2rem}
 
@@ -1288,6 +1289,47 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .speakbtn[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
 .ppho img{display:block;width:12rem;max-width:100%;max-height:9rem;object-fit:cover;margin-top:.4rem;border-radius:.3rem}
 @media print{body.pid>*:not(#iddlg){display:none!important}body.pid #iddlg{display:block!important;position:static!important;width:100%!important;height:auto!important}.noprint{display:none!important}}
+
+/* ---- Home, More, help, drill (v21) ---- */
+.hello{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.8rem}
+.hello h2{margin:0;font-size:1.5rem}
+.langrow{margin:0}
+.bigrow{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.4rem 0 1rem}
+.bigbtn{border:0;border-radius:1rem;padding:1.1rem .8rem;min-height:6.2rem;color:#fff;text-align:left;display:flex;flex-direction:column;justify-content:center;gap:.25rem;cursor:pointer;font:inherit}
+.bigbtn span{font-size:1.3rem;font-weight:800;line-height:1.15}
+.bigbtn small{font-size:.85rem;opacity:.95}
+.bigbtn.danger{background:#A8321D}
+.bigbtn.ok{background:#1E7A4C}
+.bigbtn:active{transform:scale(.98)}
+.firststeps .fsrow{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-top:1px solid var(--line)}
+.firststeps .fsrow:first-of-type{border-top:0}
+.firststeps .fsrow span:nth-child(2){flex:1}
+.firststeps .fsrow.done{opacity:.6}
+.fsmark{font-weight:800;color:var(--accent)}
+.situ{display:grid;gap:.45rem;margin:.4rem 0 1rem}
+.situbtn{display:flex;justify-content:space-between;align-items:center;gap:.6rem;text-align:left;width:100%;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:.8rem;padding:.85rem 1rem;font:inherit;font-size:1.02rem;font-weight:600;cursor:pointer;min-height:3.2rem}
+.situbtn span:last-child{font-size:1.4rem;color:var(--accent)}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.4rem 0 1rem}
+.tile{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:1rem;padding:.9rem .8rem;display:flex;flex-direction:column;align-items:flex-start;gap:.4rem;text-align:left;font:inherit;cursor:pointer;min-width:0}
+.tile b{font-size:1rem}
+.tile .tag{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tic{display:inline-flex;width:2.6rem;height:2.6rem;border-radius:.8rem;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent);align-items:center;justify-content:center;flex:none}
+.tic svg{width:1.5rem;height:1.5rem}
+.tag.ok{background:color-mix(in srgb,var(--ok,#1f7a3d) 18%,transparent);color:var(--ok,#1f7a3d)}
+.tag.bad{background:color-mix(in srgb,var(--danger,#b3261e) 18%,transparent);color:var(--danger,#b3261e)}
+.tag.soon{background:color-mix(in srgb,#b26a00 20%,transparent);color:#8a5200}
+.morelist{display:grid;gap:.5rem;margin-top:.6rem}
+.morebtn{display:flex;align-items:center;gap:.8rem;text-align:left;width:100%;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:.9rem;padding:.75rem .9rem;font:inherit;cursor:pointer}
+.morebtn b{display:block;font-size:1.02rem}
+.morebtn small{display:block;color:var(--muted,inherit);opacity:.8;font-size:.85rem}
+.helpdlg .idin{display:grid;gap:.7rem}
+.bigcall{display:block;background:#A8321D;color:#fff;border-radius:1rem;padding:1rem;text-decoration:none;text-align:center}
+.bigcall b{display:block;font-size:2.6rem;line-height:1.1}
+.idcall.small b{font-size:1.15rem}
+.drillbig{font-size:4rem;font-weight:800;text-align:center;margin:.2rem 0;font-variant-numeric:tabular-nums;font-family:system-ui,sans-serif}
+.drillsteps{padding-left:1.2rem;font-size:1.05rem;display:grid;gap:.4rem}
+@media (max-width:360px){.bigrow,.tiles{grid-template-columns:1fr}}
+@media print{.sg ul ul{margin:0}}
 </style>
 </head>
 <body>
@@ -1310,6 +1352,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
 <nav class="nav" aria-label="Main">
   <div class="wrap">
+    <button data-a="tab" data-tab="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h5v-6h3v6h5V10"/></svg>
+      <span data-i="Home">Home</span></button>
     <button data-a="tab" data-tab="plan">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1.2 1.2L7 5M3.5 12l1.2 1.2L7 11M3.5 18l1.2 1.2L7 17"/></svg>
       <span data-i="Plan">Plan</span></button>
@@ -1331,6 +1376,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
     <button data-a="tab" data-tab="drill">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg>
       <span data-i="Drill">Drill</span></button>
+    <button data-a="tab" data-tab="more">
+      <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><circle cx="5.5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="18.5" cy="12" r="1.9"/></svg>
+      <span data-i="More">More</span></button>
   </div>
 </nav>
 
@@ -1339,6 +1387,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
 <dialog id="mapdlg" class="mapdlg" aria-label="Map"></dialog>
 
 <dialog id="iddlg" class="iddlg" aria-label="Emergency ID"></dialog>
+
+<dialog id="helpdlg" class="iddlg helpdlg" aria-label="Emergency help"></dialog>
+
+<dialog id="drilldlg" class="iddlg helpdlg" aria-label="Drill"></dialog>
 
 <dialog id="settings" aria-labelledby="settingsTitle">
   <div class="dlg">
@@ -1356,6 +1408,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
     </div>
     <label class="field"><span>Language / Pinulongan</span>
       <select id="lang" data-bind="settings.lang" data-re="1"><option value="en">English</option><option value="ceb">Bisaya</option></select></label>
+    <label class="field"><span>Layout</span>
+      <select id="navmode" data-bind="settings.nav" data-re="1"><option value="simple">Simple: 4 buttons at the bottom</option><option value="full">Full: more buttons at the bottom</option></select></label>
     <label class="field"><span>Animations</span>
       <select id="motion" data-bind="settings.motion"><option value="auto">On (follow my phone's setting)</option><option value="off">Off (saves battery)</option></select></label>
 
@@ -1942,7 +1996,49 @@ const GUIDES = [
     </ol>
     <p><b>Go to a hospital immediately</b> when the fever drops but the person gets worse: severe belly pain, vomiting that will not stop, bleeding (gums, nose, black stool), cold or clammy skin, very sleepy or restless, or hard to wake.</p>
     <p><b>Prevent it (4S):</b> Search and destroy places where water collects (cans, tires, pots, gutters); Self-protection with long sleeves and repellent; Seek early consultation; Support spraying in outbreaks. Cover water containers and change flower vase water weekly.</p>
-    <p class="hint">Any fever in a baby under 3 months, or a fever that lasts more than 3 days in anyone, needs a doctor.</p>` }
+    <p class="hint">Any fever in a baby under 3 months, or a fever that lasts more than 3 days in anyone, needs a doctor.</p>` },
+  { id: "gd26", title: "Drowning and water rescue", html: `
+    <p>Many rescuers drown trying to save someone. <b>Do not jump in</b> unless you are trained.</p>
+    <ol>
+      <li>Shout for help and send someone to call 911.</li>
+      <li><b>Reach or throw.</b> Hold out a pole, branch or cloth from the shore while you lie down or hold something solid. Or throw a rope, a floating bottle, a plastic jug or a cooler.</li>
+      <li>Pull the person to safety. Lay them on their back on firm ground.</li>
+      <li>If the person is <b>not breathing</b>: tilt the head back and give <b>5 rescue breaths</b> mouth to mouth. Then start chest compressions (see the CPR guide) and keep going until help comes or the person breathes.</li>
+      <li>If breathing: put them on their side, take off wet clothes and cover them with something dry and warm.</li>
+    </ol>
+    <p><b>Everyone who nearly drowned needs a doctor</b>, even if they seem fine. Water in the lungs can cause trouble hours later.</p>
+    <p class="hint">In a flood, never walk or drive through moving water. 15 cm of fast water can knock an adult down.</p>` },
+  { id: "gd27", title: "Lightning", html: `
+    <p>If you can hear thunder, you are close enough to be hit.</p>
+    <ol>
+      <li>Go <b>inside a building</b> or a car with a hard roof. Close the windows.</li>
+      <li>Stay away from windows, wires, metal pipes, taps and anything plugged in. Unplug appliances if you can do it early.</li>
+      <li>Outside with no shelter: get off hills, open fields, beaches and the water. Stay away from tall lone trees, poles and metal fences. <b>Last resort only:</b> crouch low on the balls of your feet with your head tucked in. Do not lie flat.</li>
+      <li>Wait <b>30 minutes</b> after the last thunder before you go out again.</li>
+    </ol>
+    <p><b>A person hit by lightning is safe to touch.</b> Call 911. If they are not breathing, start CPR right away. Many people hit by lightning survive when CPR is started early.</p>
+    <p class="hint">Count the seconds between flash and thunder. If it is under 30, go in now.</p>` },
+  { id: "gd28", title: "Cuts, wounds and infection", html: `
+    <ol>
+      <li>Wash your hands first, or use clean gloves.</li>
+      <li><b>Stop the bleeding</b> by pressing firmly with a clean cloth. (For heavy bleeding, see the Heavy bleeding guide.)</li>
+      <li>Rinse the wound with a lot of clean running water, for several minutes. Safe boiled-and-cooled water is fine. Remove dirt gently.</li>
+      <li>Cover with a clean bandage or cloth. Change it every day, and whenever it is wet or dirty.</li>
+      <li>Check the <b>tetanus shot</b>. If it is more than 5 to 10 years old, or you do not know, or the wound is dirty or deep, ask a clinic for a booster.</li>
+    </ol>
+    <p><b>See a doctor</b> for a deep or gaping cut, a bite, a wound from rusty metal, or a wound with dirt you cannot get out.</p>
+    <p><b>Signs of infection:</b> more redness, swelling or pain after the second day, warm skin, pus or a bad smell, red lines going up the arm or leg, or fever. Go to a clinic the same day.</p>
+    <p class="hint">Do not put alcohol, soy sauce, toothpaste or coffee on a wound. They harm the skin.</p>` },
+  { id: "gd29", title: "Fever in a child", html: `
+    <ol>
+      <li>Give <b>plenty of fluids</b>: breast milk, water, oral rehydration solution. Small sips often.</li>
+      <li>Dress the child lightly. A lukewarm sponge bath is fine. No cold water or alcohol rubs.</li>
+      <li>For discomfort, you may give <b>paracetamol</b>. Follow the label for the child's weight and age, or ask a pharmacist or doctor. <b>Never give aspirin to a child.</b></li>
+      <li>Watch the child. A child who drinks, plays a little and wakes easily is usually okay.</li>
+    </ol>
+    <p><b>Go to a doctor or hospital now</b> if: the baby is under 3 months old with any fever; the fever lasts more than 3 days; the child is very sleepy, hard to wake or limp; has a stiff neck, a rash that does not fade when pressed, trouble breathing, will not drink, keeps vomiting, or has little or no urine.</p>
+    <p><b>If the child has a seizure (fits):</b> lay them on their side on a soft place, move hard things away, do not put anything in the mouth, and do not hold them down. Note the time. Most stop within 5 minutes. Call for help if it lasts more than 5 minutes, or if it is the first time.</p>
+    <p class="hint">Dengue and measles can start as a plain fever. See the Fever and dengue guide too.</p>` }
 ];
 </script>
 <script>/* Andam v17: tip of the day, monthly check, season reminders.
@@ -4603,7 +4699,49 @@ const CEB = {
       <li>Magpakonsulta sa doktor sayo. Ayaw paghulat nga mograbe.</li></ol>
       <p><b>Adto dayon sa ospital</b> kung mikunhod ang hilanat apan mograbe ang tawo: grabeng sakit sa tiyan, dili mohunong nga pagsuka, pagdugo (gilagid, ilong, itom nga tae), bugnaw o basa nga panit, hilabihang ka-antukon o kakulba, o lisod mamata.</p>
       <p><b>Paglikay (4S):</b> Pangitaa ug laglagon ang mga dapit nga nagtigom og tubig (lata, goma, kaldero, alulod); Panalipod sa kaugalingon gamit ang taas nga sinina ug repellent; Sayo nga pagpakonsulta; Suportahi ang pag-spray kung naay outbreak. Tabuni ang sudlanan sa tubig ug ilisi kada semana ang tubig sa plorera.</p>
-      <p class="hint">Ang bisan unsang hilanat sa masuso nga ubos sa 3 ka bulan, o hilanat nga molapas sa 3 ka adlaw sa bisan kinsa, kinahanglan og doktor.</p>` }
+      <p class="hint">Ang bisan unsang hilanat sa masuso nga ubos sa 3 ka bulan, o hilanat nga molapas sa 3 ka adlaw sa bisan kinsa, kinahanglan og doktor.</p>` },
+    gd26: { title: "Nalumos ug pagluwas sa tubig", html: `
+    <p>Daghang nagluwas ang nalumos kay misulod sa tubig. <b>Ayaw og saka</b> sa tubig gawas kon nabansay ka.</p>
+    <ol>
+      <li>Singgit og tabang ug paadtoa ang usa nga motawag sa 911.</li>
+      <li><b>Abti o labay.</b> Ipaabot ang sungkod, sanga o panapton gikan sa daplin samtang nagpahigda ka o nagkupot sa lig-on nga butang. O labayi og pisi, botelya nga naay hangin, plastik nga galon o cooler.</li>
+      <li>Kuhaa ang tawo paingon sa luwas. Ipahigda siya nga nawong paingon sa itaas sa lig-on nga yuta.</li>
+      <li>Kon <b>wala siya nagginhawa</b>: ipaatras ang ulo ug hatagi og <b>5 ka ginhawa</b> gikan sa baba. Unya sugdi ang pagpislit sa dughan (tan-awa ang CPR nga giya) ug ayaw undang hangtod moabot ang tabang o mobalik ang ginhawa.</li>
+      <li>Kon nagginhawa: ipahigda siya sa kilid, hukasa ang basa nga bisti ug tabuni og uga ug init nga butang.</li>
+    </ol>
+    <p><b>Ang tanan nga hapit nalumos kinahanglan magpatan-aw sa doktor</b>, bisan kon murag maayo na. Ang tubig sa baga mahimong makadaot human sa pipila ka oras.</p>
+    <p class="hint">Kon baha, ayaw og tabok o drive sa nagaagos nga tubig. Ang 15 sentimetros nga kusog nga tubig makapukan sa hamtong.</p>` },
+    gd27: { title: "Kilat", html: `
+    <p>Kon nadungog nimo ang dalugdog, duol na ka aron tamaan.</p>
+    <ol>
+      <li>Sulod sa <b>building</b> o sakyanan nga naay lig-on nga atop. Sirad-i ang mga bintana.</li>
+      <li>Ilakaw gikan sa bintana, alambre, puthaw nga tubo, gripo ug bisan unsang naka-plug. I-unplug ang mga gamit kon kaya sa sayo.</li>
+      <li>Kon naa ka sa gawas ug walay silungan: biya sa bungtod, abli nga uma, baybayon ug tubig. Ilakaw gikan sa nag-inusarang taas nga kahoy, poste ug puthaw nga koral. <b>Kataposang paagi lang:</b> molingkod nga ubos, tiilan lang ang naghikap sa yuta ug ang ulo gi-tago. Ayaw pagpahigda.</li>
+      <li>Paabota ang <b>30 minutos</b> human sa katapusang dalugdog sa dili pa mogawas.</li>
+    </ol>
+    <p><b>Luwas hikapon ang tawo nga natamaan sa kilat.</b> Tawag sa 911. Kon wala siya nagginhawa, sugdi dayon ang CPR. Daghan ang naluwas kon sayo nasugdan ang CPR.</p>
+    <p class="hint">Isipa ang segundo tali sa lamiaw ug dalugdog. Kon ubos sa 30, sulod na dayon.</p>` },
+    gd28: { title: "Samad, hiwa ug impeksyon", html: `
+    <ol>
+      <li>Hugasi una ang imong kamot, o gamita ang limpyong guwantes.</li>
+      <li><b>Patya ang pagdugo</b> pinaagi sa lig-on nga pagpislit gamit ang limpyong panapton. (Kon grabe ang dugo, tan-awa ang giya sa Grabeng pagdugo.)</li>
+      <li>Hugasi ang samad sa daghang limpyong tubig nga nagaagos, sulod sa pipila ka minutos. Okay ang luwas nga gilat-an ug gipabugnaw nga tubig. Kuhaa ang hugaw nga hinayhinay.</li>
+      <li>Tabuni og limpyong benda o panapton. Ilisi kada adlaw, ug kon basa o hugaw na.</li>
+      <li>Susiha ang <b>tetanus shot</b>. Kon sobra na sa 5 hangtod 10 ka tuig, o wala nimo mahibaw-i, o hugaw o lawom ang samad, pangayo og booster sa klinika.</li>
+    </ol>
+    <p><b>Magpatan-aw sa doktor</b> kon lawom o nagbuka ang hiwa, nasaksak o nakagat, naigo sa daan nga puthaw, o naay hugaw nga dili mawagtang.</p>
+    <p><b>Timailhan sa impeksyon:</b> mas pula, mas bukol o mas sakit human sa ikaduhang adlaw, init nga panit, nana o dili maayong baho, pula nga linya paingon sa buton o tiil, o hilanat. Adto sa klinika sa samang adlaw.</p>
+    <p class="hint">Ayaw butangi og alkohol, toyo, toothpaste o kape ang samad. Makadaot kini sa panit.</p>` },
+    gd29: { title: "Hilanat sa bata", html: `
+    <ol>
+      <li>Hatagi og <b>daghang ilimnon</b>: gatas sa inahan, tubig, oral rehydration solution. Gamay nga lamoy, kanunay.</li>
+      <li>Sul-ia og nipis nga bisti ang bata. Okay ang punas sa bugnaw-bugnaw nga tubig. Ayaw og bugnaw kaayo nga tubig o alkohol.</li>
+      <li>Para sa kasakit, mahimo nimo hatagan og <b>paracetamol</b>. Sunda ang label base sa gibug-aton ug edad sa bata, o pangutan-a ang parmasyutiko o doktor. <b>Ayaw gayud hatagi og aspirin ang bata.</b></li>
+      <li>Bantayi ang bata. Kon moinom, magdula og gamay ug dali mahigmata, kasagaran okay ra.</li>
+    </ol>
+    <p><b>Adto dayon sa doktor o ospital</b> kon: ubos sa 3 ka bulan ang bata ug naay bisan unsang hilanat; molapas sa 3 ka adlaw ang hilanat; sulop kaayo, lisod pukawon o luya; gahi ang liog, naay pantal nga dili mawala kon pislitan, lisod ginhawa, dili moinom, kanunay og suka, o gamay ra kaayo o walay ihi.</p>
+    <p><b>Kon masuko (nagkurog-kurog) ang bata:</b> ipahigda sa kilid sa humok nga lugar, ilakaw ang gahi nga butang, ayaw butangi og bisan unsa ang baba, ug ayaw pugngi. Hinumdomi ang oras. Kasagaran mohunong sulod sa 5 minutos. Mangayo og tabang kon molapas sa 5 minutos, o kon unang higayon.</p>
+    <p class="hint">Ang dengue ug tipdas mahimong magsugod sa yano nga hilanat. Basaha usab ang giya sa Hilanat ug dengue.</p>` }
   }
 };
 
@@ -5176,6 +5314,47 @@ addX([
   ["Add a photo (for example the evacuation map or a route sign)", "Dugang og litrato (pananglitan ang evacuation map o karatula sa dalan)"]
 ]);
 
+/* ---- v21: Home, help, More, drill alarm, fridge sheet ---- */
+addX([
+  ["Home", "Home"], ["More", "Dugang"],
+  ["Hello! What do you need?", "Kumusta! Unsa imong kinahanglan?"],
+  ["I need help now", "Kinahanglan nako og tabang karon"], ["Call, text, first aid", "Tawag, text, unang tabang"],
+  ["I'm safe", "Luwas ako"], ["Tell my family", "Ipahibalo sa akong pamilya"],
+  ["What's happening?", "Unsa ang nahitabo?"], ["Check your things", "Susiha ang imong mga gamit"],
+  ["Tap to check", "Pislita aron susihon"], ["Warning", "Pasidaan"], ["Watch", "Bantayi"], ["All clear", "Walay peligro"],
+  ["Map", "Mapa"], ["My family", "Akong pamilya"], ["My things", "Akong mga gamit"], ["Family drill", "Praktis sa pamilya"], ["What to get next", "Unsa ang sunod nga paliton"],
+  ["Nothing added yet", "Wala pay nadugang"], ["item needs attention", "ka butang ang kinahanglan tutukan"], ["items need attention", "ka butang ang kinahanglan tutukan"], ["All OK", "Maayo tanan"],
+  ["number saved", "ka numero ang na-save"], ["numbers saved", "ka numero ang na-save"], ["Time to practice", "Panahon na sa praktis"], ["Done recently", "Bag-o lang gihimo"],
+  ["Everything in Andam", "Tanan sa Andam"], ["Get ready in 3 small steps", "Pagpangandam sa 3 ka gagmay nga lakang"],
+  ["Add your family's phone numbers", "Idugang ang numero sa telepono sa imong pamilya"], ["Choose a place where the family meets", "Pagpili og lugar nga pagatagboan sa pamilya"],
+  ["Write down the water you store", "Isulat ang tubig nga imong gitipigan"], ["Do it", "Buhata"],
+  ["Plan", "Plano"], ["The checklist of things to get", "Ang listahan sa mga butang nga paliton"], ["Get ready step by step", "Pagpangandam sa matag lakang"],
+  ["What you have stored and when it expires", "Unsay imong gitipigan ug kanus-a mahurot"], ["Radios, signals and how we reach each other", "Radyo, signal ug unsaon pag-kontak sa usag usa"],
+  ["Practice with your family, with an alarm and timer", "Pag-praktis uban sa pamilya, naay alarma ug timer"], ["Evacuation centers, hazards and help nearby", "Evacuation center, peligro ug tabang nga duol"],
+  ["Your medical details in big letters", "Imong medikal nga detalye sa dagko nga letra"], ["One page for the fridge", "Usa ka panid para sa pridyider"],
+  ["Language, text size, backup", "Pinulongan, gidak-on sa letra, backup"],
+  ["EMERGENCY HELP", "EMERGENCY NGA TABANG"], ["Emergency hotline", "Emergency hotline"], ["Philippine Red Cross", "Philippine Red Cross"],
+  ["Text my family: I need help", "I-text ang akong pamilya: kinahanglan nako og tabang"], ["Show my Emergency ID card", "Ipakita ang akong Emergency ID card"],
+  ["Call someone", "Tawagi ang usa"], ["First aid and danger, step by step", "Unang tabang ug peligro, matag lakang"],
+  ["First aid helps until a doctor can see the person. If you can, call for help first.", "Ang unang tabang makatabang hangtod makita sa doktor ang tawo. Kon kaya, mangayo una og tabang."],
+  ["Layout", "Pagkatakda"], ["Simple: 4 buttons at the bottom", "Yano: 4 ka buton sa ubos"], ["Full: more buttons at the bottom", "Tibuok: daghan pang buton sa ubos"],
+  ["Practice run with an alarm", "Praktis nga naay alarma"], ["Starts a timer. Everyone gets to the meeting place. Try it when everyone is home.", "Magsugod og timer. Ang tanan moadto sa tagboanan. Sulayi kon naa ang tanan sa balay."],
+  ["Start with alarm", "Sugdi nga naay alarma"], ["Start quietly", "Sugdi nga hilom"], ["Add the next drill to my calendar", "Idugang ang sunod nga praktis sa akong kalendaryo"], ["Last practice run", "Kataposang praktis"],
+  ["DRILL", "PRAKTIS"], ["DRILL DONE", "TAPOS NA ANG PRAKTIS"], ["Goal: everyone at the meeting place in 10 minutes.", "Tumong: ang tanan naa na sa tagboanan sulod sa 10 minutos."],
+  ["Drop, cover your head, hold on (until the shaking stops).", "Lugmok, taboni ang ulo, kapot (hangtod mohunong ang linog)."],
+  ["Take your go-bag and your family's papers.", "Dad-a ang go-bag ug ang papel sa pamilya."],
+  ["Walk to your meeting place together. Do not run.", "Lakaw nga magkuyog paingon sa tagboanan. Ayaw og dalagan."],
+  ["Count everyone. Call out each name.", "Isipa ang tanan. Tawga ang matag ngalan."],
+  ["We are all at the meeting place", "Naa na mi tanan sa tagboanan"],
+  ["Good. You were at the meeting place within 10 minutes.", "Maayo. Naa na mo sa tagboanan sulod sa 10 minutos."],
+  ["It took longer than 10 minutes. That is useful to know: find what slowed you down.", "Milapas sa 10 minutos. Mapuslanon kini nga mahibaw-an: pangitaa kon unsay nagpahinay."],
+  ["Save this drill", "I-save kining praktis"], ["Drill saved. Next one in about six months.", "Na-save ang praktis. Ang sunod mga unom ka bulan."],
+  ["Saved the calendar file. Open it to add the reminder to your calendar.", "Na-save ang file sa kalendaryo. Ablihi kini aron madugang ang pahinumdom."],
+  ["Evacuation", "Pagbakwit"], ["Route", "Dalan"], ["Stay away from", "Likayi ang"],
+  ["How to get to the evacuation center (roads, landmarks)", "Unsaon pag-adto sa evacuation center (dalan, landmark)"],
+  ["For example: down the main road, left at the church, past the bridge", "Pananglitan: ubos sa dakong dalan, wala sa simbahan, lapas sa taytayan"]
+]);
+
 /* ---- Levels: area names, intros, step titles ---- */
 addX([
   ["Food", "Pagkaon"],
@@ -5391,15 +5570,15 @@ function translateDom(root, on) {
   const uid = () => Math.random().toString(36).slice(2, 9);
   const defaults = () => ({
     checked: {}, notes: {}, price: {}, custom: {},
-    family: { meet1: "", meet2: "", meet3: "", outName: "", outPhone: "", members: [], nums: [], seeded: false },
+    family: { meet1: "", meet2: "", meet3: "", route: "", outName: "", outPhone: "", members: [], nums: [], seeded: false },
     comms: { have: {}, notes: {}, checkin: "", channel: "", codes: "" },
     drill: { steps: {}, last: "", found: "" },
     levels: { people: 5, goal: 2, done: {} },
     howto: { done: {}, got: {}, calc: {}, fill: {} },
     stock: [], places: [], nearby: [], medid: {}, plan: { months: 6, warn: 30 }, checks: {},
     watch: [{ id: "home", name: "Isabel, Leyte", lat: 10.93, lng: 124.43, home: true }], alerts: {},
-    settings: { theme: "auto", size: "m", motion: "auto", lang: "en" },
-    ui: { tab: "plan", phase: 0, toBuy: false, open: {}, detail: {} }
+    settings: { theme: "auto", size: "m", motion: "auto", lang: "en", nav: "simple" },
+    ui: { tab: "home", phase: 0, toBuy: false, open: {}, detail: {} }
   });
 
   const isObj = (v) => v && typeof v === "object" && !Array.isArray(v);
@@ -6042,6 +6221,7 @@ function translateDom(root, on) {
         <label class="field"><span>First choice: near home</span><input type="text" data-bind="family.meet1" value="${esc(f.meet1)}" placeholder="For example, the church yard or the barangay hall"></label>
         <label class="field"><span>Second choice: outside the neighborhood</span><input type="text" data-bind="family.meet2" value="${esc(f.meet2)}"></label>
         <label class="field"><span>Out-of-town place, if we can't come home</span><input type="text" data-bind="family.meet3" value="${esc(f.meet3)}"></label>
+        <label class="field"><span>How to get to the evacuation center (roads, landmarks)</span><input type="text" data-bind="family.route" value="${esc(f.route || "")}" placeholder="For example: down the main road, left at the church, past the bridge"></label>
       </div>
 
       <div class="block"><h4>Contact outside the area</h4>
@@ -6195,6 +6375,169 @@ function translateDom(root, on) {
       u.onerror = () => { if (speaking === btn) stopSpeak(); };
       speechSynthesis.speak(u);
     });
+  }
+
+
+  /* ---------- Home: the simple screen ---------- */
+  const IC = {
+    warn: '<path d="M12 3.5 2.5 20h19z"/><path d="M12 10v5M12 17.5v.5"/>',
+    map: '<path d="M9 4 3 6.5v14L9 18l6 2.5 6-2.5v-14L15 6.5z"/><path d="M9 4v14M15 6.5v14"/>',
+    fam: '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.5 4.5 5.3"/>',
+    box: '<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/>',
+    list: '<path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1.2 1.2L7 5M3.5 12l1.2 1.2L7 11M3.5 18l1.2 1.2L7 17"/>',
+    timer: '<circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/>',
+    steps: '<path d="M3 20h5v-5h5v-5h5V6"/>',
+    radio: '<circle cx="12" cy="12" r="1.8"/><path d="M8.2 8.2a5.4 5.4 0 0 0 0 7.6M15.8 8.2a5.4 5.4 0 0 1 0 7.6M5.4 5.4a9.4 9.4 0 0 0 0 13.2M18.6 5.4a9.4 9.4 0 0 1 0 13.2"/>',
+    id: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.5-1.7 1.7-2.5 3-2.5s2.5.8 3 2.5M14 10h4M14 13h3"/>',
+    print: '<path d="M7 9V3h10v6M7 17H4v-7h16v7h-3"/><rect x="7" y="14" width="10" height="7"/>',
+    gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>',
+    book: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16"/><path d="M9 8h7"/>'
+  };
+  const ic = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
+  const gTitle = (id) => { const g = GUIDES.find((x) => x.id === id), o = ceb() && CEB.quick[id]; return o ? o.title : g ? g.title : id; };
+  const SITUATIONS = [
+    { en: "Earthquake", ceb: "Linog", g: "gd7" },
+    { en: "A typhoon is coming", ceb: "Moabot ang bagyo", g: "gd6" },
+    { en: "Flood", ceb: "Baha", g: "gd8" },
+    { en: "Fire, landslide, tsunami or volcanic ash", ceb: "Sunog, pagguba sa bakilid, tsunami o abo sa bulkan", hw: "hazards" },
+    { en: "Someone is hurt", ceb: "Naay nasamdan", act: "helpnow" },
+    { en: "Someone is sick or has a fever", ceb: "Naay masakiton o hilanat", g: "gd25" },
+    { en: "No electricity", ceb: "Walay kuryente", g: "gd15" },
+    { en: "No clean water", ceb: "Walay limpyong tubig", g: "gd1" },
+    { en: "We have to leave home", ceb: "Kinahanglan mi mobiya sa balay", g: "gd16" }
+  ];
+  function warnStatus() {
+    let top = -1, any = false;
+    S.watch.forEach((p) => { const r = S.alerts[p.id]; if (!r) return; any = true; top = Math.max(top, placeItems(p).reduce((m, it) => Math.max(m, it.lvl), 0)); });
+    if (!any) return { t: tx("Tap to check"), c: "" };
+    return top >= 3 ? { t: tx("Warning"), c: "bad" } : top === 2 ? { t: tx("Watch"), c: "soon" } : { t: tx("All clear"), c: "ok" };
+  }
+  function stuffStatus() {
+    if (!S.stock.length) return { t: tx("Nothing added yet"), c: "" };
+    const n = stockStats().bad;
+    return n ? { t: n + " " + tx(n === 1 ? "item needs attention" : "items need attention"), c: "bad" } : { t: tx("All OK"), c: "ok" };
+  }
+  function firstSteps() {
+    const f = S.family;
+    const steps = [
+      { done: famPhones().length > 0, t: "Add your family's phone numbers", tab: "family" },
+      { done: !!f.meet1, t: "Choose a place where the family meets", tab: "family" },
+      { done: S.stock.some((x) => (x.cat || "") === "water"), t: "Write down the water you store", tab: "storage" }
+    ];
+    if (steps.every((x) => x.done)) return "";
+    return `<div class="block firststeps"><h3>${esc(tx("Get ready in 3 small steps"))}</h3>${steps.map((x) => `<div class="fsrow ${x.done ? "done" : ""}"><span class="fsmark" aria-hidden="true">${x.done ? "✓" : "○"}</span><span>${esc(tx(x.t))}</span>${x.done ? "" : `<button class="btn small" data-a="tab" data-tab="${x.tab}">${esc(tx("Do it"))}</button>`}</div>`).join("")}</div>`;
+  }
+  function viewHome() {
+    const w = warnStatus(), st = stuffStatus(), dr = drillInfo();
+    const next = allItems().find((i) => i.p === 1 && !S.checked[i.id]) || allItems().find((i) => !S.checked[i.id]);
+    const tile = (icon, title, status, attrs) => `<button class="tile" ${attrs}><span class="tic">${ic(icon)}</span><b>${esc(title)}</b>${status ? `<span class="tag ${status.c}">${esc(status.t)}</span>` : ""}</button>`;
+    return `<section class="view home">
+      <div class="hello"><h2>${esc(tx("Hello! What do you need?"))}</h2>
+        <div class="chips langrow" role="group" aria-label="Language"><button class="chip" data-a="setlang" data-v="en" aria-pressed="${!ceb()}">English</button><button class="chip" data-a="setlang" data-v="ceb" aria-pressed="${ceb()}">Bisaya</button></div></div>
+      <div class="bigrow">
+        <button class="bigbtn danger" data-a="helpnow"><span>${esc(tx("I need help now"))}</span><small>${esc(tx("Call, text, first aid"))}</small></button>
+        <button class="bigbtn ok" data-a="famtext" data-id="safe"><span>${esc(tx("I'm safe"))}</span><small>${esc(tx("Tell my family"))}</small></button>
+      </div>
+      ${firstSteps()}
+      <h3>${esc(tx("What's happening?"))}</h3>
+      <div class="situ">${SITUATIONS.map((x) => `<button class="situbtn" ${x.g ? `data-a="guideopen" data-id="${x.g}"` : x.hw ? `data-a="hwgo" data-id="${x.hw}"` : `data-a="${x.act}"`}><span>${esc(lt(x))}</span><span aria-hidden="true">›</span></button>`).join("")}</div>
+      <h3>${esc(tx("Check your things"))}</h3>
+      <div class="tiles">
+        ${tile("warn", tx("Warnings near you"), w, 'data-a="tab" data-tab="plan"')}
+        ${tile("map", tx("Map"), null, 'data-a="map"')}
+        ${tile("fam", tx("My family"), { t: famPhones().length + " " + tx(famPhones().length === 1 ? "number saved" : "numbers saved"), c: famPhones().length ? "ok" : "" }, 'data-a="tab" data-tab="family"')}
+        ${tile("box", tx("My things"), st, 'data-a="tab" data-tab="storage"')}
+        ${tile("timer", tx("Family drill"), dr.due ? { t: tx("Time to practice"), c: "soon" } : { t: tx("Done recently"), c: "ok" }, 'data-a="tab" data-tab="drill"')}
+        ${tile("list", tx("What to get next"), next ? { t: next.t, c: "" } : null, 'data-a="tab" data-tab="plan"')}
+      </div>
+      ${tipCard()}
+      <div class="actions"><button class="btn ghost" data-a="tab" data-tab="more">${esc(tx("Everything in Andam"))}</button></div>
+    </section>`;
+  }
+  function viewMore() {
+    const row = (icon, title, sub, attrs) => `<button class="morebtn" ${attrs}><span class="tic">${ic(icon)}</span><span><b>${esc(tx(title))}</b><small>${esc(tx(sub))}</small></span></button>`;
+    return `<section class="view"><h2>${esc(tx("Everything in Andam"))}</h2>
+      <div class="morelist">
+        ${row("list", "Plan", "The checklist of things to get", 'data-a="tab" data-tab="plan"')}
+        ${row("steps", "Levels", "Get ready step by step", 'data-a="tab" data-tab="levels"')}
+        ${row("box", "Storage", "What you have stored and when it expires", 'data-a="tab" data-tab="storage"')}
+        ${row("radio", "Comms", "Radios, signals and how we reach each other", 'data-a="tab" data-tab="comms"')}
+        ${row("timer", "Drill", "Practice with your family, with an alarm and timer", 'data-a="tab" data-tab="drill"')}
+        ${row("map", "Map", "Evacuation centers, hazards and help nearby", 'data-a="map"')}
+        ${row("id", "Emergency ID card", "Your medical details in big letters", 'data-a="idcard"')}
+        ${row("print", "Print the family sheet", "One page for the fridge", 'data-a="printsheet"')}
+        ${row("gear", "Settings", "Language, text size, backup", 'data-a="settings"')}
+      </div></section>`;
+  }
+
+  /* ---------- "I need help now" ---------- */
+  const FIRSTAID = ["gd2", "gd3", "gd17", "gd4", "gd18", "gd20", "gd19", "gd23", "gd22", "gd26", "gd28", "gd29", "gd24", "gd10"];
+  function helpHtml() {
+    const f = S.family, phones = [...f.members.filter((m) => m.phone).map((m) => [m.name || m.phone, m.phone]), ...(f.outPhone ? [[f.outName || f.outPhone, f.outPhone]] : []), ...f.nums.filter((n) => n.phone && !["911", "143"].includes(String(n.phone).replace(/\D/g, ""))).map((n) => [n.label || n.phone, n.phone])];
+    return `<div class="idin"><div class="idbar"><b>${esc(tx("EMERGENCY HELP"))}</b><button class="btn small ghost" data-a="helpclose">${esc(tx("Close"))}</button></div>
+      <a class="bigcall" href="tel:911"><small>${esc(tx("Emergency hotline"))}</small><b>911</b></a>
+      <a class="idcall" href="tel:143"><small>${esc(tx("Philippine Red Cross"))}</small><b>143</b></a>
+      <div class="actions"><button class="btn danger" data-a="famtext" data-id="help">${esc(tx("Text my family: I need help"))}</button><button class="btn ghost" data-a="idcard">${esc(tx("Show my Emergency ID card"))}</button></div>
+      ${phones.length ? `<h3>${esc(tx("Call someone"))}</h3>${phones.slice(0, 8).map(([n, p]) => `<a class="idcall small" href="${esc(telHref(p))}"><small>${esc(n)}</small><b>${esc(p)}</b></a>`).join("")}` : ""}
+      <h3>${esc(tx("First aid and danger, step by step"))}</h3>
+      <div class="situ">${FIRSTAID.map((id) => `<button class="situbtn" data-a="guideopen" data-id="${id}"><span>${esc(gTitle(id))}</span><span aria-hidden="true">›</span></button>`).join("")}</div>
+      <p class="hint">${esc(tx("First aid helps until a doctor can see the person. If you can, call for help first."))}</p></div>`;
+  }
+  function openHelp() {
+    const d = document.getElementById("helpdlg");
+    d.innerHTML = helpHtml();
+    if (ceb()) translateDom(d, true);
+    if (typeof d.showModal === "function") { if (!d.open) d.showModal(); } else d.setAttribute("open", "");
+  }
+  function closeHelp() { const d = document.getElementById("helpdlg"); if (d && d.open) d.close(); }
+
+  /* ---------- drill alarm and timer ---------- */
+  let drillRun = null, sirenNodes = null, sirenT = null, actx = null;
+  function siren(on) {
+    try {
+      if (!on) { clearInterval(sirenT); if (sirenNodes) { sirenNodes.o.stop(); sirenNodes = null; } return; }
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      if (actx.state === "suspended") actx.resume();
+      const o = actx.createOscillator(), g = actx.createGain(); o.type = "sawtooth"; g.gain.value = 0.22; o.connect(g); g.connect(actx.destination); o.start();
+      let hi = false; const sw = () => { o.frequency.setValueAtTime(hi ? 920 : 620, actx.currentTime); hi = !hi; }; sw(); sirenT = setInterval(sw, 650);
+      sirenNodes = { o };
+    } catch (e) { /* no sound on this phone: the timer still works */ }
+  }
+  const clock = (ms) => { const s = Math.floor(ms / 1000); return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0"); };
+  function drillHtml(stage) {
+    const steps = ["Drop, cover your head, hold on (until the shaking stops).", "Take your go-bag and your family's papers.", "Walk to your meeting place together. Do not run.", "Count everyone. Call out each name."];
+    if (stage === "done") return `<div class="idin"><div class="idbar"><b>${esc(tx("DRILL DONE"))}</b></div><p class="drillbig">${esc(clock(drillRun.ms))}</p><p>${esc(tx(drillRun.ms <= 600000 ? "Good. You were at the meeting place within 10 minutes." : "It took longer than 10 minutes. That is useful to know: find what slowed you down."))}</p><div class="actions"><button class="btn" data-a="drillsave">${esc(tx("Save this drill"))}</button><button class="btn ghost" data-a="drillcancel">${esc(tx("Close"))}</button></div></div>`;
+    return `<div class="idin"><div class="idbar"><b>${esc(tx("DRILL"))}</b></div><p class="drillbig" id="drillclock">00:00</p><p class="hint">${esc(tx("Goal: everyone at the meeting place in 10 minutes."))}</p><ol class="drillsteps">${steps.map((x) => `<li>${esc(tx(x))}</li>`).join("")}</ol><div class="actions"><button class="btn" data-a="drillarrive">${esc(tx("We are all at the meeting place"))}</button><button class="btn ghost" data-a="drillcancel">${esc(tx("Cancel"))}</button></div></div>`;
+  }
+  function drillStart(sound) {
+    const d = document.getElementById("drilldlg");
+    drillRun = { t0: Date.now(), ms: 0 };
+    d.innerHTML = drillHtml("run"); if (ceb()) translateDom(d, true);
+    if (typeof d.showModal === "function") { if (!d.open) d.showModal(); } else d.setAttribute("open", "");
+    if (sound) { siren(true); setTimeout(() => siren(false), 8000); if (navigator.vibrate) navigator.vibrate([400, 200, 400, 200, 400]); }
+    try { if (navigator.wakeLock) navigator.wakeLock.request("screen").then((l) => { drillRun.lock = l; }).catch(() => {}); } catch (e) { /* ok */ }
+    drillRun.timer = setInterval(() => { const c = document.getElementById("drillclock"); if (c) c.textContent = clock(Date.now() - drillRun.t0); }, 500);
+  }
+  function drillEnd() {
+    if (!drillRun) return;
+    clearInterval(drillRun.timer); siren(false); try { if (drillRun.lock) drillRun.lock.release(); } catch (e) { /* ok */ }
+    const d = document.getElementById("drilldlg"); if (d && d.open) d.close();
+  }
+  function drillIcs() {
+    const i = drillInfo(), d = new Date(); d.setHours(0, 0, 0, 0);
+    if (i.never || i.due) d.setDate(d.getDate() + 7); else { d.setTime(Date.parse(S.drill.last + "T00:00:00")); d.setDate(d.getDate() + 180); }
+    const p2 = (n) => String(n).padStart(2, "0"), f = (x) => x.getFullYear() + p2(x.getMonth() + 1) + p2(x.getDate()), nx = new Date(d.getTime() + 864e5);
+    const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+    return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Andam//Family drill//EN", "CALSCALE:GREGORIAN", "BEGIN:VEVENT", "UID:family-drill@andam", "DTSTAMP:" + stamp,
+      "DTSTART;VALUE=DATE:" + f(d), "DTEND;VALUE=DATE:" + f(nx), "RRULE:FREQ=MONTHLY;INTERVAL=6", "SUMMARY:Andam: family emergency drill", "DESCRIPTION:Practice with your family: earthquake or typhoon drill. Open Andam > Drill.",
+      "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:Family drill in one week", "TRIGGER:-P6DT15H", "END:VALARM", "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:Family drill today", "TRIGGER:PT9H", "END:VALARM", "END:VEVENT", "END:VCALENDAR"].join("\r\n") + "\r\n";
+  }
+  async function shareIcs(text, name) {
+    const file = new File([text], name, { type: "text/calendar" });
+    try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "Andam" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
+    const a = document.createElement("a"); a.href = URL.createObjectURL(file); a.download = name;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    toast(tx("Saved the calendar file. Open it to add the reminder to your calendar."));
   }
 
   /* ---------- quick text to the family ---------- */
@@ -6354,7 +6697,7 @@ function translateDom(root, on) {
       <summary><h3>${esc(title)}</h3><span class="count">${count}</span>${chevron}</summary><div class="gbody">${inner}</div></details>`;
     const groups = HOWTO_GROUPS.map(([name, ids], gi) => { const have = ids.filter((id) => byId[id]);
       return section("gs" + gi, gi === 0, tx(name), have.length, have.map((id) => renderHowto(byId[id])).join("")); }).join("");
-    const quick = GUIDES.map((g) => { const o = ceb() && CEB.quick[g.id]; return `<details class="guide"><summary>${esc(o ? o.title : g.title)}</summary><div class="body">${speakBtn()}${QFIG[g.id] ? figHtml(QFIG[g.id]) : ""}${o ? o.html : g.html}</div></details>`; }).join("");
+    const quick = GUIDES.map((g) => { const o = ceb() && CEB.quick[g.id]; return `<details class="guide" id="qg_${g.id}"><summary>${esc(o ? o.title : g.title)}</summary><div class="body">${speakBtn()}${QFIG[g.id] ? figHtml(QFIG[g.id]) : ""}${o ? o.html : g.html}</div></details>`; }).join("");
     return `<section class="view">
       <h2>${esc(ceb() ? CEB.ui.Guides_title : "Guides")}</h2>
       <p class="lede">${esc(tx("Step by step: what to buy and what to do, with pictures. Tick things as you go. New to this? Open “Start here” first."))}</p>
@@ -6373,6 +6716,10 @@ function translateDom(root, on) {
       <h2>24-hour drill</h2>
       <p class="lede">A drill shows what really fails. Do one every six months and fix the biggest gap first.</p>
       ${(() => { const i = drillInfo(); return `<div class="block"><p style="margin:0"><b>${esc(i.never ? tx("No drill recorded yet.") : "Last drill: " + fmtDur(i.days) + " ago")}</b></p><p class="hint" style="margin:.3rem 0 0"><b>${esc(tx("Try this one"))}:</b> ${esc(lt(drillIdea()))}</p><div class="actions"><button class="btn small" data-a="drilldone">${esc(tx("I did a drill today"))}</button></div></div>`; })()}
+      <div class="block"><h4>${esc(tx("Practice run with an alarm"))}</h4>
+        <p class="hint" style="margin:0">${esc(tx("Starts a timer. Everyone gets to the meeting place. Try it when everyone is home."))}</p>
+        <div class="actions"><button class="btn" data-a="drillstart" data-sound="1">${esc(tx("Start with alarm"))}</button><button class="btn ghost" data-a="drillstart">${esc(tx("Start quietly"))}</button><button class="btn ghost" data-a="drillics">${esc(tx("Add the next drill to my calendar"))}</button></div>
+        ${S.drill.time ? `<p class="hint">${esc(tx("Last practice run"))}: ${esc(S.drill.time)}</p>` : ""}</div>
       <div class="block">
         ${DRILL.map((s) => `<div class="item" style="border-top:0"><div class="row" style="grid-template-columns:auto 1fr">
           <input class="chk" type="checkbox" id="x_${s.id}" data-bind="drill.steps.${s.id}" ${d.steps[s.id] ? "checked" : ""}>
@@ -6462,7 +6809,8 @@ function translateDom(root, on) {
     </section>`;
   }
 
-  const VIEWS = { plan: viewPlan, levels: viewLevels, family: viewFamily, storage: viewStorage, comms: viewComms, guides: viewGuides, drill: viewDrill };
+  const navVis = () => (S.settings.nav === "full" ? ["home", "plan", "storage", "family", "guides", "more"] : ["home", "guides", "family", "more"]);
+  const VIEWS = { home: viewHome, more: viewMore, plan: viewPlan, levels: viewLevels, family: viewFamily, storage: viewStorage, comms: viewComms, guides: viewGuides, drill: viewDrill };
 
   /* ---------- render ---------- */
   const app = document.getElementById("app");
@@ -6473,8 +6821,9 @@ function translateDom(root, on) {
     hydratePhotos();
     if (S.ui.tab === "storage") stkFilterDom();
     if (ceb()) translateDom(app, true);
+    const vis = navVis(), cur = vis.includes(S.ui.tab) ? S.ui.tab : "more";
     document.querySelectorAll(".nav button").forEach((b) => {
-      if (b.dataset.tab === S.ui.tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+      if (b.dataset.tab === cur) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
     });
     window.scrollTo(0, y);
   }
@@ -6496,6 +6845,9 @@ function translateDom(root, on) {
     if (S.settings.motion === "off") r.dataset.motion = "off"; else delete r.dataset.motion;
     r.lang = ceb() ? "ceb" : "en";
     document.querySelectorAll(".nav [data-i]").forEach((el) => { el.textContent = tx(el.dataset.i); });
+    const vis = navVis();
+    document.querySelectorAll(".nav button").forEach((b) => { b.hidden = !vis.includes(b.dataset.tab); });
+    document.querySelector(".nav .wrap").style.setProperty("--n", vis.length);
     translateDom(document.querySelector("header.top"), ceb());
     translateDom(document.querySelector(".nav"), ceb());
     if (window._st) { const so = document.getElementById("offlineStatus"); if (so) so.textContent = tx(window._st); }
@@ -6515,6 +6867,7 @@ function translateDom(root, on) {
     document.getElementById("size").value = S.settings.size;
     document.getElementById("motion").value = S.settings.motion || "auto";
     document.getElementById("lang").value = S.settings.lang || "en";
+    document.getElementById("navmode").value = S.settings.nav || "simple";
     document.getElementById("backup").value = backupText();
     document.getElementById("restoreText").value = "";
     const lb = document.getElementById("lastBackup"); if (lb) lb.textContent = S.settings.lastBackup ? tx("Last backup") + ": " + S.settings.lastBackup : tx("You have not saved a backup yet.");
@@ -6567,7 +6920,7 @@ function translateDom(root, on) {
   function familyCode() {
     const f = S.family;
     const pack = { app: "handa", kind: "family", v: 1,
-      family: { meet1: f.meet1, meet2: f.meet2, meet3: f.meet3, outName: f.outName, outPhone: f.outPhone,
+      family: { meet1: f.meet1, meet2: f.meet2, meet3: f.meet3, route: f.route, outName: f.outName, outPhone: f.outPhone,
         members: f.members.map(({ name, phone, notes }) => ({ name, phone, notes })), nums: f.nums.map(({ label, phone }) => ({ label, phone })) },
       places: S.places.map(({ label, note, lat, lng, hazard }) => ({ label, note, lat, lng, hazard })) };
     return "HANDA1:" + btoa(unescape(encodeURIComponent(JSON.stringify(pack))));
@@ -6582,7 +6935,7 @@ function translateDom(root, on) {
     } catch (e) { return false; }
     if (!pack || pack.app !== "handa" || pack.kind !== "family" || !isObj(pack.family)) return false;
     const f = S.family, n = pack.family; let added = 0;
-    ["meet1", "meet2", "meet3", "outName", "outPhone"].forEach((k) => { if (!f[k] && n[k]) { f[k] = String(n[k]); added++; } });
+    ["meet1", "meet2", "meet3", "route", "outName", "outPhone"].forEach((k) => { if (!f[k] && n[k]) { f[k] = String(n[k]); added++; } });
     const key = (s) => String(s || "").toLowerCase().replace(/\s+/g, "");
     (n.members || []).forEach((m) => { if (m && m.name && !f.members.some((x) => key(x.name) === key(m.name))) { f.members.push({ id: uid(), name: String(m.name), phone: String(m.phone || ""), notes: String(m.notes || ""), bag: false }); added++; } });
     (n.nums || []).forEach((m) => { if (m && m.phone && !f.nums.some((x) => key(x.phone) === key(m.phone))) { f.nums.push({ id: uid(), label: String(m.label || ""), phone: String(m.phone) }); added++; } });
@@ -6598,10 +6951,15 @@ function translateDom(root, on) {
     const line = (a, b) => `<p><b>${esc(a)}:</b> ${b ? esc(b) : `<span class="blank">${esc(L.none)}</span>`}</p>`;
     const ppl = f.members.length ? f.members.map((m) => `<li><b>${esc(m.name || "?")}</b> ${esc(m.phone || "")}${m.notes ? ` <small>${esc(m.notes)}</small>` : ""}</li>`).join("") : `<li class="blank">${esc(L.none)}</li>`;
     const nums = f.nums.filter((n) => n.phone).map((n) => `<li><b>${esc(n.label || "")}</b> ${esc(n.phone)}</li>`).join("");
-    const places = S.places.filter((p) => p.label).map((p) => `<li><b>${esc(p.label)}</b> ${esc(p.note || "")} ${p.lat != null && p.lat !== "" ? `<small>${esc(p.lat)}, ${esc(p.lng)}</small>` : ""}</li>`).join("");
+    const places = S.places.filter((p) => p.label && !["evac", "safe", "flood", "landslide", "surge", "fire"].includes(p.hazard)).map((p) => `<li><b>${esc(p.label)}</b> ${esc(p.note || "")} ${p.lat != null && p.lat !== "" ? `<small>${esc(p.lat)}, ${esc(p.lng)}</small>` : ""}</li>`).join("");
     return `<h1>${esc(L.title)}</h1>
       <div class="sg"><div><h2>${esc(L.meet)}</h2>${line(L.m1, f.meet1)}${line(L.m2, f.meet2)}${line(L.m3, f.meet3)}${line(L.out, [f.outName, f.outPhone].filter(Boolean).join(" "))}</div>
       <div><h2>${esc(L.people)}</h2><ul>${ppl}</ul></div></div>
+      ${(() => {
+        const names = (h) => S.places.filter((x) => x.label && x.hazard === h).map((x) => `<li><b>${esc(x.label)}</b> ${esc(x.note || "")} ${x.lat != null && x.lat !== "" ? `<small>${esc(x.lat)}, ${esc(x.lng)}</small>` : ""}</li>`).join("");
+        const ev = names("evac"), sf = names("safe"), av = HAZ.filter((h) => ["flood", "landslide", "surge", "fire"].includes(h[0])).map((h) => names(h[0]) ? `<li><small>${esc(tx(h[1]))}</small><ul>${names(h[0])}</ul></li>` : "").join("");
+        return (ev || sf || av || f.route) ? `<div class="sg"><div><h2>${esc(tx("Evacuation"))}</h2>${ev ? `<ul>${ev}</ul>` : ""}${sf ? `<p><b>${esc(tx("Safe place"))}</b></p><ul>${sf}</ul>` : ""}${f.route ? `<p><b>${esc(tx("Route"))}:</b> ${esc(f.route)}</p>` : ""}</div>${av ? `<div><h2>${esc(tx("Stay away from"))}</h2><ul>${av}</ul></div>` : ""}</div>` : "";
+      })()}
       <div class="sg"><div><h2>${esc(L.nums)}</h2><ul><li><b>${esc(L.emergency)}</b></li>${nums}</ul></div>
       <div><h2>${esc(L.places)}</h2><ul>${places || `<li class="blank">${esc(L.none)}</li>`}</ul></div></div>
       <div class="sg">${L.blocks.map(([h, items]) => `<div class="sb"><h2>${esc(h)}</h2><ul>${items.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>`).join("")}</div>
@@ -6727,6 +7085,19 @@ function translateDom(root, on) {
         break;
       }
       case "map": MAPV.open({ get S() { return S; }, save, toast, tx, ceb: ceb(), esc, HAZ, uid, render: () => render(), getPhoto, dropPhoto }, d.focus); break;
+      case "setlang": S.settings.lang = d.v === "ceb" ? "ceb" : "en"; save(); applySettings(); render(); break;
+      case "helpnow": openHelp(); break;
+      case "helpclose": closeHelp(); break;
+      case "guideopen": {
+        closeHelp(); S.ui.tab = "guides"; S.ui.open.gsq = true; save(); render(); window.scrollTo(0, 0);
+        const t = document.getElementById("qg_" + d.id); if (t) { t.open = true; t.scrollIntoView({ block: "start" }); }
+        break;
+      }
+      case "drillstart": drillStart(!!d.sound); break;
+      case "drillarrive": if (drillRun) { drillRun.ms = Date.now() - drillRun.t0; clearInterval(drillRun.timer); siren(false); const dd = document.getElementById("drilldlg"); dd.innerHTML = drillHtml("done"); if (ceb()) translateDom(dd, true); } break;
+      case "drillsave": if (drillRun) { S.drill.last = isoToday(); S.drill.time = clock(drillRun.ms); delete S.ui.drillSnooze; save(); drillEnd(); render(); toast(tx("Drill saved. Next one in about six months.")); } break;
+      case "drillcancel": drillEnd(); break;
+      case "drillics": shareIcs(drillIcs(), "Andam-family-drill.ics"); break;
       case "idcard": openIdCard(); break;
       case "idclose": { const d2 = document.getElementById("iddlg"); d2.close ? d2.close() : d2.removeAttribute("open"); break; }
       case "idprint": document.body.classList.add("pid"); window.print(); setTimeout(() => document.body.classList.remove("pid"), 800); break;
