@@ -8993,8 +8993,7 @@ function AndamSync(ctx) {
 
   /* ---------- news headlines (cached so the last news is still there offline) ---------- */
   const NEWS_Q = {
-    dis: '(typhoon OR "tropical storm" OR earthquake OR flood OR landslide OR drought OR "El Nino" OR volcano OR tsunami OR PAGASA OR Phivolcs OR NDRRMC OR "state of calamity") sourcecountry:philippines sourcelang:english',
-    war: '("nuclear war" OR "nuclear weapon" OR "nuclear weapons" OR "nuclear attack" OR "nuclear strike" OR "nuclear test" OR missile OR airstrike OR invasion OR "West Philippine Sea" OR "South China Sea" OR "Taiwan Strait" OR "armed conflict") sourcelang:english'
+    dis: '(typhoon OR "tropical storm" OR "tropical depression" OR "low pressure area" OR "heavy rain" OR "rainfall warning" OR "weather" OR habagat OR monsoon OR "storm surge" OR "heat index" OR "flash flood" OR flood OR landslide OR earthquake OR aftershock OR tsunami OR volcano OR drought OR "El Nino" OR PAGASA OR Phivolcs OR NDRRMC OR "state of calamity") sourcecountry:philippines sourcelang:english'
   };
   const NEWS_MAX_AGE = 30 * 60 * 1000;
   const newsState = { busy: false, failed: false, last: 0, asked: false };
@@ -9017,7 +9016,7 @@ function AndamSync(ctx) {
     });
     return out.sort((x, y) => y.t - x.t).slice(0, 15);
   }
-  const newsKey = () => (S.ui.newsTab === "war" ? "war" : "dis");
+  const newsKey = () => "dis";
   async function fetchNews(key) {
     if (S.settings.news === "off" || newsState.busy) return;
     if (navigator.onLine === false) { newsState.failed = true; refreshNewsViews(); return; }
@@ -9041,7 +9040,7 @@ function AndamSync(ctx) {
   async function maybeRefreshNews() {
     if (newsState.asked || S.settings.news === "off") return;
     newsState.asked = true;
-    for (const k of ["dis", "war"]) {
+    for (const k of ["dis"]) {
       const c = S.news[k];
       if (!c || Date.now() - c.t > NEWS_MAX_AGE) { await fetchNews(k); if (navigator.onLine === false) break; }
     }
@@ -9068,14 +9067,13 @@ function AndamSync(ctx) {
     return `<div class="newslist">${c.items.slice(0, n).map((a) => `<a class="newsrow" href="${esc(a.u)}" target="_blank" rel="noopener noreferrer"><b dir="auto">${esc(a.ti)}</b><small>${esc(a.d)}${a.t ? " · " + esc(ago(a.t)) : ""}</small></a>`).join("")}</div>`;
   }
   const NEWS_NOTE = "Headlines come from news websites, not from Andam, and can be wrong. For official warnings, check PAGASA, PHIVOLCS and your barangay.";
-  const WAR_NOTE = "War and nuclear news comes from around the world and can be alarming. Stay calm. Check official sources: your barangay, NDRRMC and the government.";
-  const newsChips = (act) => { const k = newsKey(); return `<div class="chips" role="group">${[["dis", "Weather and calamities"], ["war", "War and nuclear"]].map(([v, l]) => `<button class="chip" data-a="${act}" data-v="${v}" aria-pressed="${k === v}">${esc(tx(l))}</button>`).join("")}</div>`; };
+  const newsChips = () => "";
   function newsCard() {
     if (S.settings.news === "off") return "";
     const key = newsKey();
     return `<div class="block newscard"><h3>${esc(tx("News right now"))}</h3>${newsChips("newshometab")}${newsStatus(key)}${newsList(key, 4)}
       <div class="actions"><button class="btn small" data-a="newsopen">${esc(tx("All headlines"))}</button><button class="btn small ghost" data-a="newsrefresh" ${newsState.busy ? "disabled" : ""}>${esc(tx("Refresh"))}</button></div>
-      <p class="hint">${esc(tx(key === "war" ? WAR_NOTE : NEWS_NOTE))}</p></div>`;
+      <p class="hint">${esc(tx(NEWS_NOTE))}</p></div>`;
   }
   function newsDlgHtml() {
     const key = newsKey();
@@ -9083,7 +9081,7 @@ function AndamSync(ctx) {
       ${newsChips("newstab")}
       ${newsStatus(key)}${newsList(key, 15)}
       <div class="actions"><button class="btn small" data-a="newsrefresh" ${newsState.busy ? "disabled" : ""}>${esc(tx("Refresh"))}</button></div>
-      <p class="hint">${esc(tx(key === "war" ? WAR_NOTE : NEWS_NOTE))}</p></div>`;
+      <p class="hint">${esc(tx(NEWS_NOTE))}</p></div>`;
   }
   function refreshNewsViews() {
     const d = document.getElementById("newsdlg");

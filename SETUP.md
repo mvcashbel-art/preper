@@ -185,7 +185,7 @@ Everything you type stays on your own phone.
 
 ## v26: El Niño, and news headlines
 - **El Niño.** A notice card on Home (hidden after 30 June 2027, or when you tap Hide), a new guide "El Niño: drought, water and heat" (English and Bisaya), and a new Plan checklist "El Niño: drought and heat". The notice text says "checked 13 Nov 2026" because it is written by hand. Check PAGASA's monthly El Niño advisory and tell me when to update it.
-- **News headlines.** The top of the Home screen (under the two big buttons) has "News right now" with two tabs: Weather and calamities, and War and nuclear. "All headlines" opens a longer list, and More > News opens it too. Headlines load when there is internet (at most every 30 minutes, or tap Refresh) and are saved on the phone. With no internet, the last saved headlines are still shown with the time they were saved, and a warning if they are more than a day old.
+- **News headlines.** The top of the Home screen (under the two big buttons) has "News right now" with weather and calamity headlines only (typhoons, heavy rain, floods, flash floods, landslides, earthquakes, volcano, tsunami, drought and El Niño). From v32 there is no war tab. "All headlines" opens a longer list, and More > News opens it too. Headlines load when there is internet (at most every 30 minutes, or tap Refresh) and are saved on the phone. With no internet, the last saved headlines are still shown with the time they were saved, and a warning if they are more than a day old.
 - Headlines come from the free GDELT news index (api.gdeltproject.org). It sends only the title, the website and the link. Tapping a headline opens the news website. GDELT allows one request every 5 seconds, so Refresh may wait a few seconds. It sees the phone's internet address, like any website. Settings > News headlines > "Hide news" turns it off.
 - Saved headlines are not included in backups.
 - Upload the changed files: `data.js`, `app.js`, `i18n.js`, `i18n2.js`, `index.html`, `styles.css`, `sw.js`, `SETUP.md`. No new files.
@@ -214,3 +214,7 @@ New Guides group "War and nuclear" with 17 long guides (war1 to war17, English a
 Files: war1.js (pictures and guides 1 to 6), war2.js (guides 7 to 14 and the group registry), war3.js (science, myths, one-page checklist, quick guides, Plan category), war-ceb1.js to war-ceb3.js (Bisaya).
 Sources are named in each guide (Ready.gov, CDC, FDA, WHO, ICRC, Philippine agencies). Iodine doses (130 / 65 / 32 / 16 mg) come from FDA and CDC guidance. No Philippine phone numbers or shelter locations were invented: fill them in on the Family tab.
 Please have a doctor or nurse read the radiation, iodine and first-aid guides, and a Bisaya speaker read the Bisaya text.
+
+## v32: News is weather and calamities only
+
+The war and nuclear news tab was removed at the family's request. The headline search now also covers weather terms (low pressure area, heavy rain, rainfall warning, habagat, monsoon, storm surge, heat index, flash flood, aftershock). The War and nuclear guides are unchanged.
