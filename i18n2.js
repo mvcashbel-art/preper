@@ -752,6 +752,31 @@ addX([
 
 addX([["My login", "Akong login"]]);
 
+/* ---- v30: wallet cards and invite ---- */
+addX([
+  ["Wallet cards", "Mga kard sa pitaka"],
+  ["A small card for every person, to cut out and keep in a wallet or go-bag. It shows the name, phone number, health needs and where the family meets. Print it, or save it as a PDF.", "Gamayng kard alang sa matag usa, putlon ug tipigan sa pitaka o go-bag. Naa niini ang ngalan, numero sa telepono, panglawas ug asa magkita ang pamilya. I-print kini, o i-save isip PDF."],
+  ["Print wallet cards", "I-print ang mga kard sa pitaka"],
+  ["A small card for every person", "Gamayng kard alang sa matag usa"],
+  ["Add people in the Family tab first.", "Ibutang una ang mga tawo sa Family tab."],
+  ["Cut along the dotted lines. Keep one card in your wallet and one in each go-bag.", "Putla sumala sa tuldok-tuldok nga linya. Tipigi ang usa ka kard sa pitaka ug usa sa matag go-bag."],
+  ["We meet at", "Magkita mi sa"],
+  ["Contact outside the area", "Kontak sa gawas sa lugar"],
+  ["Emergency", "Emerhensya"],
+  ["My phone", "Akong telepono"],
+  ["My name", "Akong ngalan"],
+  ["Health and needs", "Panglawas ug panginahanglan"],
+  ["Invite my family to Andam", "Dapita ang akong pamilya sa Andam"],
+  ["Send the link or show the QR code so a sister or parent can open Andam on their own phone.", "Ipadala ang link o ipakita ang QR code aron maablihan sa igsoon o ginikanan ang Andam sa ilang kaugalingong telepono."],
+  ["If they log in with your family login, they see the same things.", "Kung mag-login sila gamit ang login sa inyong pamilya, makita nila ang parehas nga mga butang."],
+  ["Send the Andam link", "Ipadala ang link sa Andam"],
+  ["Show QR code", "Ipakita ang QR code"],
+  ["Scan to open Andam", "I-scan aron maablihan ang Andam"],
+  ["Ask them to point their phone camera at this square. The link opens in their browser.", "Ipatudlo kanila ang camera sa ilang telepono niini nga kuwadrado. Mag-abli ang link sa ilang browser."],
+  ["Link copied. Paste it in a message.", "Na-copy ang link. I-paste sa mensahe."],
+  ["Couldn't copy on this phone.", "Wala ma-copy niini nga telepono."]
+]);
+
 /* ---- Levels: area names, intros, step titles ---- */
 addX([
   ["Food", "Pagkaon"],

@@ -1368,3 +1368,25 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .icon-btn.acct .adot{position:absolute;top:.45rem;right:.4rem;width:.6rem;height:.6rem;border-radius:50%;background:transparent;border:2px solid transparent;display:none}
 .icon-btn.acct.on .adot{display:block;background:#3DDC84;border-color:var(--accent)}
 .icon-btn.acct.err .adot{display:block;background:#FFB020;border-color:var(--accent)}
+
+/* ---- Wallet cards and invite QR (v30) ---- */
+.qrbox{background:#fff;padding:.6rem;border-radius:.5rem;max-width:18rem;margin:.6rem auto}
+.qrbox svg{display:block;width:100%;height:auto}
+.qrurl{text-align:center;word-break:break-all;font-size:.85rem;color:#222;margin:.2rem 0 .6rem}
+@media print{
+  #sheet.cardsheet .wchint{font-size:9pt;color:#444;margin:0 0 3mm;text-align:center}
+  #sheet .wcp{break-after:page;page-break-after:always}
+  #sheet .wcp:last-child{break-after:auto;page-break-after:auto}
+  #sheet .wcs{display:grid;grid-template-columns:repeat(2,85mm);grid-auto-rows:54mm;justify-content:center}
+  #sheet .wc{box-sizing:border-box;border:1px dashed #555;padding:2.5mm 3mm;overflow:hidden;font-size:8.8pt;line-height:1.22;color:#000;break-inside:avoid}
+  #sheet .wc.dense{font-size:7.4pt;line-height:1.15}
+  #sheet .wc.tiny{font-size:6.2pt;line-height:1.1}
+  #sheet .wc.tiny .wch b{font-size:10pt}
+  #sheet .wch{display:flex;justify-content:space-between;align-items:baseline;gap:2mm;border-bottom:1px solid #000;margin-bottom:1mm}
+  #sheet .wch b{font-size:12.5pt}
+  #sheet .wcb{font-size:13pt;font-weight:800;border:1.5px solid #000;border-radius:2mm;padding:0 1.5mm}
+  #sheet .wc p{margin:0 0 .6mm}
+  #sheet .wcw{font-weight:700}
+  #sheet .wcf{margin-top:.8mm;color:#333;font-size:7pt}
+  #sheet .wc.blank p{border-bottom:1px solid #777;min-height:4.6mm}
+}

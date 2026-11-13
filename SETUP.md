@@ -199,3 +199,11 @@ The opening screen is now 3 seconds (it waits longer only if the page is not rea
 ## v29: login icon in the header
 A small person icon sits next to Map and Settings. A green dot means you are logged in and saved; an orange dot means sync has a problem. The Home card shows only until someone logs in.
 Files changed: `app.js`, `sync.js`, `index.html`, `styles.css`, `i18n2.js`, `sw.js`.
+
+## v30: wallet cards, invite link and QR code
+
+- **Wallet cards** (Family tab, More tab, Guides tab): prints a page of 8 small cards (85 x 54 mm), one per person, to cut out and keep in a wallet or go-bag. The first card is the Emergency ID card (blood type, allergies, medicines, contacts). Then one card per person in the family list (phone, health notes). Every card shows where the family meets, the contact outside the area and 911. Blank cards fill the rest of the page to write by hand. Fits A4 and Letter. Very long notes shrink the text so nothing is cut off.
+- **Invite my family** (Family tab): "Send the Andam link" shares a short message in English and Bisaya with the app link. If the login is set up, it also tells them to tap the person icon and log in with the family login name and passphrase. The passphrase is never put in the message. "Show QR code" shows a code the other phone can scan.
+- New file `qr.js` (a small offline QR maker, versions 1 to 5, up to 106 characters). Added to `index.html` and `sw.js`. Service worker is `andam-v30`.
+- The link comes from the address the app is opened at. If the app is opened from a saved file or localhost, it uses https://mvcashbel-art.github.io/preper/
+- Expiry reminders already existed (Storage tab: dates, "needs attention" on Home, calendar file), so nothing was added there.

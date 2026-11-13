@@ -691,6 +691,14 @@
 
       ${idForm()}
 
+      <h3>${esc(tx("Wallet cards"))}</h3>
+      <div class="block"><p class="hint" style="margin:0">${esc(tx("A small card for every person, to cut out and keep in a wallet or go-bag. It shows the name, phone number, health needs and where the family meets. Print it, or save it as a PDF."))}</p>
+        <div class="actions"><button class="btn small" data-a="printcards">${esc(tx("Print wallet cards"))}</button></div></div>
+
+      <h3>${esc(tx("Invite my family to Andam"))}</h3>
+      <div class="block"><p class="hint" style="margin:0">${esc(tx("Send the link or show the QR code so a sister or parent can open Andam on their own phone."))}${SYNC && SYNC.configured() ? " " + esc(tx("If they log in with your family login, they see the same things.")) : ""}</p>
+        <div class="actions"><button class="btn small" data-a="invite">${esc(tx("Send the Andam link"))}</button><button class="btn small ghost" data-a="inviteqr">${esc(tx("Show QR code"))}</button></div></div>
+
       <h3>${esc(tx("Share with family"))}</h3>
       <div class="block"><p class="hint" style="margin:0">${esc(tx("Send your family page (people, numbers, meeting places and important places) to a sister or parent. They add it to their phone. Nothing else is shared."))}</p>
         <div class="actions"><button class="btn small" data-a="sharefam">${esc(tx("Send my family page"))}</button></div>
@@ -1035,6 +1043,7 @@
         ${row("map", "Map", "Evacuation centers, hazards and help nearby", 'data-a="map"')}
         ${row("id", "Emergency ID card", "Your medical details in big letters", 'data-a="idcard"')}
         ${row("print", "Print the family sheet", "One page for the fridge", 'data-a="printsheet"')}
+        ${row("id", "Print wallet cards", "A small card for every person", 'data-a="printcards"')}
         ${row("gear", "Settings", "Language, text size, backup", 'data-a="settings"')}
       </div></section>`;
   }
@@ -1272,7 +1281,7 @@
       <p class="lede">${esc(tx("Step by step: what to buy and what to do, with pictures. Tick things as you go. New to this? Open “Start here” first."))}</p>
       <div class="block"><h4>${esc(tx("Fridge sheets"))}</h4>
         <p class="hint">${esc(tx("One page with your family's meeting places, numbers and what to do in a typhoon, flood, earthquake and tsunami. Print it or save as PDF and put it on the fridge."))}</p>
-        <div class="actions"><button class="btn small" data-a="printsheet">${esc(tx("Print the family sheet"))}</button></div></div>
+        <div class="actions"><button class="btn small" data-a="printsheet">${esc(tx("Print the family sheet"))}</button><button class="btn small ghost" data-a="printcards">${esc(tx("Print wallet cards"))}</button></div></div>
       ${groups}
       ${section("gsq", false, tx("Quick guides (first aid, typhoon, earthquake)"), GUIDES.length, `<p class="lede">${esc(tx("Short reminders that work offline. They don't replace training: take a first aid and CPR course."))}</p>${quick}`)}
     </section>`;
@@ -1542,11 +1551,78 @@
   function printSheet() {
     let el = document.getElementById("sheet");
     if (!el) { el = document.createElement("div"); el.id = "sheet"; document.body.appendChild(el); }
-    el.innerHTML = sheetHtml();
+    el.innerHTML = sheetHtml(); el.classList.remove("cardsheet");
     document.body.classList.add("print-sheet");
     setTimeout(() => window.print(), 200);
   }
   window.addEventListener("afterprint", () => document.body.classList.remove("print-sheet"));
+
+  /* ---------- wallet cards: one small card per person, to cut out ---------- */
+  function cardsHtml() {
+    const f = S.family, m = S.medid || {};
+    const row = (lab, v, cls) => (v ? `<p class="${cls || ""}"><b>${esc(tx(lab))}:</b> ${esc(v)}</p>` : "");
+    const foot = row("We meet at", f.meet1) + row("Contact outside the area", [f.outName, f.outPhone].filter(Boolean).join(" ")) + `<p class="wcf">${esc(tx("Emergency"))}: 911 · Andam</p>`;
+    const wrap = (inner) => { const n = inner.replace(/<[^>]*>/g, "").length; return `<div class="wc${n > 360 ? " tiny" : n > 230 ? " dense" : ""}">${inner}</div>`; };
+    const cards = [], mine = (m.name || "").trim().toLowerCase();
+    if (Object.keys(m).some((k) => k !== "upd" && m[k])) {
+      cards.push(wrap(`<div class="wch"><b>${esc(m.name || tx("My name"))}</b>${m.blood ? `<span class="wcb">${esc(m.blood)}</span>` : ""}</div>` +
+        row("Allergies", m.allergies, "wcw") + row("Medical conditions", m.conditions) + row("Medicines taken", m.meds) +
+        row("Call", [m.c1n, m.c1p].filter(Boolean).join(" ")) + row("Call", [m.c2n, m.c2p].filter(Boolean).join(" ")) +
+        row("Home address or barangay", m.addr) + row("Other notes", m.notes) + foot));
+    }
+    f.members.forEach((p) => {
+      if (!(p.name || p.phone || p.notes)) return;
+      if (mine && (p.name || "").trim().toLowerCase() === mine) return;
+      cards.push(wrap(`<div class="wch"><b>${esc(p.name || "?")}</b></div>` + row("My phone", p.phone) + row("Health and needs", p.notes) + foot));
+    });
+    if (!cards.length) return "";
+    const blank = () => `<div class="wc blank"><div class="wch"><b>Andam</b></div>${["Name", "Blood type", "Allergies", "Call"].map((k) => `<p>${esc(tx(k))}:</p>`).join("")}<p></p></div>`;
+    while (cards.length % 8) cards.push(blank());
+    let out = "";
+    for (let i = 0; i < cards.length; i += 8) out += `<div class="wcp">${i === 0 ? `<p class="wchint">${esc(tx("Cut along the dotted lines. Keep one card in your wallet and one in each go-bag."))}</p>` : ""}<div class="wcs">${cards.slice(i, i + 8).join("")}</div></div>`;
+    return out;
+  }
+  function printCards() {
+    const html = cardsHtml();
+    if (!html) { toast(tx("Add people in the Family tab first.")); return; }
+    let el = document.getElementById("sheet");
+    if (!el) { el = document.createElement("div"); el.id = "sheet"; document.body.appendChild(el); }
+    el.innerHTML = html; el.classList.add("cardsheet");
+    document.body.classList.add("print-sheet");
+    setTimeout(() => window.print(), 200);
+  }
+
+  /* ---------- invite the family: a link and a QR code ---------- */
+  const PUBLIC_URL = "https://mvcashbel-art.github.io/preper/";
+  function inviteUrl() {
+    try {
+      const u = new URL(location.href);
+      if (u.protocol === "https:" && !/^(localhost|127\.|\[)/.test(u.hostname)) { u.hash = ""; u.search = ""; u.pathname = u.pathname.replace(/[^/]*$/, ""); return u.toString(); }
+    } catch (e) {}
+    return PUBLIC_URL;
+  }
+  function inviteText() {
+    const url = inviteUrl(), login = SYNC && SYNC.configured();
+    return "Andam: get ready for typhoons, floods and earthquakes. Open this on your phone: " + url + "\n" +
+      (login ? "To see the same family information, tap the person icon at the top right and log in with the family login name and passphrase.\n" : "") +
+      "\nAndam: pangandam para sa bagyo, baha ug linog. Ablihi kini sa imong telepono: " + url + "\n" +
+      (login ? "Aron makita ang parehas nga impormasyon sa pamilya, i-tap ang icon sa tawo sa tuo nga taas ug mag-login gamit ang ngalan sa login ug passphrase sa pamilya.\n" : "");
+  }
+  function sendInvite() {
+    const msg = inviteText();
+    if (navigator.share) { navigator.share({ title: "Andam", text: msg }).catch(() => {}); return; }
+    (navigator.clipboard ? navigator.clipboard.writeText(msg) : Promise.reject()).then(() => toast(tx("Link copied. Paste it in a message.")), () => toast(tx("Couldn't copy on this phone.")));
+  }
+  function openQr() {
+    const d = document.getElementById("qrdlg"), url = inviteUrl(), svg = window.AndamQR ? window.AndamQR.svg(url) : "";
+    d.innerHTML = `<div class="idin"><div class="idbar"><b>${esc(tx("Scan to open Andam"))}</b><span><button class="btn small ghost" data-a="qrclose">${esc(tx("Close"))}</button></span></div>
+      ${svg ? `<div class="qrbox">${svg}</div>` : ""}
+      <p class="hint">${esc(tx("Ask them to point their phone camera at this square. The link opens in their browser."))}</p>
+      <p class="qrurl">${esc(url)}</p>
+      <div class="actions"><button class="btn small" data-a="invite">${esc(tx("Send the Andam link"))}</button></div></div>`;
+    if (ceb()) translateDom(d, true);
+    if (typeof d.showModal === "function") { if (!d.open) d.showModal(); } else d.setAttribute("open", "");
+  }
 
   /* ---------- events ---------- */
   document.addEventListener("click", (e) => {
@@ -1700,6 +1776,10 @@
       }
       case "phdel": idb("readwrite", (st) => st.delete(d.k)).then(() => { const el = document.querySelector('[data-ph="' + d.k + '"]'); if (el) el.innerHTML = ""; }).catch(() => {}); break;
       case "printsheet": printSheet(); break;
+      case "printcards": printCards(); break;
+      case "invite": sendInvite(); break;
+      case "inviteqr": openQr(); break;
+      case "qrclose": { const d2 = document.getElementById("qrdlg"); d2.close ? d2.close() : d2.removeAttribute("open"); break; }
       case "settings": openSettings(); break;
       case "closesettings": dlg.close ? dlg.close() : dlg.removeAttribute("open"); break;
       case "copybackup": {
