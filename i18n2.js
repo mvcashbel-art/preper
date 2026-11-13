@@ -564,6 +564,68 @@ addX([
   ["For example: down the main road, left at the church, past the bridge", "Pananglitan: ubos sa dakong dalan, wala sa simbahan, lapas sa taytayan"]
 ]);
 
+/* ---- v22: babies, older adults, medicines, after the disaster ---- */
+addX([
+  ["After the disaster", "Human sa katalagman"],
+  ["Babies and young children", "Mga masuso ug gagmay nga bata"],
+  ["Babies and small children cannot wait, carry supplies or tell you what is wrong. Pack for them first. See also: Guides, Babies, older people and anyone who needs extra help.", "Ang masuso ug gagmay nga bata dili makahulat, dili makadala og suplay ug dili makasulti kung unsay sakit. Andama una ang ilang mga gamit. Basaha usab: Giya, Mga masuso, tigulang ug bisan kinsa nga nagkinahanglan og dugang tabang."],
+  ["Breast milk is safest. If your baby uses formula: at least 3 days of formula and safe water to mix it", "Ang gatas sa inahan ang labing luwas. Kung formula ang gamit sa masuso: labing menos 3 ka adlaw nga formula ug luwas nga tubig nga ihaluk"],
+  ["Use boiled and cooled water only. A clean cup and spoon is safer than a bottle when washing is hard.", "Gamita ra ang gilat-an ug gipabugnaw nga tubig. Mas luwas ang limpyong tasa ug kutsara kaysa botelya kung lisod ang paghugas."],
+  ["Diapers, wipes and rash cream for at least 3 days", "Diaper, wipes ug tambal sa pantal sulod sa labing menos 3 ka adlaw"],
+  ["If you use cloth diapers, keep extra clean ones. Washing needs water.", "Kung lampin nga panapton ang gamit, pagtipig og dugang nga limpyo. Ang paglaba nagkinahanglan og tubig."],
+  ["A small go-bag for each child: change of clothes, hat, blanket and a comfort toy", "Gamay nga go-bag matag bata: hapin nga sinina, kupya, habol ug dulaan nga nagpahimsog sa iyang gibati"],
+  ["Child medicines: paracetamol syrup or drops and oral rehydration salts", "Tambal sa bata: paracetamol syrup o patak ug oral rehydration salts"],
+  ["Paracetamol drops or syrup, Hydrite", "Paracetamol patak o syrup, Hydrite"],
+  ["Mercury Drug, Watsons, Rose Pharmacy", "Mercury Drug, Watsons, Rose Pharmacy"],
+  ["Ask a doctor or pharmacist for the right amount for your child's weight. Write it on the bottle. Never guess a dose, and never give aspirin to a child.", "Pangutan-a ang doktor o parmasyutiko kung pila ang husto base sa gibug-aton sa imong anak. Isulat kini sa botelya. Ayaw gayud og tag-ana ang dosis, ug ayaw gayud hatagi og aspirin ang bata."],
+  ["Vaccine record (immunization card) and a copy of the birth certificate, in a waterproof bag", "Rekord sa bakuna (immunization card) ug kopya sa birth certificate, sa waterproof nga bag"],
+  ["Name, your name and your phone number written on a wristband or on the child's clothes", "Ngalan sa bata, imong ngalan ug numero sa telepono nga gisulat sa pulseras o sa sinina sa bata"],
+  ["If you get separated, anyone can call you. Use a marker on a strip of cloth. Keep a recent photo of each child on your phone.", "Kung mabulag mo, mahimo ka nga tawagan sa bisan kinsa. Gamita ang marker sa tipik nga panapton. Pagtipig og bag-ong litrato sa matag bata sa imong telepono."],
+  ["Teach children their full name, your name, your phone number and the family meeting place", "Tudloi ang mga bata sa ilang tibuok nga ngalan, imong ngalan, imong numero sa telepono ug ang tagboanan sa pamilya"],
+  ["Soft familiar foods for toddlers: biscuits, lugaw ingredients, canned milk", "Humok ug pamilyar nga pagkaon para sa gagmay nga bata: biskwit, sangkap sa lugaw, de-lata nga gatas"],
+  ["A baby carrier or sling to keep your hands free", "Karga-karga o sling aron free ang imong mga kamot"],
+  ["Older adults and people with illness or disability", "Mga tigulang ug tawo nga masakiton o naay kakulangon"],
+  ["People who are older, ill or have a disability need more time, more supplies and one person named to help them. See also: Guides, Babies, older people and anyone who needs extra help.", "Ang tigulang, masakiton o naay kakulangon nagkinahanglan og dugang oras, dugang suplay ug usa ka tawo nga gitudlo nga motabang kanila. Basaha usab: Giya, Mga masuso, tigulang ug bisan kinsa nga nagkinahanglan og dugang tabang."],
+  ["Name one person (and a backup) who will help each older or disabled family member to leave", "Pagtudlo og usa ka tawo (ug backup) nga motabang sa matag tigulang o naay kakulangon nga membro sa pamilya nga mobiya"],
+  ["Practice the way out together once, including stairs, slopes and mud.", "Praktisa ang paggawas nga magkuyog bisan kausa, lakip ang hagdan, bakilid ug lapok."],
+  ["Keep the walking aid, cane or wheelchair near the exit, and plan how to carry the person if the path is blocked", "Ibutang ang sungkod, tungkod o wheelchair duol sa gawasanan, ug plana kung unsaon pagbitbit sa tawo kung gibabagan ang dalan"],
+  ["A small bag by the bed with dentures, spare eyeglasses, hearing aid batteries and daily-use items", "Gamay nga bag sa higdaanan nga naay ngipon nga binutang, ekstrang antipara, baterya sa hearing aid ug mga gamit sa adlaw-adlaw"],
+  ["A written list of their conditions, doctor's name and medicines, in the bag and on your phone", "Sinulat nga lista sa ilang sakit, ngalan sa doktor ug mga tambal, sa bag ug sa imong telepono"],
+  ["Use the Emergency ID card in the Family tab.", "Gamita ang Emergency ID card sa Family tab."],
+  ["For anyone who needs oxygen, dialysis or an electric medical device: ask the doctor or hospital now for an emergency plan and a backup battery", "Para sa nagkinahanglan og oxygen, dialysis o medikal nga gamit nga de-kuryente: pangutan-a karon ang doktor o ospital og emergency plan ug backup nga baterya"],
+  ["Do not wait for the typhoon to ask.", "Ayaw paabota ang bagyo sa dili pa mangutana."],
+  ["Soft, easy food and extra water for people who cannot chew or swallow well", "Humok ug dali kaonon nga pagkaon ug dugang tubig para sa dili kakamang o dili makalamoy og maayo"],
+  ["Adult diapers or underpads, wipes, and a bedside commode or bucket, if needed", "Diaper para sa hamtong o underpad, wipes, ug commode o timba sa higdaanan, kung kinahanglan"],
+  ["Keep them warm or cool: light blanket, hat, a battery fan", "Himoa nga dili bugnaw o init kaayo: nipis nga habol, kupya, baterya nga bentilador"],
+  ["Check on older neighbors who live alone, and tell them where you will be", "Kumustaha ang tigulang nga silingan nga nag-inusara, ug sultihi kung asa kamo"],
+  ["Medicines and health records", "Mga tambal ug rekord sa kahimsog"],
+  ["Running out of regular medicine is one of the most common problems in an emergency. Plan for it before the storm.", "Ang pagkaubos sa kanunay nga tambal usa sa labing komon nga problema sa emerhensya. Plana kini sa dili pa ang bagyo."],
+  ["A written list of everyone's regular medicines: name, strength, when taken and what for", "Sinulat nga lista sa kanunay nga tambal sa matag usa: ngalan, kusog, kanus-a inomon ug para saan"],
+  ["At least 7 days of every regular medicine in the go-bag", "Labing menos 7 ka adlaw nga suplay sa matag kanunay nga tambal sa go-bag"],
+  ["Ask your doctor how to build up to one month at home. Use the oldest first and replace it before it expires.", "Pangutan-a ang doktor kung unsaon pagtipig hangtod usa ka bulan sa balay. Gamita una ang labing daan ug ilisi sa dili pa mahurot ang petsa."],
+  ["Keep medicines in their original packs, in a waterproof bag, away from heat and sunlight", "Ibutang ang mga tambal sa orihinal nga pakete, sa waterproof nga bag, layo sa init ug sikat sa adlaw"],
+  ["Copies of prescriptions, with the doctor's name and phone number", "Kopya sa reseta, uban sa ngalan ug numero sa telepono sa doktor"],
+  ["Allergies written on a card and in the Emergency ID card", "Mga alerdyi nga gisulat sa kard ug sa Emergency ID card"],
+  ["Know the nearest health center and hospital, and a second way to reach them if the road is blocked", "Hibaloi ang pinakaduol nga health center ug ospital, ug ikaduhang dalan paingon niini kung gibabagan ang dalan"],
+  ["Mark them on the Map.", "Markahi kini sa Mapa."],
+  ["Medicines that need to stay cold (such as insulin): ask the pharmacist how long they last without a fridge, and keep a small cooler and ice packs", "Mga tambal nga kinahanglan bugnaw (sama sa insulin): pangutan-a ang parmasyutiko kung unsa kadugay molungtad kung walay ref, ug pagtipig og gamay nga cooler ug yelo"],
+  ["Do not freeze insulin. Ask the pharmacist about your brand.", "Ayaw i-freeze ang insulin. Pangutan-a ang parmasyutiko bahin sa imong brand."],
+  ["Copies of recent lab results and medical records, on paper and in your phone", "Kopya sa bag-ong resulta sa lab ug medikal nga rekord, sa papel ug sa imong telepono"],
+  ["A pill box or labeled bags for each day", "Kahon sa tambal o gi-label nga bag para sa matag adlaw"],
+  ["Check medicine expiry dates every 6 months", "Susiha ang petsa sa pagkahurot sa tambal matag 6 ka bulan"]
+]);
+
+/* ---- v23: opening screen ---- */
+addX([
+  ["Almost ready, still loading", "Hapit na, nagakarga pa"],
+  ["Getting your family ready", "Gihanda ang imong pamilya"],
+  ["Emergency? Get help now", "Emerhensya? Pangayo og tabang karon"],
+  ["Tap anywhere to skip", "Pislita bisan asa aron laktawan"],
+  ["Opening screen", "Unang screen"], ["Show it for 5 seconds", "Ipakita sulod sa 5 segundo"], ["Skip it", "Laktawi"]
+]);
+
+addX([["More situations", "Dugang nga mga sitwasyon"]]);
+
 /* ---- Levels: area names, intros, step titles ---- */
 addX([
   ["Food", "Pagkaon"],

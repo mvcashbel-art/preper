@@ -159,3 +159,26 @@ Everything you type stays on your own phone.
 - 4 new guides, English and Bisaya: Drowning and water rescue, Lightning, Cuts/wounds and infection, Fever in a child.
 - Upload every changed file: `app.js`, `index.html`, `styles.css`, `data.js`, `i18n.js`, `i18n2.js`, `sw.js`, `SETUP.md`. No new files. Settings should still say 27 files saved.
 - Please have a Bisaya speaker read the new guides and the help screen once.
+
+## v22: after the disaster, and care checklists
+- 4 new guides (English and Bisaya): After the disaster: the first day; Damage check and clean-up; Getting help and rebuilding; Stress and feelings after a disaster (it includes the NCMH Crisis Hotline 1553, 0919-057-1553 and 0917-899-8727, taken from DOH news in Dec 2025 to Jan 2026. Please check them once).
+- Home "What's happening?" has two new buttons: After the disaster, and Feeling scared or very stressed.
+- 3 new checklists in the Plan tab: Babies and young children, Older adults and people with illness or disability, Medicines and health records. Each has prices, details and Bisaya text.
+- Upload the changed files: `data.js`, `app.js`, `i18n.js`, `i18n2.js`, `sw.js`, `SETUP.md`. No new files. Settings should still say 27 files saved.
+- Please have a Bisaya speaker read the new guides and checklists, and a doctor or nurse read the baby and medicine notes.
+
+## v23: opening screen
+- A 5-second opening screen with the Andam logo and a progress bar. Tap anywhere to skip it. An "Emergency? Get help now" button on it opens the help screen straight away.
+- It shows every time the app or website is opened or reloaded. Settings > Opening screen > "Skip it" turns it off.
+- Upload the changed files: `index.html`, `app.js`, `styles.css`, `i18n2.js`, `sw.js`, `SETUP.md`. No new files.
+
+## v24: six more guides
+- New guides (English and Bisaya): Earthquake in a tall building, car, school and on the coast; Landslide warning signs; Storm surge and tsunami (when to move); Pregnancy and childbirth in an emergency; Living in an evacuation center; Someone is trapped.
+- Home "What's happening?" now shows the 8 most common situations, and "More situations" opens the rest.
+- Please have a midwife or nurse read the pregnancy and childbirth guide, and a Bisaya speaker read all six, before you share the app.
+- Upload the changed files: `data.js`, `i18n.js`, `i18n2.js`, `app.js`, `styles.css`, `sw.js`, `SETUP.md`. No new files.
+
+## v25: opening screen waits until the app is really ready
+- The opening screen now shows on every open and every reload (v23 showed it only once per visit, so a reload looked like nothing happened).
+- It stays at least 5 seconds. If the page, fonts or offline files are still loading after 5 seconds, it stays up (up to about 14 seconds) and says "Almost ready, still loading". Tap anywhere to skip.
+- Upload the changed files: `index.html`, `app.js`, `i18n2.js`, `sw.js`, `SETUP.md`.

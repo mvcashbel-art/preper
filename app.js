@@ -16,7 +16,7 @@
     howto: { done: {}, got: {}, calc: {}, fill: {} },
     stock: [], places: [], nearby: [], medid: {}, plan: { months: 6, warn: 30 }, checks: {},
     watch: [{ id: "home", name: "Isabel, Leyte", lat: 10.93, lng: 124.43, home: true }], alerts: {},
-    settings: { theme: "auto", size: "m", motion: "auto", lang: "en", nav: "simple" },
+    settings: { theme: "auto", size: "m", motion: "auto", lang: "en", nav: "simple", splash: "on" },
     ui: { tab: "home", phase: 0, toBuy: false, open: {}, detail: {} }
   });
 
@@ -842,8 +842,16 @@
     { en: "Someone is hurt", ceb: "Naay nasamdan", act: "helpnow" },
     { en: "Someone is sick or has a fever", ceb: "Naay masakiton o hilanat", g: "gd25" },
     { en: "No electricity", ceb: "Walay kuryente", g: "gd15" },
+    { en: "After the disaster", ceb: "Human sa katalagman", g: "gd30" },
     { en: "No clean water", ceb: "Walay limpyong tubig", g: "gd1" },
-    { en: "We have to leave home", ceb: "Kinahanglan mi mobiya sa balay", g: "gd16" }
+    { en: "We have to leave home", ceb: "Kinahanglan mi mobiya sa balay", g: "gd16" },
+    { en: "Someone is trapped", ceb: "Naay nalikopan", g: "gd39" },
+    { en: "A pregnant woman is in labor or in danger", ceb: "Ang buntis manganak o naa sa peligro", g: "gd37" },
+    { en: "The sea pulled back, or a tsunami or storm surge is coming", ceb: "Mi-atras ang dagat, o moabot ang tsunami o daluyong sa bagyo", g: "gd36" },
+    { en: "The ground is cracking or the slope is moving", ceb: "Naliki ang yuta o naglihok ang bakilid", g: "gd35" },
+    { en: "Going to an evacuation center", ceb: "Moadto sa evacuation center", g: "gd38" },
+    { en: "Earthquake in a tall building, car, school or on the coast", ceb: "Linog sa taas nga building, awto, eskwelahan o baybayon", g: "gd34" },
+    { en: "Feeling scared or very stressed", ceb: "Nahadlok o grabe ang kapit-os", g: "gd33" }
   ];
   function warnStatus() {
     let top = -1, any = false;
@@ -879,7 +887,7 @@
       </div>
       ${firstSteps()}
       <h3>${esc(tx("What's happening?"))}</h3>
-      <div class="situ">${SITUATIONS.map((x) => `<button class="situbtn" ${x.g ? `data-a="guideopen" data-id="${x.g}"` : x.hw ? `data-a="hwgo" data-id="${x.hw}"` : `data-a="${x.act}"`}><span>${esc(lt(x))}</span><span aria-hidden="true">›</span></button>`).join("")}</div>
+      ${(() => { const b = (x) => `<button class="situbtn" ${x.g ? `data-a="guideopen" data-id="${x.g}"` : x.hw ? `data-a="hwgo" data-id="${x.hw}"` : `data-a="${x.act}"`}><span>${esc(lt(x))}</span><span aria-hidden="true">›</span></button>`; return `<div class="situ">${SITUATIONS.slice(0, 8).map(b).join("")}</div><details class="situmore" data-cat="situmore" ${S.ui.open.situmore ? "open" : ""}><summary>${esc(tx("More situations"))}</summary><div class="situ">${SITUATIONS.slice(8).map(b).join("")}</div></details>`; })()}
       <h3>${esc(tx("Check your things"))}</h3>
       <div class="tiles">
         ${tile("warn", tx("Warnings near you"), w, 'data-a="tab" data-tab="plan"')}
@@ -1307,6 +1315,7 @@
     document.getElementById("motion").value = S.settings.motion || "auto";
     document.getElementById("lang").value = S.settings.lang || "en";
     document.getElementById("navmode").value = S.settings.nav || "simple";
+    document.getElementById("splashmode").value = S.settings.splash || "on";
     document.getElementById("backup").value = backupText();
     document.getElementById("restoreText").value = "";
     const lb = document.getElementById("lastBackup"); if (lb) lb.textContent = S.settings.lastBackup ? tx("Last backup") + ": " + S.settings.lastBackup : tx("You have not saved a backup yet.");
@@ -1526,6 +1535,7 @@
       case "map": MAPV.open({ get S() { return S; }, save, toast, tx, ceb: ceb(), esc, HAZ, uid, render: () => render(), getPhoto, dropPhoto }, d.focus); break;
       case "setlang": S.settings.lang = d.v === "ceb" ? "ceb" : "en"; save(); applySettings(); render(); break;
       case "helpnow": openHelp(); break;
+      case "splashhelp": hideSplash(); openHelp(); break;
       case "helpclose": closeHelp(); break;
       case "guideopen": {
         closeHelp(); S.ui.tab = "guides"; S.ui.open.gsq = true; save(); render(); window.scrollTo(0, 0);
@@ -1704,8 +1714,40 @@
   }
   if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
 
+  /* ---------- opening screen ---------- */
+  const SPLASH_MIN = 5000, SPLASH_MAX = 14000;
+  let splashT = null;
+  function hideSplash() {
+    const el = document.getElementById("splash");
+    clearInterval(splashT);
+    if (!el) return;
+    el.classList.add("out");
+    setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 350);
+  }
+  /* Stays at least 5 seconds, and longer (up to 14 s) if the page, fonts or offline files are still loading. */
+  function startSplash() {
+    const el = document.getElementById("splash");
+    if (!el) return;
+    if (ceb()) translateDom(el, true);
+    const bar = el.querySelector(".spl-bar i"), msg = el.querySelector(".spl-msg"), t0 = Date.now();
+    let ready = false;
+    const within = (p, ms) => Promise.race([Promise.resolve(p).catch(() => {}), new Promise((r) => setTimeout(r, ms))]);
+    const loaded = document.readyState === "complete" ? Promise.resolve() : new Promise((r) => window.addEventListener("load", r, { once: true }));
+    const fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+    const offline = "serviceWorker" in navigator && location.protocol.startsWith("http") ? within(navigator.serviceWorker.ready, SPLASH_MAX - 1000) : Promise.resolve();
+    Promise.all([loaded, fonts, offline]).then(() => { ready = true; });
+    splashT = setInterval(() => {
+      const ms = Date.now() - t0, f = Math.min(1, ms / SPLASH_MIN);
+      if (bar) bar.style.width = Math.round((ready || f < 0.9 ? f : 0.9) * 100) + "%";
+      if (ms >= SPLASH_MIN && !ready && msg && !msg.dataset.late) { msg.dataset.late = "1"; msg.textContent = tx("Almost ready, still loading"); }
+      if ((ms >= SPLASH_MIN && ready) || ms >= SPLASH_MAX) hideSplash();
+    }, 100);
+    el.addEventListener("click", (e) => { if (!e.target.closest("button")) hideSplash(); });
+  }
+
   /* ---------- start ---------- */
   applySettings();
+  startSplash();
   if (location.hash && VIEWS[location.hash.slice(1)]) S.ui.tab = location.hash.slice(1);
   render(); playEnter();
   setTimeout(autoAlerts, 1200);

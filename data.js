@@ -90,6 +90,64 @@ const CATS = [
     ]
   },
   {
+    id: "baby", name: "Babies and young children",
+    blurb: "Babies and small children cannot wait, carry supplies or tell you what is wrong. Pack for them first. See also: Guides, Babies, older people and anyone who needs extra help.",
+    items: [
+      { id: "bb1", t: "Breast milk is safest. If your baby uses formula: at least 3 days of formula and safe water to mix it", p: 1, b: 2,
+        n: "Use boiled and cooled water only. A clean cup and spoon is safer than a bottle when washing is hard." },
+      { id: "bb2", t: "Diapers, wipes and rash cream for at least 3 days", p: 1, b: 2,
+        n: "If you use cloth diapers, keep extra clean ones. Washing needs water." },
+      { id: "bb3", t: "A small go-bag for each child: change of clothes, hat, blanket and a comfort toy", p: 1, b: 1 },
+      { id: "bb4", t: "Child medicines: paracetamol syrup or drops and oral rehydration salts", p: 1, b: 1,
+        e: "Paracetamol drops or syrup, Hydrite",
+        w: "Mercury Drug, Watsons, Rose Pharmacy",
+        n: "Ask a doctor or pharmacist for the right amount for your child's weight. Write it on the bottle. Never guess a dose, and never give aspirin to a child." },
+      { id: "bb5", t: "Vaccine record (immunization card) and a copy of the birth certificate, in a waterproof bag", p: 1, b: 0 },
+      { id: "bb6", t: "Name, your name and your phone number written on a wristband or on the child's clothes", p: 1, b: 0,
+        n: "If you get separated, anyone can call you. Use a marker on a strip of cloth. Keep a recent photo of each child on your phone." },
+      { id: "bb7", t: "Teach children their full name, your name, your phone number and the family meeting place", p: 1, b: 0 },
+      { id: "bb8", t: "Soft familiar foods for toddlers: biscuits, lugaw ingredients, canned milk", p: 2, b: 1 },
+      { id: "bb9", t: "A baby carrier or sling to keep your hands free", p: 2, b: 1 }
+    ]
+  },
+  {
+    id: "elder", name: "Older adults and people with illness or disability",
+    blurb: "People who are older, ill or have a disability need more time, more supplies and one person named to help them. See also: Guides, Babies, older people and anyone who needs extra help.",
+    items: [
+      { id: "el1", t: "Name one person (and a backup) who will help each older or disabled family member to leave", p: 1, b: 0,
+        n: "Practice the way out together once, including stairs, slopes and mud." },
+      { id: "el2", t: "Keep the walking aid, cane or wheelchair near the exit, and plan how to carry the person if the path is blocked", p: 1, b: 1 },
+      { id: "el3", t: "A small bag by the bed with dentures, spare eyeglasses, hearing aid batteries and daily-use items", p: 1, b: 1 },
+      { id: "el4", t: "A written list of their conditions, doctor's name and medicines, in the bag and on your phone", p: 1, b: 0,
+        n: "Use the Emergency ID card in the Family tab." },
+      { id: "el5", t: "For anyone who needs oxygen, dialysis or an electric medical device: ask the doctor or hospital now for an emergency plan and a backup battery", p: 1, b: 0,
+        n: "Do not wait for the typhoon to ask." },
+      { id: "el6", t: "Soft, easy food and extra water for people who cannot chew or swallow well", p: 2, b: 1 },
+      { id: "el7", t: "Adult diapers or underpads, wipes, and a bedside commode or bucket, if needed", p: 2, b: 2 },
+      { id: "el8", t: "Keep them warm or cool: light blanket, hat, a battery fan", p: 2, b: 1 },
+      { id: "el9", t: "Check on older neighbors who live alone, and tell them where you will be", p: 2, b: 0 }
+    ]
+  },
+  {
+    id: "meds", name: "Medicines and health records",
+    blurb: "Running out of regular medicine is one of the most common problems in an emergency. Plan for it before the storm.",
+    items: [
+      { id: "md1", t: "A written list of everyone's regular medicines: name, strength, when taken and what for", p: 1, b: 0 },
+      { id: "md2", t: "At least 7 days of every regular medicine in the go-bag", p: 1, b: 2,
+        n: "Ask your doctor how to build up to one month at home. Use the oldest first and replace it before it expires." },
+      { id: "md3", t: "Keep medicines in their original packs, in a waterproof bag, away from heat and sunlight", p: 1, b: 1 },
+      { id: "md4", t: "Copies of prescriptions, with the doctor's name and phone number", p: 1, b: 0 },
+      { id: "md5", t: "Allergies written on a card and in the Emergency ID card", p: 1, b: 0 },
+      { id: "md6", t: "Know the nearest health center and hospital, and a second way to reach them if the road is blocked", p: 1, b: 0,
+        n: "Mark them on the Map." },
+      { id: "md7", t: "Medicines that need to stay cold (such as insulin): ask the pharmacist how long they last without a fridge, and keep a small cooler and ice packs", p: 2, b: 2,
+        n: "Do not freeze insulin. Ask the pharmacist about your brand." },
+      { id: "md8", t: "Copies of recent lab results and medical records, on paper and in your phone", p: 2, b: 0 },
+      { id: "md9", t: "A pill box or labeled bags for each day", p: 2, b: 1 },
+      { id: "md10", t: "Check medicine expiry dates every 6 months", p: 2, b: 0 }
+    ]
+  },
+  {
     id: "power", name: "Power and light",
     blurb: "Start with lights, radio, and power banks. Add solar and a power station as your budget allows.",
     items: [
@@ -594,5 +652,143 @@ const GUIDES = [
     </ol>
     <p><b>Go to a doctor or hospital now</b> if: the baby is under 3 months old with any fever; the fever lasts more than 3 days; the child is very sleepy, hard to wake or limp; has a stiff neck, a rash that does not fade when pressed, trouble breathing, will not drink, keeps vomiting, or has little or no urine.</p>
     <p><b>If the child has a seizure (fits):</b> lay them on their side on a soft place, move hard things away, do not put anything in the mouth, and do not hold them down. Note the time. Most stop within 5 minutes. Call for help if it lasts more than 5 minutes, or if it is the first time.</p>
-    <p class="hint">Dengue and measles can start as a plain fever. See the Fever and dengue guide too.</p>` }
+    <p class="hint">Dengue and measles can start as a plain fever. See the Fever and dengue guide too.</p>` },
+  { id: "gd30", title: "After the disaster: the first day", html: `
+    <p>Wait for the all-clear from your barangay or local officials before you go home, and move slowly.</p>
+    <ol>
+      <li>Check yourself and your family for injuries first. Treat serious problems and call for help.</li>
+      <li>Tell your family you are safe: tap <b>I'm safe</b> on the Home screen. Send texts, not calls, so the lines stay free.</li>
+      <li>Look at your house from outside before you go in: leaning walls, big cracks, a sagging roof or floor. If it looks unsafe, stay out.</li>
+      <li>Go in with sturdy shoes, long sleeves and gloves. Do not light matches or candles. If you smell gas, open windows, leave, and do not touch switches.</li>
+      <li>Stay away from fallen wires and from anything wet near electricity. Keep the main switch off until an electrician checks the house.</li>
+      <li>Take photos of the damage <b>before</b> you clean up. They help when you ask for aid.</li>
+      <li>Use only safe water and food until you know the supply is clean.</li>
+    </ol>
+    <p>Aftershocks, floodwater that comes back, and landslides on wet slopes can happen hours or days later. Keep your go-bag ready.</p>
+    <p class="hint">Do not walk or drive through floodwater. It can hide holes, wires and sharp things.</p>` },
+  { id: "gd31", title: "Damage check and clean-up", html: `
+    <ol>
+      <li>Wear boots, gloves, long sleeves and a mask when you handle debris, mud or mold. Avoid wading in floodwater.</li>
+      <li>Never run a generator, charcoal stove or gas stove <b>inside</b> the house, even with windows open. The smoke has carbon monoxide, which kills quietly.</li>
+      <li>Take out wet mattresses, cloth, paper and food that touched floodwater. Throw away what you cannot wash and dry in 1 to 2 days, or mold will grow.</li>
+      <li>Wash hard surfaces with soap and water, then wipe with about 1 cup (250 mL) of plain bleach in 4 liters of water. Never mix bleach with other cleaners.</li>
+      <li>Lift with your legs, not alone if it is heavy. Watch for nails and glass. If you cut yourself, clean the wound and ask about a tetanus shot.</li>
+      <li>Empty anything that holds water (cans, tires, pots). Mosquitoes breed in it within days, and dengue follows.</li>
+      <li>Flooded wells and containers are unsafe. Boil or treat all drinking water until the health office says it is safe.</li>
+      <li>Do not touch dead animals with bare hands. Ask the barangay health worker how to remove them.</li>
+    </ol>
+    <p class="hint">See also: After a flood (leptospirosis), Make water safe, Food safety, Gas leak, Electric shock.</p>` },
+  { id: "gd32", title: "Getting help and rebuilding", html: `
+    <ol>
+      <li>Go to the barangay hall and register your family, so you are on the list for relief goods and help.</li>
+      <li>Bring IDs and papers if you have them. If they are lost, tell the barangay. Ask which documents are needed.</li>
+      <li>Record the damage: photos, a list of what you lost, and any receipts.</li>
+      <li>Ask the municipal DRRM office or social welfare office what help is available now (food, shelter materials, repair, cash or livelihood help). Programs change, so ask each time.</li>
+      <li>Check on neighbors, especially older people, babies, pregnant women and people who live alone. Share what you learn.</li>
+      <li>Get news only from officials and trusted sources. Relief goods should be free. Do not pay "fees" to strangers, and be careful with your personal details.</li>
+      <li>Restock what you used. Update your plan: what worked, what did not, what you wish you had.</li>
+    </ol>
+    <p class="hint">Church groups and community groups often organize help. Tell them what your family needs, and what you can give.</p>` },
+  { id: "gd33", title: "Stress and feelings after a disaster", html: `
+    <p>After a disaster, almost everyone feels shaken. Fear, anger, sadness, trouble sleeping, bad dreams, headaches, trouble eating or concentrating, jumpiness, or feeling numb are common. For most people they ease over days to weeks.</p>
+    <p><b>What helps:</b></p>
+    <ol>
+      <li>Get back to a routine: meals, sleep, work, prayer, small chores.</li>
+      <li>Talk with someone you trust. You do not need to be strong for everyone all the time.</li>
+      <li>Eat, drink water and rest, even a little.</li>
+      <li>Limit the news and rumors on your phone.</li>
+      <li>Accept help. Help someone else with a small task. It lifts the mind.</li>
+    </ol>
+    <p><b>Children:</b> stay close and keep routines. Explain what happened in simple, true words. Let them draw or play. Clinging, fear of the dark and bedwetting are common and usually pass.</p>
+    <p><b>See a health worker or doctor</b> if feelings get stronger after 2 to 4 weeks, you cannot sleep or eat, you cannot do daily things, you drink more alcohol, or you feel hopeless.</p>
+    <p><b>If you or someone you know is thinking of suicide:</b> stay with the person and call 911, or the NCMH Crisis Hotline: <b>1553</b> (free from a landline), 0919-057-1553 (Smart/TNT) or 0917-899-8727 (Globe/TM). They answer 24 hours.</p>` },
+  { id: "gd34", title: "Earthquake: tall building, car, school and the coast", html: `
+    <p>The basic move is the same everywhere: <b>drop, cover your head and neck, hold on</b>. These are the differences.</p>
+    <ul>
+      <li><b>Tall building:</b> do not run out while it shakes, and never use the elevator. Stay away from windows. When the shaking stops, take the stairs, one floor at a time, with shoes on.</li>
+      <li><b>In bed:</b> stay there and cover your head with a pillow. Move only when it is safe.</li>
+      <li><b>School or church:</b> get under the desk or bench, cover your head, and listen to the teacher or leader. Do not run for the door.</li>
+      <li><b>In a car:</b> stop in an open place, away from bridges, poles, wires and buildings. Stay inside until the shaking stops.</li>
+      <li><b>Market or crowd:</b> protect your head and move away from shelves and glass. Do not rush the exits.</li>
+      <li><b>By the sea or a river mouth:</b> if the shaking was strong or long, or you cannot stand, go to high ground right away. Do not wait for a siren.</li>
+    </ul>
+    <p>When it stops: check yourself and others for injuries, expect aftershocks, and use text messages instead of calls.</p>
+    <p class="hint">Make a plan with your family now: in each place you go every day (home, school, church, work), where is the safe spot?</p>` },
+  { id: "gd35", title: "Landslide warning signs", html: `
+    <p>Landslides often follow days of heavy rain, a strong earthquake, or cutting into a slope. Be alert if you live under a slope, near a cliff, or in a stream channel.</p>
+    <p><b>Signs that the slope may move:</b></p>
+    <ul>
+      <li>New cracks in the ground, a road, a wall or a floor.</li>
+      <li>Trees, poles or fences that begin to tilt.</li>
+      <li>Water coming out of the slope in new places, or a stream that suddenly turns muddy or drops.</li>
+      <li>Bulging ground at the bottom of the slope, or doors and windows that suddenly stick.</li>
+      <li>A rumbling sound, or rocks and soil falling.</li>
+    </ul>
+    <p><b>What to do:</b></p>
+    <ol>
+      <li>Leave at once if you see these signs. Do not wait for an official order.</li>
+      <li>Move to the side, away from the path of the slide, then to firm high ground. Do not run down the slope or along the stream.</li>
+      <li>Tell your neighbors and the barangay.</li>
+      <li>Stay away after it stops. More can come down.</li>
+    </ol>
+    <p class="hint">Ask the barangay or the municipal DRRM office whether your house is in a landslide-prone area, and where to go in a warning.</p>` },
+  { id: "gd36", title: "Storm surge and tsunami: when to move", html: `
+    <p><b>Storm surge</b> is a rise of the sea pushed by a typhoon. It can flood the coast several meters deep, and it can come fast, before the winds are worst. If your area is told to evacuate for storm surge, go early.</p>
+    <p><b>Tsunami</b> comes after an earthquake or other event under the sea. It is a series of waves that can arrive minutes to hours after the shaking.</p>
+    <p><b>Move to high ground right away if:</b></p>
+    <ul>
+      <li>You are near the sea and the earthquake was strong or lasted long, or you could not stand.</li>
+      <li>The sea suddenly pulls far back, or you hear a loud roar from the sea.</li>
+      <li>Officials give a tsunami warning or sound the siren.</li>
+    </ul>
+    <ol>
+      <li>Go inland and uphill, on foot if you can. Roads jam quickly.</li>
+      <li>If you cannot get away from the coast in time, go to the 3rd floor or higher of a strong concrete building, or to the roof.</li>
+      <li>Stay up. The first wave is often not the biggest. Wait for the all-clear from officials, which can take many hours.</li>
+      <li>Do not go down to the beach to look, or to collect fish.</li>
+    </ol>
+    <p class="hint">Learn the evacuation route and the high place for your barangay now. Walk it with your family once.</p>` },
+  { id: "gd37", title: "Pregnancy and childbirth in an emergency", html: `
+    <p>If someone in your family is pregnant, plan early. Ask the midwife or the rural health unit about the due date, the nearest place with a trained birth attendant, and how to get there if the road is blocked.</p>
+    <p><b>Go to a health worker or hospital at once for:</b> bleeding from the vagina, a very bad headache with blurry vision, fits (convulsions), severe belly pain, fever, the baby moving much less, water breaking before labor starts, or labor that is very long.</p>
+    <p><b>If the baby is coming and help cannot arrive in time:</b></p>
+    <ol>
+      <li>Stay calm. Call for help. Wash your hands. Use a clean cloth, towel or plastic sheet under the mother.</li>
+      <li>Let the mother push in the position that feels right. Support the baby's head as it comes out. Do not pull on the baby.</li>
+      <li>Dry the baby well with a clean cloth and put the baby on the mother's bare chest, with a cloth over both. Keep them warm. Cover the baby's head.</li>
+      <li>If the baby does not cry or breathe, rub the back firmly with the cloth. If still no breathing, give gentle puffs of air over the mouth and nose and get help at once.</li>
+      <li>Do not pull on the cord. Wait for the afterbirth (placenta) to come out by itself. Leave the cord alone until a health worker can tie and cut it. If no one can come for many hours, ask a health worker by phone how to do it safely.</li>
+      <li>Let the baby feed at the breast. This helps the mother's womb tighten and reduces bleeding.</li>
+    </ol>
+    <p><b>Heavy bleeding after the birth is an emergency.</b> Rub the lower belly firmly in circles, let the baby feed, and take the mother to a hospital right away.</p>
+    <p class="hint">A midwife or nurse should read this page with you before an emergency. Keep the mother's medical papers in the go-bag.</p>` },
+  { id: "gd38", title: "Living in an evacuation center", html: `
+    <p><b>When you arrive:</b> register with the camp manager or barangay staff, and tell them who in your family is sick, pregnant, older or has a disability. Find the water, toilets, clinic and exits. Tell your family and neighbors where you are.</p>
+    <p><b>Stay healthy:</b></p>
+    <ul>
+      <li>Wash your hands with soap, especially after the toilet and before eating.</li>
+      <li>Drink only safe water. Keep your own cup and bottle.</li>
+      <li>Cough into your elbow. Tell the staff early if someone has a fever, rash, diarrhea or cough.</li>
+      <li>Keep your medicines with you, and your go-bag close when you sleep.</li>
+    </ul>
+    <p><b>Stay safe:</b></p>
+    <ul>
+      <li>Keep children and older people close. Agree on a meeting spot inside the center.</li>
+      <li>Women and girls: go to the toilet or wash areas in a group or with someone you trust, and sleep near your family.</li>
+      <li>Report any harassment, theft or abuse to the camp manager, barangay officials or the police Women and Children Protection Desk. You will be believed.</li>
+      <li>Keep valuables and papers on your body or in a small bag you carry.</li>
+    </ul>
+    <p class="hint">Offer a small job to help (cleaning, water, watching children). It keeps the center calm and keeps you busy.</p>` },
+  { id: "gd39", title: "Someone is trapped", html: `
+    <p>Your own safety comes first. A second victim does not help.</p>
+    <ol>
+      <li>Check that the area is safe: shaky walls, aftershocks, fire, gas, wires, rising water. If it is not safe, stay out and call for rescue.</li>
+      <li>Call 911 or your barangay. Say where the person is and how many people are trapped.</li>
+      <li>Call out, then stay quiet and listen. Tap on a pipe or wall and listen for a reply. Mark the spot.</li>
+      <li>Tell the person help is coming. Keep talking. Keep them warm, and if they can swallow, give small sips of water.</li>
+      <li>Stop any bleeding you can reach (see Heavy bleeding). Keep dust off the person's face with a cloth.</li>
+      <li>Move only light things that are safe to move, and never pull out something heavy that is holding up a wall or beam.</li>
+    </ol>
+    <p><b>A person who has been under a heavy weight for hours needs a doctor as soon as they are freed,</b> even if they look okay. Do not move someone with a neck or back injury unless the place is about to collapse.</p>
+    <p class="hint">Keep a whistle in your go-bag. A whistle can be heard from further than a voice.</p>` }
 ];

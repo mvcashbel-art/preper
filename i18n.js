@@ -306,7 +306,145 @@ const CEB = {
     </ol>
     <p><b>Adto dayon sa doktor o ospital</b> kon: ubos sa 3 ka bulan ang bata ug naay bisan unsang hilanat; molapas sa 3 ka adlaw ang hilanat; sulop kaayo, lisod pukawon o luya; gahi ang liog, naay pantal nga dili mawala kon pislitan, lisod ginhawa, dili moinom, kanunay og suka, o gamay ra kaayo o walay ihi.</p>
     <p><b>Kon masuko (nagkurog-kurog) ang bata:</b> ipahigda sa kilid sa humok nga lugar, ilakaw ang gahi nga butang, ayaw butangi og bisan unsa ang baba, ug ayaw pugngi. Hinumdomi ang oras. Kasagaran mohunong sulod sa 5 minutos. Mangayo og tabang kon molapas sa 5 minutos, o kon unang higayon.</p>
-    <p class="hint">Ang dengue ug tipdas mahimong magsugod sa yano nga hilanat. Basaha usab ang giya sa Hilanat ug dengue.</p>` }
+    <p class="hint">Ang dengue ug tipdas mahimong magsugod sa yano nga hilanat. Basaha usab ang giya sa Hilanat ug dengue.</p>` },
+    gd30: { title: "Human sa katalagman: ang unang adlaw", html: `
+    <p>Paabota ang pahibalo nga luwas na gikan sa inyong barangay o lokal nga opisyal sa dili pa mopauli, ug hinayhinay lang.</p>
+    <ol>
+      <li>Susiha una ang imong kaugalingon ug ang pamilya kung naay samad. Atimana ang grabe ug mangayo og tabang.</li>
+      <li>Ipahibalo sa pamilya nga luwas ka: pislita ang <b>Luwas ako</b> sa Home. Mag-text, ayaw og tawag, aron dili mapuno ang linya.</li>
+      <li>Tan-awa una ang balay gikan sa gawas sa dili pa mosulod: nagkiling nga dingding, dagkong liki, nagsaka nga atop o salog. Kung murag dili luwas, ayaw og sulod.</li>
+      <li>Sulod nga naay lig-on nga sapatos, dugay nga manggas ug guwantes. Ayaw og sindi og posporo o kandila. Kung naay baho sa gas, ablihi ang mga bintana, gawas, ug ayaw hikapa ang switch.</li>
+      <li>Likayi ang nahulog nga alambre ug ang bisan unsa nga basa duol sa kuryente. Ipabilin nga patay ang main switch hangtod masusi sa elektrisyan ang balay.</li>
+      <li>Pagkuha og litrato sa kadaot <b>sa dili pa</b> maglimpyo. Makatabang kini kung mangayo og tabang.</li>
+      <li>Gamita ra ang luwas nga tubig ug pagkaon hangtod masayran nga limpyo ang suplay.</li>
+    </ol>
+    <p>Ang aftershock, pagbalik sa baha, ug pagguba sa basa nga bakilid mahimong mahitabo human sa pipila ka oras o adlaw. Andama gihapon ang go-bag.</p>
+    <p class="hint">Ayaw og lakaw o drive sa baha. Mahimong naay tinago nga lungag, alambre ug mahait nga butang.</p>` },
+    gd31: { title: "Pagsusi sa kadaot ug paglimpyo", html: `
+    <ol>
+      <li>Magsuot og botas, guwantes, dugay nga manggas ug maskara kung mohikap og kagun-oban, lapok o agup. Likayi ang paglakaw sa baha.</li>
+      <li>Ayaw gayud og gamit og generator, uling nga kalan o gas nga kalan <b>sa sulod</b> sa balay, bisan abli ang bintana. Ang aso adunay carbon monoxide nga makamatay nga walay timaan.</li>
+      <li>Kuhaa ang basa nga kutson, panapton, papel ug pagkaon nga nakahikap sa baha. Isalibay ang dili mahugasan ug mamala sulod sa 1 hangtod 2 ka adlaw, o motubo ang agup.</li>
+      <li>Hugasi ang gahi nga ibabaw og sabon ug tubig, unya pahiri-i og mga 1 ka tasa (250 mL) nga plain bleach sa 4 ka litro nga tubig. Ayaw gayud i-sagol ang bleach sa ubang panglimpyo.</li>
+      <li>Buhata gamit ang tiil, dili ang likod, ug ayaw og inusara kung bug-at. Amping sa lansang ug bildo. Kung nasamad, hugasi ang samad ug pangutan-a ang tetanus shot.</li>
+      <li>Ibubo ang bisan unsa nga makaipon og tubig (lata, ligid, kaldero). Mangitlog ang lamok niini sulod sa pipila ka adlaw, ug mosunod ang dengue.</li>
+      <li>Dili luwas ang nalunod nga atabay ug sudlanan. Lat-a o tambani ang tanang inom nga tubig hangtod isulti sa health office nga luwas na.</li>
+      <li>Ayaw hikapa ang patay nga hayop gamit ang hubad nga kamot. Pangutan-a ang barangay health worker kung unsaon pagkuha niini.</li>
+    </ol>
+    <p class="hint">Basaha usab: Human sa baha (leptospirosis), Himoa nga luwas ang tubig, Luwas nga pagkaon, Tagas sa gas, Pagkakuryente.</p>` },
+    gd32: { title: "Pagpangayo og tabang ug pagtukod pag-usab", html: `
+    <ol>
+      <li>Adto sa barangay hall ug irehistro ang inyong pamilya, aron naa mo sa lista sa relief goods ug tabang.</li>
+      <li>Dad-a ang ID ug papeles kung naa. Kung nawala, ipahibalo sa barangay. Pangutan-a kung unsang mga dokumento ang kinahanglan.</li>
+      <li>Isulat ang kadaot: litrato, lista sa nawala, ug resibo kung naa.</li>
+      <li>Pangutan-a ang municipal DRRM office o social welfare office kung unsang tabang ang anaa karon (pagkaon, materyales sa balay, pag-ayo, cash o tabang sa panginabuhian). Nagbag-o ang programa, busa pangutan-a matag higayon.</li>
+      <li>Kumustaha ang mga silingan, ilabi na ang tigulang, bata, buntis ug ang nag-inusara. Ipaambit ang imong nahibaw-an.</li>
+      <li>Kuhaa ang balita gikan ra sa opisyal ug kasaligan nga tinubdan. Libre ang relief goods. Ayaw og bayad og "fee" sa estranghero, ug amping sa imong personal nga detalye.</li>
+      <li>Pagpuli sa nagamit na. I-update ang imong plano: unsay nagtrabaho, unsay wala, ug unsay gusto nimo nga naa kanimo.</li>
+    </ol>
+    <p class="hint">Kanunay nga nag-organisar og tabang ang mga grupo sa simbahan ug komunidad. Sultihi sila kung unsay kinahanglan sa inyong pamilya, ug unsay mahatag ninyo.</p>` },
+    gd33: { title: "Kaguol ug kapit-os human sa katalagman", html: `
+    <p>Human sa katalagman, hapit tanan gimingaw ug nakurat. Kasagaran ang kahadlok, kasuko, kasubo, lisod pagkatulog, daotang damgo, sakit sa ulo, lisod pagkaon o pag-focus, kasalo-salo, o murag walay gibati. Kasagaran mokunhod kini sulod sa pipila ka adlaw hangtod semana.</p>
+    <p><b>Unsay makatabang:</b></p>
+    <ol>
+      <li>Balik sa kanunay: pagkaon, katulog, trabaho, pag-ampo, gagmay nga buluhaton.</li>
+      <li>Makigstorya sa tawo nga imong gisaligan. Dili nimo kinahanglan nga kusgan kanunay alang sa tanan.</li>
+      <li>Kaon, inom og tubig ug pahulay, bisan gamay.</li>
+      <li>Hinaya ang pagbasa og balita ug tsismis sa telepono.</li>
+      <li>Dawata ang tabang. Tabangi ang uban sa gamay nga buluhaton. Makapagaan kini sa hunahuna.</li>
+    </ol>
+    <p><b>Mga bata:</b> pabilin duol kanila ug ipadayon ang kanunay nga rutina. Ipasabot ang nahitabo sa yano ug tinuod nga pulong. Pasagdi sila nga mudrowing o magdula. Ang pagpilit, kahadlok sa kangitngit ug pag-ihi sa higdaanan kasagaran mawala ra.</p>
+    <p><b>Magpatan-aw sa health worker o doktor</b> kung mas kusog ang gibati human sa 2 hangtod 4 ka semana, dili ka makatulog o makakaon, dili na nimo mabuhat ang adlaw-adlaw nga buluhaton, mas daghan na ang imong imnon nga alkohol, o walay paglaum ang imong gibati.</p>
+    <p><b>Kung ikaw o ang imong kaila naghunahuna sa pagpatay sa kaugalingon:</b> pabilin sa tawo ug tawag sa 911, o sa NCMH Crisis Hotline: <b>1553</b> (libre gikan sa landline), 0919-057-1553 (Smart/TNT) o 0917-899-8727 (Globe/TM). Mosagot sila 24 oras.</p>` },
+    gd34: { title: "Linog: taas nga building, awto, eskwelahan ug baybayon", html: `
+    <p>Ang batakang buhat parehas bisan asa: <b>lugmok, taboni ang ulo ug liog, ug kapot</b>. Mao kini ang kalainan.</p>
+    <ul>
+      <li><b>Taas nga building:</b> ayaw og gawas samtang nagauyog, ug ayaw gayud og elevator. Ilakaw gikan sa bintana. Kung mohunong na ang uyog, mohagdan, usa ka andana matag higayon, nga naay sapatos.</li>
+      <li><b>Sa higdaanan:</b> pabilin didto ug taboni ang ulo sa unlan. Molihok lang kung luwas na.</li>
+      <li><b>Eskwelahan o simbahan:</b> sulod sa lamesa o bangko, taboni ang ulo, ug paminaw sa magtutudlo o lider. Ayaw og dagan paingon sa pultahan.</li>
+      <li><b>Sa awto:</b> hunong sa abli nga lugar, layo sa taytayan, poste, alambre ug building. Pabilin sa sulod hangtod mohunong ang uyog.</li>
+      <li><b>Merkado o daghang tawo:</b> panalipdi ang ulo ug lakaw gikan sa estante ug bildo. Ayaw og pangguyod padulong sa gawasanan.</li>
+      <li><b>Duol sa dagat o baba sa suba:</b> kung kusog o taas ang uyog, o dili ka makatindog, adto dayon sa taas nga dapit. Ayaw paabota ang sirena.</li>
+    </ul>
+    <p>Kung mohunong: susiha ang imong kaugalingon ug ang uban kung naay samad, hulat sa aftershock, ug mag-text imbes mag-tawag.</p>
+    <p class="hint">Pagplano karon uban sa pamilya: sa matag lugar nga inyong adtoan adlaw-adlaw (balay, eskwelahan, simbahan, trabaho), asa ang luwas nga dapit?</p>` },
+    gd35: { title: "Timailhan sa pagguba sa bakilid", html: `
+    <p>Ang pagguba sa bakilid kasagaran mosunod sa daghang adlaw nga kusog nga ulan, kusog nga linog, o paggawas sa bakilid. Magbantay kung nagpuyo ka ilalom sa bakilid, duol sa pangpang, o sa agianan sa tubig.</p>
+    <p><b>Mga timailhan nga mahimong molihok ang bakilid:</b></p>
+    <ul>
+      <li>Bag-ong liki sa yuta, dalan, dingding o salog.</li>
+      <li>Kahoy, poste o koral nga nagsugod og kiling.</li>
+      <li>Tubig nga mogawas sa bakilid sa bag-ong dapit, o sapa nga kalit nga nagkalapok o nagkunhod.</li>
+      <li>Nagbukol nga yuta sa ilawom sa bakilid, o pultahan ug bintana nga kalit nga nagsangit.</li>
+      <li>Dalogdog nga tingog, o nahulog nga bato ug yuta.</li>
+    </ul>
+    <p><b>Unsay buhaton:</b></p>
+    <ol>
+      <li>Biya dayon kung makita nimo kini nga timailhan. Ayaw paabota ang sugo sa opisyal.</li>
+      <li>Molikay sa kilid, layo sa agianan sa pagguba, unya adto sa lig-on ug taas nga yuta. Ayaw og dagan paubos sa bakilid o subay sa sapa.</li>
+      <li>Pahibaw-a ang mga silingan ug ang barangay.</li>
+      <li>Ayaw og balik human mohunong. Mahimong naay mahulog pa.</li>
+    </ol>
+    <p class="hint">Pangutan-a ang barangay o ang municipal DRRM office kung ang inyong balay anaa ba sa dapit nga dali maguba, ug asa moadto kung naay pasidaan.</p>` },
+    gd36: { title: "Daluyong sa bagyo ug tsunami: kanus-a mobiya", html: `
+    <p>Ang <b>storm surge (daluyong sa bagyo)</b> pagsaka sa dagat nga giduso sa bagyo. Mahimo kining mobaha sa baybayon og daghang metro ang lalom, ug mahimong kalit, sa dili pa ang labing kusog nga hangin. Kung gisultihan ang inyong lugar nga mobakwit tungod sa storm surge, biya sa sayo.</p>
+    <p>Ang <b>tsunami</b> mosunod human sa linog o lain nga hitabo sa ilawom sa dagat. Daghang balod kini nga mahimong moabot sa pipila ka minuto hangtod pipila ka oras human sa uyog.</p>
+    <p><b>Adto dayon sa taas nga dapit kung:</b></p>
+    <ul>
+      <li>Duol ka sa dagat ug kusog o taas ang linog, o dili ka makatindog.</li>
+      <li>Ang dagat kalit nga mi-atras sa layo, o nadungog nimo ang kusog nga dalogdog gikan sa dagat.</li>
+      <li>Naghatag og tsunami warning ang opisyal o gisaba ang sirena.</li>
+    </ul>
+    <ol>
+      <li>Paingon sa sulod sa yuta ug paingon sa taas, maglakaw kung kaya. Dali ra mag-traffic ang dalan.</li>
+      <li>Kung dili ka makalayo sa baybayon sa tukma nga oras, adto sa ika-3 nga andana o mas taas sa lig-on nga konkreto nga building, o sa atop.</li>
+      <li>Pabilin sa taas. Ang unang balod kasagaran dili ang labing dako. Paabota ang pahibalo sa opisyal nga luwas na, nga mahimong molungtad og daghang oras.</li>
+      <li>Ayaw og adto sa baybayon aron motan-aw o mokuha og isda.</li>
+    </ol>
+    <p class="hint">Hibaloi karon ang dalan sa pagbakwit ug ang taas nga dapit sa inyong barangay. Lakaw niini kauban ang pamilya bisan kausa.</p>` },
+    gd37: { title: "Pagburos ug pagpanganak sa emerhensya", html: `
+    <p>Kung naay buntis sa inyong pamilya, plana sa sayo. Pangutan-a ang midwife o ang rural health unit bahin sa petsa sa panganak, ang pinakaduol nga dapit nga naay sinanay nga motabang sa panganak, ug unsaon pag-adto kung gibabagan ang dalan.</p>
+    <p><b>Adto dayon sa health worker o ospital kung:</b> naay dugo gikan sa pwerta, grabeng sakit sa ulo uban sa labo nga panan-aw, nagkurog-kurog (convulsion), grabeng sakit sa tiyan, hilanat, ang bata dili kaayo molihok, mibuto ang tubig sa dili pa magsugod ang labor, o taas kaayo ang labor.</p>
+    <p><b>Kung moabot na ang bata ug dili makaabot ang tabang sa tukma nga oras:</b></p>
+    <ol>
+      <li>Kalma. Mangayo og tabang. Hugasi ang kamot. Gamita ang limpyong panapton, tualya o plastik sa ilawom sa inahan.</li>
+      <li>Pasagdi ang inahan nga mo-ire sa posisyon nga komportable kaniya. Suportahi ang ulo sa bata sa paggawas. Ayaw kuhaa nga pinaagi sa pagbira.</li>
+      <li>Hurawa ang bata gamit ang limpyong panapton ug ibutang sa hubad nga dughan sa inahan, ug tabuni silang duha. Pabilin silang mainit. Tabuni ang ulo sa bata.</li>
+      <li>Kung ang bata wala nag-iyak o nagginhawa, kuskusa og lig-on ang likod gamit ang panapton. Kung wala gihapon, hatagi og hinay nga huyop sa baba ug ilong ug mangayo dayon og tabang.</li>
+      <li>Ayaw biraa ang pusod (cord). Paabota nga mogawas sa kaugalingon ang inunan (placenta). Ayaw hilabti ang pusod hangtod naay health worker nga motali ug mopunit niini. Kung walay makaabot sulod sa daghang oras, pangutan-a ang health worker pinaagi sa telepono kung unsaon kini sa luwas nga paagi.</li>
+      <li>Pasusoa ang bata. Makatabang kini aron mohugot ang tiyan sa inahan ug mokunhod ang dugo.</li>
+    </ol>
+    <p><b>Ang grabeng pagdugo human sa panganak usa ka emerhensya.</b> Pagkuskos og lig-on sa ubos nga tiyan sa lingin nga lihok, pasusoa ang bata, ug dad-a dayon ang inahan sa ospital.</p>
+    <p class="hint">Basaha kini nga panid uban sa midwife o nars sa dili pa ang emerhensya. Ibutang ang medikal nga papeles sa inahan sa go-bag.</p>` },
+    gd38: { title: "Pagpuyo sa evacuation center", html: `
+    <p><b>Pag-abot:</b> magparehistro sa camp manager o staff sa barangay, ug sultihi sila kung kinsa sa pamilya ang masakiton, buntis, tigulang o naay kakulangon. Pangitaa ang tubig, banyo, klinika ug gawasanan. Ipahibalo sa pamilya ug silingan kung asa mo.</p>
+    <p><b>Pabilin nga himsog:</b></p>
+    <ul>
+      <li>Hugasi ang kamot og sabon, ilabi na human sa banyo ug sa dili pa mokaon.</li>
+      <li>Inom ra og luwas nga tubig. Gamita ang imong kaugalingong tasa ug botelya.</li>
+      <li>Umho sa siko. Sultihi dayon ang staff kung naay hilanat, pantal, kalibang o ubo.</li>
+      <li>Ipabilin ang imong mga tambal uban kanimo, ug ang go-bag duol kanimo sa pagkatulog.</li>
+    </ul>
+    <p><b>Pabilin nga luwas:</b></p>
+    <ul>
+      <li>Ipabilin ang mga bata ug tigulang duol kanimo. Mag-uyon sa tagboanan sulod sa center.</li>
+      <li>Mga babaye ug batang babaye: mag-ubos sa banyo o hugasanan nga naay kauban o sa grupo nga imong gisaligan, ug matulog duol sa pamilya.</li>
+      <li>Ireport ang bisan unsang pagpangharas, pagkawat o pang-abuso sa camp manager, opisyal sa barangay o sa Women and Children Protection Desk sa pulis. Tuohan ka.</li>
+      <li>Ipabilin ang bililhon ug papeles sa imong lawas o sa gamay nga bag nga imong gidala.</li>
+    </ul>
+    <p class="hint">Mohatag og gamay nga buhat aron makatabang (paglimpyo, tubig, pagbantay sa mga bata). Makatabang kini aron mahilom ang center ug dili ka magkamingaw.</p>` },
+    gd39: { title: "Naay nalikopan", html: `
+    <p>Una ang imong kaugalingong kaluwasan. Ang ikaduhang biktima dili makatabang.</p>
+    <ol>
+      <li>Susiha kung luwas ang lugar: huyang nga dingding, aftershock, sunog, gas, alambre, nagsaka nga tubig. Kung dili luwas, ayaw og sulod ug tawag og rescue.</li>
+      <li>Tawag sa 911 o sa barangay. Sultihi kung asa ang tawo ug pila ang nalikopan.</li>
+      <li>Singgit, unya hilom ug paminaw. Tuktoki ang tubo o dingding ug paminaw kung naay tubag. Markahi ang dapit.</li>
+      <li>Sultihi ang tawo nga moabot ang tabang. Padayon sa pakigsulti. Pabilin siyang mainit, ug kung kaya siyang molamoy, hatagi og gagmay nga lamoy sa tubig.</li>
+      <li>Patya ang bisan unsang dugo nga maabot nimo (tan-awa ang Grabe nga pagdugo). Taboni ang nawong sa tawo gamit ang panapton aron dili makaginhawa og abog.</li>
+      <li>Ibalhin lang ang gaan nga butang nga luwas ibalhin, ug ayaw gayud og biraha ang bug-at nga butang nga nagsapnay sa dingding o biga.</li>
+    </ol>
+    <p><b>Ang tawo nga natapnan sa bug-at nga butang sulod sa pipila ka oras kinahanglan sa doktor sa diha nga mahaw-as siya,</b> bisan kung murag okay ra. Ayaw og ibalhin ang tawo nga naay samad sa liog o likod gawas kung hapit na maguba ang dapit.</p>
+    <p class="hint">Pagbaton og pito sa go-bag. Mas layo madungog ang pito kaysa tingog.</p>` }
   }
 };
 
