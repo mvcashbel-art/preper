@@ -136,7 +136,7 @@ h3{font:700 1.3rem/1.15 var(--head);margin:1.5rem 0 .5rem}
 .detail dd{margin:0}
 .field{display:block;margin:.6rem 0 0}
 .field span{display:block;font-size:.85rem;color:var(--muted);margin-bottom:.2rem}
-input[type=text],input[type=tel],input[type=number],input[type=date],select,textarea{
+input[type=text],input[type=password],input[type=tel],input[type=number],input[type=date],select,textarea{
   width:100%;padding:.6rem .7rem;border:1.5px solid var(--line);border-radius:.45rem;background:var(--surface);min-height:2.75rem}
 textarea{min-height:5rem;resize:vertical}
 .addrow{display:grid;grid-template-columns:1fr auto auto;gap:.5rem;margin:.6rem 0 1rem}
@@ -1352,6 +1352,32 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .situmore>summary{cursor:pointer;padding:.7rem 1rem;border:1px dashed var(--line);border-radius:.8rem;font-weight:700;color:var(--accent);list-style:none;min-height:3rem;display:flex;align-items:center}
 .situmore>summary::-webkit-details-marker{display:none}
 .situmore[open]>summary{margin-bottom:.5rem}
+.notice{border-left:.35rem solid #D98E04}
+.notice h3{margin:.1rem 0 .3rem}
+.notice p{margin:.2rem 0}
+
+/* ---- news (v26) ---- */
+.newscard h3{margin:.1rem 0 .3rem}
+.newsst{display:block;font-size:.85rem;opacity:.85;margin:.15rem 0 .5rem}
+.newsst.bad{color:var(--danger);opacity:1}
+.newslist{display:grid;gap:.1rem;margin:.2rem 0 .5rem}
+.newsrow{display:block;padding:.6rem .1rem;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.newsrow:first-child{border-top:0}
+.newsrow b{display:block;font-size:.98rem;line-height:1.3;overflow-wrap:anywhere}
+.newsrow small{display:block;opacity:.7;margin-top:.15rem}
+.newsrow:active{background:color-mix(in srgb,var(--accent) 10%,transparent)}
+
+/* ---- login and sync ---- */
+.iddlg input[type=text],.iddlg input[type=password]{background:#fff;color:#111;border-color:#767676}
+.iddlg .field span{color:#444}
+.iddlg details>summary{cursor:pointer;padding:.4rem 0;color:#444}
+.synccard{display:block;width:100%;text-align:left;border-left:.35rem solid #1E7A4C;color:inherit;font:inherit}
+.synccard h3{margin:.1rem 0 .3rem}
+.synccard p{margin:.2rem 0}
+.synccard.ok{display:flex;flex-direction:column;gap:.15rem;cursor:pointer}
+.syncok{background:#E4F3EA;color:#0F4A2C;padding:.5rem .7rem;border-radius:.4rem;margin:.5rem 0}
+.syncerr{background:#FBE5E0;color:#7A1F10;padding:.5rem .7rem;border-radius:.4rem;margin:.5rem 0;font-weight:600}
+.syncst{color:#444;margin:.2rem 0 .6rem}
 </style>
 </head>
 <body>
@@ -1440,6 +1466,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
 <dialog id="drilldlg" class="iddlg helpdlg" aria-label="Drill"></dialog>
 
+<dialog id="newsdlg" class="iddlg helpdlg" aria-label="News"></dialog>
+
+<dialog id="syncdlg" class="iddlg helpdlg" aria-label="My login"></dialog>
+
 <dialog id="settings" aria-labelledby="settingsTitle">
   <div class="dlg">
     <div style="display:flex;justify-content:space-between;align-items:center">
@@ -1456,8 +1486,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
     </div>
     <label class="field"><span>Language / Pinulongan</span>
       <select id="lang" data-bind="settings.lang" data-re="1"><option value="en">English</option><option value="ceb">Bisaya</option></select></label>
+    <label class="field"><span>News headlines</span>
+      <select id="newsmode" data-bind="settings.news" data-re="1"><option value="on">Show news (loads when online)</option><option value="off">Hide news</option></select></label>
     <label class="field"><span>Opening screen</span>
-      <select id="splashmode" data-bind="settings.splash"><option value="on">Show it for 5 seconds</option><option value="off">Skip it</option></select></label>
+      <select id="splashmode" data-bind="settings.splash"><option value="on">Show it for 3 seconds</option><option value="off">Skip it</option></select></label>
     <label class="field"><span>Layout</span>
       <select id="navmode" data-bind="settings.nav" data-re="1"><option value="simple">Simple: 4 buttons at the bottom</option><option value="full">Full: more buttons at the bottom</option></select></label>
     <label class="field"><span>Animations</span>
@@ -1471,6 +1503,11 @@ svg.leaflet-image-layer.leaflet-interactive path {
     <h3>Send this app to another phone</h3>
     <p class="hint">Works with no internet and no power grid. It packs the whole app into one file (Andam.html). Pick Bluetooth or Nearby Share in the menu that opens. The other person opens the file in Chrome.</p>
     <button class="btn" data-a="shareapp">Send this app</button>
+
+    <h3>Log in (keep my info on any phone)</h3>
+    <p class="hint">Log in once and your family info follows you to any phone. It is scrambled on this phone before it is sent.</p>
+    <p class="hint" id="syncStatus"></p>
+    <button class="btn" data-a="sy_open">Log in or manage my login</button>
 
     <h3>Back up your entries</h3>
     <p class="hint">Everything you type is saved only on this phone. If you change phones, copy this backup and paste it into the new one. Photos you add to a guide stay on this phone and are not in the backup.</p>
@@ -1488,7 +1525,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     <button class="btn danger small" data-a="reset">Erase everything on this phone</button>
 
     <h3>About</h3>
-    <p class="hint">Andam means “ready” in Bisaya. Nothing you enter leaves this phone. Peso figures come from Philippine shop listings seen in November 2026 and will change. Radio and satellite rules come from NTC circulars and news reports: confirm with the NTC or an authorized dealer before you buy.</p>
+    <p class="hint">Andam means “ready” in Bisaya. Nothing you enter leaves this phone unless you log in to sync, and then it is scrambled first. Peso figures come from Philippine shop listings seen in November 2026 and will change. Radio and satellite rules come from NTC circulars and news reports: confirm with the NTC or an authorized dealer before you buy.</p>
   </div>
 </dialog>
 
@@ -1639,6 +1676,29 @@ const CATS = [
       { id: "md8", t: "Copies of recent lab results and medical records, on paper and in your phone", p: 2, b: 0 },
       { id: "md9", t: "A pill box or labeled bags for each day", p: 2, b: 1 },
       { id: "md10", t: "Check medicine expiry dates every 6 months", p: 2, b: 0 }
+    ]
+  },
+  {
+    id: "elnino", name: "El Niño: drought and heat",
+    blurb: "A very strong El Niño can bring months of less rain and hotter days. Prepare water, shade and food before the dry months get worse. See also: Guides, El Niño: drought, water and heat.",
+    items: [
+      { id: "en1", t: "Extra stored drinking water, aiming for 14 days for everyone", p: 1, b: 2,
+        n: "Use clean containers with tight lids. Replace the water every 6 months." },
+      { id: "en2", t: "Tight lids or covers on every water container, to keep mosquitoes out", p: 1, b: 1,
+        n: "Scrub any open container once a week." },
+      { id: "en3", t: "Know where to get water near you: wells, springs, water points and refilling stations, and a way to carry it", p: 1, b: 0 },
+      { id: "en4", t: "Oral rehydration salts and a thermometer", p: 1, b: 1,
+        e: "Hydrite, digital thermometer",
+        w: "Mercury Drug, Watsons, Rose Pharmacy" },
+      { id: "en5", t: "Buckets or drums to catch rainwater whenever it rains", p: 2, b: 1,
+        n: "Boil or treat rainwater before you drink it." },
+      { id: "en6", t: "Hats, light cotton clothes and an umbrella for shade", p: 2, b: 1 },
+      { id: "en7", t: "A battery fan or hand fan, a power bank and a flashlight for brownouts", p: 2, b: 2 },
+      { id: "en8", t: "Dry-season garden: mulch (dry leaves or straw), a watering can and seeds of crops that take dry weather (camote, cassava, okra)", p: 2, b: 1,
+        n: "Water early in the morning at the roots. See Grow vegetables outside in Guides." },
+      { id: "en9", t: "Clear dry grass and trash from around the house, and keep a bucket of water ready", p: 2, b: 0 },
+      { id: "en10", t: "Extra staple food: rice, canned fish, dried fish, noodles", p: 2, b: 2,
+        n: "Prices can rise in a drought. Buy a little more each week, not everything at once." }
     ]
   },
   {
@@ -2284,7 +2344,35 @@ const GUIDES = [
       <li>Move only light things that are safe to move, and never pull out something heavy that is holding up a wall or beam.</li>
     </ol>
     <p><b>A person who has been under a heavy weight for hours needs a doctor as soon as they are freed,</b> even if they look okay. Do not move someone with a neck or back injury unless the place is about to collapse.</p>
-    <p class="hint">Keep a whistle in your go-bag. A whistle can be heard from further than a voice.</p>` }
+    <p class="hint">Keep a whistle in your go-bag. A whistle can be heard from further than a voice.</p>` },
+  { id: "gd40", title: "El Niño: drought, water and heat", html: `
+    <p>El Niño brings less rain and hotter days for months. Dry spells and drought can follow. Typhoons can still come, so keep your typhoon plan ready too. Check PAGASA's El Niño advisory each month and listen to your barangay.</p>
+    <p><b>Water first</b></p>
+    <ol>
+      <li>Store extra drinking water now, in clean containers with tight lids. Aim for 14 days for everyone if you can.</li>
+      <li><b>Keep every water container covered.</b> Mosquitoes breed in uncovered stored water within days, and dengue rises. Scrub open containers once a week.</li>
+      <li>Drinking and cooking come first. Reuse washing water for flushing and for plants.</li>
+      <li>Catch rainwater whenever it rains. Boil or treat it before you drink it.</li>
+      <li>Know your water sources: wells, springs, water points and refilling stations. Wells can run low, or taste salty near the coast. Do not drink from muddy or still pools.</li>
+    </ol>
+    <p><b>Heat</b></p>
+    <ul>
+      <li>Drink water before you feel thirsty. Wear light clothes and a hat. Rest in the shade during the hottest hours, from about 11 AM to 3 PM.</li>
+      <li>Never leave children, older people or pets in a closed car or a hot room.</li>
+      <li>Watch for heat stroke (see the Heat stroke guide). Babies, older people and pregnant women need extra care. Check on neighbors.</li>
+    </ul>
+    <p><b>Fire</b></p>
+    <ul>
+      <li>Dry grass and brush burn fast. Do not burn rubbish. Clear dry grass and trash from around the house, and keep a bucket of water near.</li>
+      <li>Never leave a cooking fire. Put out cigarettes fully.</li>
+    </ul>
+    <p><b>Food and the garden</b></p>
+    <ul>
+      <li>Mulch the soil with dry leaves or straw. Water early in the morning at the roots. Choose crops that take dry weather, such as camote, cassava and okra. Save seeds.</li>
+      <li>Prices can rise in a drought. Buy a little extra staple food each week instead of everything at once, so there is enough for your neighbors too.</li>
+    </ul>
+    <p><b>Power:</b> dry months can cause brownouts. Keep a power bank, flashlight and a fan that works on batteries.</p>
+    <p class="hint">See also: Make water safe, Heat stroke, Grow vegetables outside, Fever and dengue.</p>` }
 ];
 </script>
 <script>/* Andam v17: tip of the day, monthly check, season reminders.
@@ -5125,7 +5213,35 @@ const CEB = {
       <li>Ibalhin lang ang gaan nga butang nga luwas ibalhin, ug ayaw gayud og biraha ang bug-at nga butang nga nagsapnay sa dingding o biga.</li>
     </ol>
     <p><b>Ang tawo nga natapnan sa bug-at nga butang sulod sa pipila ka oras kinahanglan sa doktor sa diha nga mahaw-as siya,</b> bisan kung murag okay ra. Ayaw og ibalhin ang tawo nga naay samad sa liog o likod gawas kung hapit na maguba ang dapit.</p>
-    <p class="hint">Pagbaton og pito sa go-bag. Mas layo madungog ang pito kaysa tingog.</p>` }
+    <p class="hint">Pagbaton og pito sa go-bag. Mas layo madungog ang pito kaysa tingog.</p>` },
+    gd40: { title: "El Niño: hulaw, tubig ug kainit", html: `
+    <p>Ang El Niño nagdala og gamay nga ulan ug mas init nga mga adlaw sulod sa pipila ka bulan. Mahimong mosunod ang dry spell ug hulaw. Mahimo gihapon moabot ang bagyo, busa andama gihapon ang imong plano sa bagyo. Susiha matag bulan ang El Niño advisory sa PAGASA ug paminaw sa inyong barangay.</p>
+    <p><b>Tubig una</b></p>
+    <ol>
+      <li>Tipigi karon ang dugang nga inom nga tubig, sa limpyong sudlanan nga naay hugot nga takup. Tumong og 14 ka adlaw para sa tanan kung kaya.</li>
+      <li><b>Ipabilin nga natakpan ang matag sudlanan sa tubig.</b> Mangitlog ang lamok sa dili natakpan nga gitipigan nga tubig sulod sa pipila ka adlaw, ug motaas ang dengue. Kuskusa kausa sa usa ka semana ang abli nga sudlanan.</li>
+      <li>Una ang inom ug luto. Gamita pag-usab ang tubig nga gigamit sa paghugas sa pag-flush ug sa mga tanum.</li>
+      <li>Salo og tubig-ulan kung moulan. Lata o hugasi una sa dili pa imnon.</li>
+      <li>Hibaloi ang inyong tinubdan sa tubig: atabay, bukal, water point ug refilling station. Ang atabay mahimong mokunhod, o maalat ang lami duol sa baybayon. Ayaw og inom gikan sa lapok o nagpundo nga tubig.</li>
+    </ol>
+    <p><b>Kainit</b></p>
+    <ul>
+      <li>Inom og tubig sa dili pa ka mauhaw. Magsul-ob og nipis nga bisti ug kupya. Pahulay sa landong sa labing init nga oras, gikan mga 11 sa buntag hangtod 3 sa hapon.</li>
+      <li>Ayaw gayud pabilini ang bata, tigulang o hayop sa sirado nga awto o init nga lawak.</li>
+      <li>Bantayi ang heat stroke (tan-awa ang giya sa Heat stroke). Ang masuso, tigulang ug buntis nagkinahanglan og dugang pag-atiman. Kumustaha ang mga silingan.</li>
+    </ul>
+    <p><b>Sunog</b></p>
+    <ul>
+      <li>Dali masunog ang uga nga sagbot ug kahoy. Ayaw og sunog sa basura. Limpyohi ang uga nga sagbot ug basura libot sa balay, ug butangi og timba nga tubig sa duol.</li>
+      <li>Ayaw pagbiyai ang kalayo sa pagluto. Hingpita nga patya ang sigarilyo.</li>
+    </ul>
+    <p><b>Pagkaon ug tanaman</b></p>
+    <ul>
+      <li>Tabuni og uga nga dahon o dagami ang yuta. Tubigi sa sayong buntag sa gamut. Pilia ang tanum nga kaya ang uga nga panahon, sama sa camote, kamoteng kahoy ug okra. Tipigi ang liso.</li>
+      <li>Mahimong motaas ang presyo sa hulaw. Palita og gamay nga dugang nga basehang pagkaon kada semana imbes tanan sa usa ka higayon, aron igo usab alang sa imong mga silingan.</li>
+    </ul>
+    <p><b>Kuryente:</b> ang uga nga bulan mahimong makahatag og brownout. Pagbaton og power bank, flashlight ug bentilador nga baterya ang gamit.</p>
+    <p class="hint">Basaha usab: Himoa nga luwas ang tubig, Heat stroke, Pagtanom og utanon sa gawas, Hilanat ug dengue.</p>` }
   }
 };
 
@@ -5238,8 +5354,8 @@ addX([
   ["Start over", "Sugdi pag-usab"],
   ["Erase everything on this phone", "Papasa ang tanan niining telepono"],
   ["About", "Mahitungod"],
-  ["Andam means “ready” in Bisaya. Nothing you enter leaves this phone. Peso figures come from Philippine shop listings seen in November 2026 and will change. Radio and satellite rules come from NTC circulars and news reports: confirm with the NTC or an authorized dealer before you buy.",
-   "Ang Andam mao ang pulong sa Bisaya para sa “ready”. Walay imong gisulat nga mawagtang gikan niining telepono. Ang mga presyo sa piso gikan sa mga listahan sa tindahan sa Pilipinas nga nakita sa Nobyembre 2026 ug mausab. Ang mga lagda sa radyo ug satellite gikan sa mga sirkular sa NTC ug balita: pagpamatuod sa NTC o sa awtorisadong dealer sa dili pa mopalit."],
+  ["Andam means “ready” in Bisaya. Nothing you enter leaves this phone unless you log in to sync, and then it is scrambled first. Peso figures come from Philippine shop listings seen in November 2026 and will change. Radio and satellite rules come from NTC circulars and news reports: confirm with the NTC or an authorized dealer before you buy.",
+   "Ang Andam mao ang pulong sa Bisaya para sa “ready”. Walay imong gisulat nga mawagtang gikan niining telepono gawas kung mag-log in ka aron mag-sync, ug gi-scramble kini una. Ang mga presyo sa piso gikan sa mga listahan sa tindahan sa Pilipinas nga nakita sa Nobyembre 2026 ug mausab. Ang mga lagda sa radyo ug satellite gikan sa mga sirkular sa NTC ug balita: pagpamatuod sa NTC o sa awtorisadong dealer sa dili pa mopalit."],
   ["Paste a backup here", "I-paste dinhi ang backup"],
   ["Backup text", "Teksto sa backup"],
   ["Choose a backup file", "Pili og backup nga file"],
@@ -5796,10 +5912,134 @@ addX([
   ["Getting your family ready", "Gihanda ang imong pamilya"],
   ["Emergency? Get help now", "Emerhensya? Pangayo og tabang karon"],
   ["Tap anywhere to skip", "Pislita bisan asa aron laktawan"],
-  ["Opening screen", "Unang screen"], ["Show it for 5 seconds", "Ipakita sulod sa 5 segundo"], ["Skip it", "Laktawi"]
+  ["Opening screen", "Unang screen"], ["Show it for 3 seconds", "Ipakita sulod sa 3 segundo"], ["Skip it", "Laktawi"]
 ]);
 
 addX([["More situations", "Dugang nga mga sitwasyon"]]);
+
+/* ---- v26: El Niño ---- */
+addX([
+  ["El Niño: drought and heat", "El Niño: hulaw ug kainit"],
+  ["A very strong El Niño can bring months of less rain and hotter days. Prepare water, shade and food before the dry months get worse. See also: Guides, El Niño: drought, water and heat.", "Ang kusog kaayo nga El Niño mahimong magdala og pipila ka bulan nga gamay ang ulan ug mas init ang adlaw. Andama ang tubig, landong ug pagkaon sa dili pa mograbe ang uga nga mga bulan. Basaha usab: Giya, El Niño: hulaw, tubig ug kainit."],
+  ["Extra stored drinking water, aiming for 14 days for everyone", "Dugang nga gitipigan nga inom nga tubig, tumong og 14 ka adlaw para sa tanan"],
+  ["Use clean containers with tight lids. Replace the water every 6 months.", "Gamita ang limpyong sudlanan nga hugot ang takup. Ilisi ang tubig matag 6 ka bulan."],
+  ["Tight lids or covers on every water container, to keep mosquitoes out", "Hugot nga takup sa matag sudlanan sa tubig, aron dili makasulod ang lamok"],
+  ["Scrub any open container once a week.", "Kuskusa kausa sa usa ka semana ang bisan unsang abli nga sudlanan."],
+  ["Know where to get water near you: wells, springs, water points and refilling stations, and a way to carry it", "Hibaloi kung asa makakuha og tubig duol kanimo: atabay, bukal, water point ug refilling station, ug paagi sa pagdala niini"],
+  ["Oral rehydration salts and a thermometer", "Oral rehydration salts ug termometro"],
+  ["Hydrite, digital thermometer", "Hydrite, digital nga termometro"],
+  ["Buckets or drums to catch rainwater whenever it rains", "Timba o drum para masalo ang tubig-ulan kung moulan"],
+  ["Boil or treat rainwater before you drink it.", "Lata o hugasi ang tubig-ulan sa dili pa imnon."],
+  ["Hats, light cotton clothes and an umbrella for shade", "Kupya, nipis nga bisting koton ug payong para sa landong"],
+  ["A battery fan or hand fan, a power bank and a flashlight for brownouts", "Bentilador nga baterya o pahangin nga kamot, power bank ug flashlight para sa brownout"],
+  ["Dry-season garden: mulch (dry leaves or straw), a watering can and seeds of crops that take dry weather (camote, cassava, okra)", "Tanaman sa uga nga panahon: tabon sa yuta (uga nga dahon o dagami), banyera sa pagpanubig ug liso sa tanum nga kaya ang uga (camote, kamoteng kahoy, okra)"],
+  ["Water early in the morning at the roots. See Grow vegetables outside in Guides.", "Tubigi sa sayong buntag sa gamut. Tan-awa ang Pagtanom og utanon sa gawas sa Giya."],
+  ["Clear dry grass and trash from around the house, and keep a bucket of water ready", "Limpyohi ang uga nga sagbot ug basura libot sa balay, ug andama ang timba nga tubig"],
+  ["Extra staple food: rice, canned fish, dried fish, noodles", "Dugang nga basehang pagkaon: bugas, de-lata nga isda, uga nga isda, pansit"],
+  ["Prices can rise in a drought. Buy a little more each week, not everything at once.", "Mahimong motaas ang presyo sa hulaw. Palita og gamay nga dugang kada semana, dili tanan sa usa ka higayon."],
+  ["El Niño is active now", "Aktibo karon ang El Niño"],
+  ["PAGASA says a very strong El Niño is active and may last into mid-2027. Expect less rain and hotter days. Parts of Leyte have been listed for dry conditions.", "Gisulti sa PAGASA nga aktibo ang kusog kaayo nga El Niño ug mahimong molungtad hangtod tunga sa 2027. Gamay ang ulan ug mas init ang adlaw. Ang pipila ka bahin sa Leyte nalista nga uga."],
+  ["From PAGASA, checked 13 Nov 2026. PAGASA updates its advisory every month.", "Gikan sa PAGASA, gisusi 13 Nob 2026. Mag-update ang PAGASA sa advisory matag bulan."],
+  ["What to do about El Niño", "Unsay buhaton batok sa El Niño"], ["Hide", "Tagoa"]
+]);
+
+/* ---- v26: news ---- */
+addX([
+  ["News right now", "Balita karon"], ["NEWS", "BALITA"], ["All headlines", "Tanang headline"], ["Refresh", "I-refresh"],
+  ["Weather and disasters", "Panahon ug katalagman"], ["Weather and calamities", "Panahon ug kalamidad"], ["War and nuclear", "Gubat ug nukleyar"],
+  ["War and nuclear news comes from around the world and can be alarming. Stay calm. Check official sources: your barangay, NDRRMC and the government.", "Ang balita bahin sa gubat ug nukleyar gikan sa tibuok kalibotan ug mahimong makahadlok. Pabilin nga kalmado. Susiha ang opisyal nga tinubdan: ang inyong barangay, NDRRMC ug ang gobyerno."],
+  ["News", "Balita"], ["Weather, calamity and war headlines (saved for offline)", "Headline bahin sa panahon, kalamidad ug gubat (na-save para offline)"],
+  ["Loading the latest news", "Gikuha ang pinakabag-ong balita"],
+  ["No news saved yet.", "Wala pay na-save nga balita."],
+  ["No news yet. Connect to the internet once to load headlines.", "Wala pay balita. Pag-connect sa internet kausa aron makarga ang mga headline."],
+  ["No internet. Showing the last saved news from", "Walay internet. Gipakita ang katapusang na-save nga balita gikan sa"],
+  ["Could not update the news. Showing the last saved news from", "Wala ma-update ang balita. Gipakita ang katapusang na-save nga balita gikan sa"],
+  ["These headlines are old.", "Daan na kini nga mga headline."],
+  ["Updated", "Gi-update"], ["just now", "karon lang"], ["min ago", "ka min ang milabay"], ["h ago", "ka oras ang milabay"], ["d ago", "ka adlaw ang milabay"],
+  ["Headlines come from news websites, not from Andam, and can be wrong. For official warnings, check PAGASA, PHIVOLCS and your barangay.", "Ang mga headline gikan sa mga website sa balita, dili gikan sa Andam, ug mahimong sayop. Para sa opisyal nga pasidaan, susiha ang PAGASA, PHIVOLCS ug ang inyong barangay."],
+  ["News headlines", "Mga headline sa balita"], ["Show news (loads when online)", "Ipakita ang balita (mokarga kung naay internet)"], ["Hide news", "Tagoa ang balita"]
+]);
+
+/* ---- v27: login and sync ---- */
+addX([
+  ["MY LOGIN", "AKONG LOGIN"],
+  ["Log in (keep my info on any phone)", "Mag-log in (aron ang akong impormasyon naa sa bisan unsang telepono)"],
+  ["Log in once and your family info follows you to any phone. It is scrambled on this phone before it is sent.", "Mag-log in kausa ug ang imong impormasyon sa pamilya mosunod sa bisan unsang telepono. Gi-scramble kini sa imong telepono una ipadala."],
+  ["Log in or manage my login", "Mag-log in o i-manage ang akong login"],
+  ["Keep your info on any phone", "Ipabilin ang imong impormasyon sa bisan unsang telepono"],
+  ["Log in once, and your family info follows you. No need to type it again on a new phone.", "Mag-log in kausa ug mosunod ang impormasyon sa imong pamilya. Dili na kinahanglan i-type usab sa bag-ong telepono."],
+  ["Log in or create account", "Mag-log in o paghimo og account"],
+  ["Not now", "Dili pa karon"],
+  ["Logged in as", "Naka-log in isip"],
+  ["Log in", "Mag-log in"],
+  ["Create account", "Paghimo og account"],
+  ["Log out on this phone", "Mag-log out niining telepono"],
+  ["Log out on this phone? Your info stays on this phone and online.", "Mag-log out niining telepono? Magpabilin ang imong impormasyon niining telepono ug online."],
+  ["You are logged out.", "Naka-log out ka na."],
+  ["Sync now", "I-sync karon"],
+  ["Syncing…", "Nag-sync…"],
+  ["Saved online", "Natipigan online"],
+  ["Waiting to save online…", "Naghulat nga matipigan online…"],
+  ["No internet. Saved on this phone, will sync later.", "Walay internet. Natipigan sa telepono, i-sync unya."],
+  ["No internet. Try again when you are online.", "Walay internet. Sulayi pag-usab kung naay internet."],
+  ["Ready.", "Andam na."],
+  ["Not logged in.", "Wala naka-log in."],
+  ["Not set up yet.", "Wala pa na-set up."],
+  ["Your login name", "Imong ngalan sa login"],
+  ["Your passphrase (at least 8 letters)", "Imong passphrase (labing menos 8 ka letra)"],
+  ["Example: santos-family-leyte", "Pananglitan: santos-pamilya-leyte"],
+  ["Example: three or four words together", "Pananglitan: tulo o upat ka pulong nga gihiusa"],
+  ["Show passphrase", "Ipakita ang passphrase"],
+  ["Hide passphrase", "Tagoa ang passphrase"],
+  ["Working…", "Nagtrabaho…"],
+  ["Log in to keep your family info on any phone. You only type it once.", "Mag-log in aron naa ang impormasyon sa imong pamilya sa bisan unsang telepono. Kausa ra nimo i-type."],
+  ["Write your passphrase down and keep it safe.", "Isulat ang imong passphrase ug tipigi kini sa luwas nga dapit."],
+  ["If you forget it, nobody can get your info back, not even the person who set this up.", "Kung makalimtan nimo kini, walay makabalik sa imong impormasyon, bisan ang nag-set up niini."],
+  ["Pick a login name nobody else would pick. Use a passphrase that is hard to guess.", "Pagpili og ngalan sa login nga dili pilion sa uban. Gamita ang passphrase nga lisod tagnaon."],
+  ["Sync address", "Address sa sync"],
+  ["Save address", "Tipigi ang address"],
+  ["Address saved.", "Natipigan na ang address."],
+  ["Logging in keeps your info on any phone. It needs a sync address first.", "Ang pag-log in magtipig sa imong impormasyon sa bisan unsang telepono. Kinahanglan una og address sa sync."],
+  ["That does not look like a Google Apps Script address.", "Dili kini sama sa address sa Google Apps Script."],
+  ["The person who set up Andam gets this address when they set up the sync server. Ask them for it.", "Ang nag-set up sa Andam makakuha niining address kung ilang i-set up ang sync server. Pangayoa kanila."],
+  ["Your info is scrambled on this phone before it is sent. Photos stay on each phone.", "Gi-scramble ang imong impormasyon niining telepono una ipadala. Ang mga litrato magpabilin sa matag telepono."],
+  ["Change passphrase", "Usba ang passphrase"],
+  ["New passphrase", "Bag-ong passphrase"],
+  ["Type it again", "I-type usab"],
+  ["Save new passphrase", "Tipigi ang bag-ong passphrase"],
+  ["Cancel", "Kanselaha"],
+  ["Passphrase changed. Use the new one on your other phones.", "Nausab na ang passphrase. Gamita ang bag-o sa imong ubang telepono."],
+  ["Undo the last merge", "Likayi ang kataposang paghiusa"],
+  ["Two phones changed things at the same time, so Andam joined them. This brings back this phone's older info.", "Duha ka telepono ang nag-usab sa samang higayon, mao nga gihiusa kini sa Andam. Ibalik niini ang daang impormasyon niining telepono."],
+  ["Go back to this phone's info from before the last merge?", "Balik sa impormasyon niining telepono sa wala pa ang kataposang paghiusa?"],
+  ["Done. This phone's older info is back.", "Human na. Nabalik na ang daang impormasyon niining telepono."],
+  ["Remove my online copy", "Tangtanga ang akong kopya online"],
+  ["Delete my online copy", "Papasa ang akong kopya online"],
+  ["Delete your online copy? Your info stays on this phone, but it will no longer be saved online and other phones will stop syncing.", "Papason ang imong kopya online? Magpabilin ang imong impormasyon niining telepono, pero dili na kini matipigan online ug mohunong ang pag-sync sa ubang telepono."],
+  ["Your online copy was deleted.", "Napapas na ang imong kopya online."],
+  ["Account created. Your info is saved online.", "Nahimo na ang account. Natipigan online ang imong impormasyon."],
+  ["You are logged in. Your info is on this phone now.", "Naka-log in ka na. Naa na niining telepono ang imong impormasyon."],
+  ["The sync address is not set yet.", "Wala pa na-set ang address sa sync."],
+  ["No account with that name. Check the spelling, or tap Create account.", "Walay account nga kana ang ngalan. Susiha ang spelling, o pidla ang Paghimo og account."],
+  ["Wrong passphrase. Try again.", "Sayop ang passphrase. Sulayi pag-usab."],
+  ["Too many wrong tries. Please wait and try again.", "Daghan kaayo og sayop nga sulay. Palihug hulat ug sulayi pag-usab."],
+  ["minutes", "minuto"],
+  ["That name is already used. Add your family name or a number.", "Gigamit na kana nga ngalan. Dugangi og apelyido sa pamilya o numero."],
+  ["This sync server is full. Ask the person who set it up.", "Puno na kining sync server. Pangutan-a ang nag-set up niini."],
+  ["Your info is too big to save online.", "Dako ra kaayo ang imong impormasyon aron matipigan online."],
+  ["The server is busy. Try again in a moment.", "Busy ang server. Sulayi pag-usab sa dili madugay."],
+  ["The sync server gave an odd answer. Check the address and try again.", "Katingad-an ang tubag sa sync server. Susiha ang address ug sulayi pag-usab."],
+  ["Something went wrong. Try again.", "Adunay nasayop. Sulayi pag-usab."],
+  ["The name needs at least 3 letters.", "Ang ngalan kinahanglan labing menos 3 ka letra."],
+  ["The passphrase needs at least 8 characters.", "Ang passphrase kinahanglan labing menos 8 ka karakter."],
+  ["The passphrase must be different from the name.", "Ang passphrase kinahanglan lahi sa ngalan."],
+  ["This browser can't do secure sync. Open Andam in Chrome.", "Dili makahimo og luwas nga sync kining browser. Ablihi ang Andam sa Chrome."],
+  ["The two passphrases are not the same.", "Dili parehas ang duha ka passphrase."],
+  ["Could not open the saved info. Check the passphrase.", "Dili maablihan ang natipigan nga impormasyon. Susiha ang passphrase."],
+  ["Erase everything you entered on this phone? This can't be undone.", "Papason ang tanan nimong gisulod niining telepono? Dili na kini mabalik."],
+  ["You will also be logged out. Your online copy stays.", "Mag-log out ka sab. Magpabilin ang imong kopya online."],
+  ["Nothing you enter leaves this phone unless you log in to sync, and then it is scrambled first.", "Walay gikan sa imong gisulod nga mawala sa telepono gawas kung mag-log in ka aron mag-sync, ug gi-scramble kini una."],
+]);
 
 /* ---- Levels: area names, intros, step titles ---- */
 addX([
@@ -6005,6 +6245,412 @@ function translateDom(root, on) {
   });
 }
 </script>
+<script>/* Andam sync address.
+   After you deploy the Google Apps Script (see SYNC-SETUP.md), paste its web app address between the quotes.
+   It looks like: https://script.google.com/macros/s/AKfycb.../exec
+   Leave it empty and the login feature stays hidden. */
+window.ANDAM_SYNC_URL = "";
+</script>
+<script>/* Andam sync: log in with a name + passphrase and your info follows you to any phone.
+   - The phone turns name + passphrase into keys (PBKDF2). The passphrase never leaves the phone.
+   - Your data is encrypted on the phone (AES-GCM) before it is sent. The server only keeps scrambled text.
+   - Two phones that changed things at the same time are merged field by field. */
+function AndamSync(ctx) {
+  "use strict";
+  const SKEY = "handa.sync";
+  const ITER = 250000;
+  const EXCL = ["ui", "alerts", "nearby", "news", "settings"]; // stays on each phone
+  const T = (s) => ctx.tx(s), E = (s) => ctx.esc(s);
+  const enc = new TextEncoder(), dec = new TextDecoder();
+
+  /* ---------- small helpers ---------- */
+  const hex = (buf) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  const unhex = (h) => Uint8Array.from(h.match(/../g).map((x) => parseInt(x, 16)));
+  const b64 = (buf) => { const u = new Uint8Array(buf); let s = ""; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); };
+  const unb64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+  const sha = async (str) => hex(await crypto.subtle.digest("SHA-256", enc.encode(str)));
+  const norm = (n) => String(n || "").normalize("NFKC").trim().toLowerCase().replace(/\s+/g, " ");
+  const isObj = (v) => v && typeof v === "object" && !Array.isArray(v);
+  const stable = (v) => JSON.stringify(v, (k, x) => (isObj(x) ? Object.keys(x).sort().reduce((o, key) => { o[key] = x[key]; return o; }, {}) : x));
+  const eq = (a, b) => stable(a) === stable(b);
+  const hasCrypto = () => !!(window.crypto && crypto.subtle && window.TextEncoder);
+
+  /* ---------- what is kept on this phone about the login ---------- */
+  let SY = { url: "", name: "", nameId: "", auth: "", key: "", v: 0, base: "", t: "", safety: null };
+  try { Object.assign(SY, JSON.parse(localStorage.getItem(SKEY) || "{}")); } catch (e) { /* start clean */ }
+  const persist = () => { try { localStorage.setItem(SKEY, JSON.stringify(SY)); } catch (e) { /* low storage */ } };
+  const loggedIn = () => !!(SY.nameId && SY.auth && SY.key);
+  const serverUrl = () => {
+    const u = String(SY.url || window.ANDAM_SYNC_URL || "").trim();
+    return /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(u) ? u : "";
+  };
+  const configured = () => !!serverUrl();
+
+  /* ---------- what is synced ---------- */
+  const snap = (S) => { const o = JSON.parse(JSON.stringify(S)); EXCL.forEach((k) => delete o[k]); return o; };
+  const stripIds = (o) => { const c = JSON.parse(JSON.stringify(o)); if (c.family && Array.isArray(c.family.nums)) c.family.nums = c.family.nums.map((n) => ({ label: n.label, phone: n.phone })); return c; };
+  const pristine = () => eq(stripIds(snap(ctx.get())), stripIds(snap(ctx.fresh())));
+
+  /* ---------- three-way merge: base (last synced), local (this phone), remote (server) ---------- */
+  const idArr = (a) => Array.isArray(a) && a.every((x) => isObj(x) && x.id != null);
+  function m3(b, l, r) {
+    if (eq(l, r)) return l;
+    if (eq(b, l)) return r;
+    if (eq(b, r)) return l;
+    if (isObj(l) && isObj(r)) {
+      const bb = isObj(b) ? b : {}, out = {};
+      new Set([...Object.keys(l), ...Object.keys(r)]).forEach((k) => { const v = m3(bb[k], l[k], r[k]); if (v !== undefined) out[k] = v; });
+      return out;
+    }
+    if (Array.isArray(l) && Array.isArray(r) && idArr(l) && idArr(r) && (b == null || idArr(b))) return mArr(b || [], l, r);
+    return l; // both changed the same thing: this phone wins (a safety copy is kept)
+  }
+  function mArr(b, l, r) {
+    const mp = (a) => new Map(a.map((x) => [x.id, x]));
+    const B = mp(b), R = mp(r), seen = new Set(), out = [];
+    l.forEach((x) => {
+      seen.add(x.id);
+      const rx = R.get(x.id), bx = B.get(x.id);
+      if (rx) out.push(m3(bx, x, rx));
+      else if (!bx || !eq(bx, x)) out.push(x); // added here, or changed here while deleted there
+    });
+    r.forEach((x) => {
+      if (seen.has(x.id)) return;
+      const bx = B.get(x.id);
+      if (!bx || !eq(bx, x)) out.push(x);        // added there, or changed there while deleted here
+    });
+    return out;
+  }
+  function dedupeNums(o) {
+    const f = o.family; if (!f || !Array.isArray(f.nums)) return;
+    const seen = new Set();
+    f.nums = f.nums.filter((n) => { const k = norm(n.label) + "|" + String(n.phone || "").replace(/\D/g, ""); if (seen.has(k)) return false; seen.add(k); return true; });
+  }
+  function apply(obj) {
+    const S = ctx.get(), ns = ctx.merge(ctx.defaults(), JSON.parse(JSON.stringify(obj)));
+    EXCL.forEach((k) => { ns[k] = S[k]; });
+    dedupeNums(ns);
+    ctx.replace(ns);
+  }
+
+  /* ---------- keys and encryption ---------- */
+  async function derive(name, pass) {
+    const n = norm(name);
+    const base = await crypto.subtle.importKey("raw", enc.encode(String(pass).normalize("NFKC")), "PBKDF2", false, ["deriveBits"]);
+    const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", iterations: ITER, salt: enc.encode("andam-sync-v1|" + n) }, base, 256);
+    const master = hex(bits);
+    return { nameId: await sha("andam-name|" + n), auth: await sha("andam-auth|" + master), key: await sha("andam-key|" + master) };
+  }
+  const aesKey = (keyHex) => crypto.subtle.importKey("raw", unhex(keyHex), "AES-GCM", false, ["encrypt", "decrypt"]);
+  async function encrypt(obj, keyHex) {
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const ct = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, await aesKey(keyHex || SY.key), enc.encode(JSON.stringify(obj)));
+    return JSON.stringify({ v: 1, iv: b64(iv), ct: b64(ct) });
+  }
+  async function decrypt(blob, keyHex) {
+    const j = JSON.parse(blob);
+    const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: unb64(j.iv) }, await aesKey(keyHex || SY.key), unb64(j.ct));
+    return JSON.parse(dec.decode(pt));
+  }
+
+  /* ---------- talking to the server ---------- */
+  async function call(body) {
+    const url = serverUrl();
+    if (!url) throw { code: "nourl" };
+    const ac = new AbortController(), timer = setTimeout(() => ac.abort(), 30000);
+    let r;
+    try { r = await fetch(url, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body), signal: ac.signal }); }
+    catch (e) { throw { code: "net" }; } finally { clearTimeout(timer); }
+    if (!r.ok) throw { code: "net" };
+    let j; try { j = await r.json(); } catch (e) { throw { code: "server" }; }
+    return j;
+  }
+
+  /* ---------- status ---------- */
+  const st = { busy: false, err: "", minutes: 0, form: { name: "", pass: "", pass2: "" }, show: false, passForm: false, msg: "" };
+  const MSG = {
+    nourl: "The sync address is not set yet.",
+    net: "No internet. Try again when you are online.",
+    none: "No account with that name. Check the spelling, or tap Create account.",
+    auth: "Wrong passphrase. Try again.",
+    locked: "Too many wrong tries. Please wait and try again.",
+    taken: "That name is already used. Add your family name or a number.",
+    full: "This sync server is full. Ask the person who set it up.",
+    big: "Your info is too big to save online.",
+    busy: "The server is busy. Try again in a moment.",
+    server: "The sync server gave an odd answer. Check the address and try again.",
+    bad: "Something went wrong. Try again.",
+    shortname: "The name needs at least 3 letters.",
+    shortpass: "The passphrase needs at least 8 characters.",
+    samepass: "The passphrase must be different from the name.",
+    nocrypto: "This browser can't do secure sync. Open Andam in Chrome.",
+    nomatch: "The two passphrases are not the same.",
+    read: "Could not open the saved info. Check the passphrase."
+  };
+  const errCode = (e) => (e && (e.err || e.code)) || "bad";
+  function fail(e) {
+    const c = errCode(e);
+    st.err = MSG[c] ? c : "bad"; st.minutes = Number(e && e.minutes) || 0; st.busy = false;
+    redraw();
+  }
+
+  /* ---------- core: push and pull ---------- */
+  let running = false, again = false;
+  async function takeRemote(r, local) {
+    let remote = null;
+    if (r.blob) remote = (await decrypt(r.blob)).data;
+    if (!remote) { SY.v = r.v; persist(); return; }
+    let base = null; try { base = SY.base ? JSON.parse(SY.base) : null; } catch (e) { base = null; }
+    if (!base) base = snap(ctx.fresh());
+    const merged = m3(base, local, remote);
+    if (!eq(base, local) && !eq(base, remote) && !eq(local, remote)) SY.safety = { t: new Date().toISOString(), local: stable(local), remote: stable(remote) };
+    apply(merged);
+    SY.v = r.v; SY.base = stable(remote); persist();
+  }
+  async function runSync() {
+    if (!loggedIn() || running) { again = again || running; return; }
+    running = true; st.busy = true; st.err = ""; redraw();
+    try {
+      for (let i = 0; i < 4; i++) {
+        const local = snap(ctx.get()), dirty = stable(local) !== SY.base;
+        if (dirty && SY.v) {
+          const blob = await encrypt({ data: local, t: new Date().toISOString() });
+          const r = await call({ op: "put", nameId: SY.nameId, auth: SY.auth, base: SY.v, blob });
+          if (r.ok) { SY.v = r.v; SY.base = stable(local); SY.t = new Date().toISOString(); persist(); break; }
+          if (r.err === "conflict") { await takeRemote(r, local); continue; }
+          throw r;
+        } else {
+          const r = await call({ op: "get", nameId: SY.nameId, auth: SY.auth });
+          if (!r.ok) throw r;
+          if (r.v !== SY.v) await takeRemote(r, local);
+          SY.t = new Date().toISOString(); persist();
+          if (stable(snap(ctx.get())) === SY.base) break;
+        }
+      }
+    } catch (e) {
+      if (e && e.name === "OperationError") e = { code: "read" };
+      const c = errCode(e);
+      if (c === "auth" || c === "none") { st.err = c; }
+      else st.err = MSG[c] ? c : "bad";
+      st.minutes = Number(e && e.minutes) || 0;
+    }
+    running = false; st.busy = false; redraw();
+    if (again) { again = false; setTimeout(runSync, 800); }
+  }
+
+  /* ---------- when to sync ---------- */
+  let timer = null, lastPull = 0;
+  function touch() {
+    if (!loggedIn()) return;
+    clearTimeout(timer);
+    timer = setTimeout(() => { if (navigator.onLine !== false && stable(snap(ctx.get())) !== SY.base) runSync(); }, 5000);
+  }
+  function pullSoon() {
+    if (!loggedIn() || navigator.onLine === false || Date.now() - lastPull < 20000) return;
+    lastPull = Date.now(); runSync();
+  }
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") pullSoon(); else if (loggedIn() && stable(snap(ctx.get())) !== SY.base && navigator.onLine !== false) runSync(); });
+  window.addEventListener("online", pullSoon);
+  setTimeout(pullSoon, 2500);
+
+  /* ---------- sign up, log in, passphrase, log out ---------- */
+  function check(name, pass) {
+    if (!hasCrypto()) return "nocrypto";
+    if (!serverUrl()) return "nourl";
+    if (norm(name).length < 3) return "shortname";
+    if (String(pass).length < 8) return "shortpass";
+    if (norm(pass) === norm(name)) return "samepass";
+    return "";
+  }
+  async function signup() {
+    const { name, pass } = st.form, bad = check(name, pass);
+    if (bad) { st.err = bad; return redraw(); }
+    st.busy = true; st.err = ""; redraw();
+    try {
+      const k = await derive(name, pass), local = snap(ctx.get());
+      const blob = await encrypt({ data: local, t: new Date().toISOString() }, k.key);
+      const r = await call({ op: "signup", nameId: k.nameId, auth: k.auth, blob });
+      if (!r.ok) throw r;
+      Object.assign(SY, { name: String(name).trim(), nameId: k.nameId, auth: k.auth, key: k.key, v: r.v, base: stable(local), t: new Date().toISOString(), safety: null });
+      persist(); st.form = { name: "", pass: "", pass2: "" }; st.busy = false; st.msg = "Account created. Your info is saved online.";
+      redraw(); ctx.rerender();
+    } catch (e) { fail(e); }
+  }
+  async function login() {
+    const { name, pass } = st.form, bad = check(name, pass);
+    if (bad) { st.err = bad; return redraw(); }
+    st.busy = true; st.err = ""; redraw();
+    try {
+      const k = await derive(name, pass);
+      const r = await call({ op: "get", nameId: k.nameId, auth: k.auth });
+      if (!r.ok) throw r;
+      let remote = null;
+      try { remote = r.blob ? (await decrypt(r.blob, k.key)).data : null; } catch (e) { throw { code: "read" }; }
+      const local = snap(ctx.get());
+      if (remote) {
+        if (pristine()) apply(remote);
+        else {
+          const merged = m3(snap(ctx.fresh()), local, remote);
+          SY.safety = { t: new Date().toISOString(), local: stable(local), remote: stable(remote) };
+          apply(merged);
+        }
+      }
+      Object.assign(SY, { name: String(name).trim(), nameId: k.nameId, auth: k.auth, key: k.key, v: r.v, base: stable(remote || local), t: new Date().toISOString() });
+      persist(); st.form = { name: "", pass: "", pass2: "" }; st.busy = false; st.msg = "You are logged in. Your info is on this phone now.";
+      redraw(); ctx.rerender(); touch();
+    } catch (e) { fail(e); }
+  }
+  function clearLogin() { SY = { url: SY.url, name: "", nameId: "", auth: "", key: "", v: 0, base: "", t: "", safety: null }; persist(); }
+  async function changePass() {
+    const { pass, pass2 } = st.form;
+    if (String(pass).length < 8) { st.err = "shortpass"; return redraw(); }
+    if (pass !== pass2) { st.err = "nomatch"; return redraw(); }
+    if (norm(pass) === norm(SY.name)) { st.err = "samepass"; return redraw(); }
+    st.busy = true; st.err = ""; redraw();
+    try {
+      await runSyncWait();
+      const k = await derive(SY.name, pass), local = snap(ctx.get());
+      const blob = await encrypt({ data: local, t: new Date().toISOString() }, k.key);
+      const r = await call({ op: "pass", nameId: SY.nameId, auth: SY.auth, newAuth: k.auth, blob });
+      if (!r.ok) throw r;
+      Object.assign(SY, { auth: k.auth, key: k.key, v: r.v, base: stable(local), t: new Date().toISOString() });
+      persist(); st.form = { name: "", pass: "", pass2: "" }; st.passForm = false; st.busy = false; st.msg = "Passphrase changed. Use the new one on your other phones.";
+      redraw();
+    } catch (e) { fail(e); }
+  }
+  async function runSyncWait() { while (running) await new Promise((r) => setTimeout(r, 200)); await runSync(); if (st.err) throw { code: st.err }; }
+  async function delOnline() {
+    if (!confirm(T("Delete your online copy? Your info stays on this phone, but it will no longer be saved online and other phones will stop syncing."))) return;
+    st.busy = true; st.err = ""; redraw();
+    try {
+      const r = await call({ op: "del", nameId: SY.nameId, auth: SY.auth });
+      if (!r.ok) throw r;
+      clearLogin(); st.busy = false; st.msg = "Your online copy was deleted."; redraw(); ctx.rerender();
+    } catch (e) { fail(e); }
+  }
+  function logout(quiet) {
+    if (!quiet && !confirm(T("Log out on this phone? Your info stays on this phone and online."))) return;
+    clearLogin(); st.msg = quiet ? "" : "You are logged out."; st.err = ""; redraw(); ctx.rerender();
+  }
+  function undoMerge() {
+    if (!SY.safety || !confirm(T("Go back to this phone's info from before the last merge?"))) return;
+    try { apply(JSON.parse(SY.safety.local)); SY.safety = null; persist(); st.msg = "Done. This phone's older info is back."; redraw(); touch(); } catch (e) { st.err = "bad"; redraw(); }
+  }
+
+  /* ---------- screens ---------- */
+  const when = (iso) => {
+    if (!iso) return "";
+    const d = new Date(iso), now = new Date();
+    const hm = d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+    return d.toDateString() === now.toDateString() ? hm : d.toLocaleDateString([], { month: "short", day: "numeric" }) + " " + hm;
+  };
+  function statusLine() {
+    if (st.busy) return T("Syncing…");
+    if (st.err) return T(MSG[st.err] || MSG.bad) + (st.err === "locked" && st.minutes ? " (" + st.minutes + " " + T("minutes") + ")" : "");
+    if (navigator.onLine === false) return T("No internet. Saved on this phone, will sync later.");
+    if (loggedIn() && stable(snap(ctx.get())) !== SY.base) return T("Waiting to save online…");
+    return SY.t ? T("Saved online") + " " + when(SY.t) : "";
+  }
+  function dlgHtml() {
+    const bar = `<div class="idbar"><b>${E(T("MY LOGIN"))}</b><button class="btn small ghost" data-a="sy_close">${E(T("Close"))}</button></div>`;
+    const note = st.msg ? `<p class="syncok" role="status">${E(T(st.msg))}</p>` : "";
+    const err = st.err ? `<p class="syncerr" role="alert">${E(statusLine())}</p>` : "";
+    const dis = st.busy ? "disabled" : "";
+    if (!configured()) {
+      return `<div class="idin">${bar}
+        <p>${E(T("Logging in keeps your info on any phone. It needs a sync address first."))}</p>
+        <label class="field"><span>${E(T("Sync address"))}</span><input type="text" id="sy_url" value="${E(SY.url || "")}" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+        <div class="actions"><button class="btn" data-a="sy_saveurl">${E(T("Save address"))}</button></div>
+        ${SY.url ? `<p class="syncerr">${E(T("That does not look like a Google Apps Script address."))}</p>` : ""}
+        <p class="hint">${E(T("The person who set up Andam gets this address when they set up the sync server. Ask them for it."))}</p></div>`;
+    }
+    if (loggedIn()) {
+      return `<div class="idin">${bar}${note}
+        <p><b>${E(T("Logged in as"))} ${E(SY.name)}</b></p>
+        <p class="syncst" role="status">${E(statusLine() || T("Ready."))}</p>
+        <div class="actions"><button class="btn" data-a="sy_now" ${dis}>${E(T("Sync now"))}</button><button class="btn ghost" data-a="sy_logout" ${dis}>${E(T("Log out on this phone"))}</button></div>
+        <p class="hint">${E(T("Your info is scrambled on this phone before it is sent. Photos stay on each phone."))}</p>
+        ${st.passForm ? `<h3>${E(T("New passphrase"))}</h3>
+          <label class="field"><span>${E(T("New passphrase"))}</span><input type="${st.show ? "text" : "password"}" id="sy_pass" value="${E(st.form.pass)}" autocomplete="new-password"></label>
+          <label class="field"><span>${E(T("Type it again"))}</span><input type="${st.show ? "text" : "password"}" id="sy_pass2" value="${E(st.form.pass2)}" autocomplete="new-password"></label>
+          <div class="actions"><button class="btn" data-a="sy_passgo" ${dis}>${E(T("Save new passphrase"))}</button><button class="btn ghost" data-a="sy_passform">${E(T("Cancel"))}</button></div>`
+          : `<div class="actions"><button class="btn small ghost" data-a="sy_passform">${E(T("Change passphrase"))}</button></div>`}
+        ${SY.safety ? `<div class="actions"><button class="btn small ghost" data-a="sy_undo">${E(T("Undo the last merge"))}</button></div><p class="hint">${E(T("Two phones changed things at the same time, so Andam joined them. This brings back this phone's older info."))}</p>` : ""}
+        <h3>${E(T("Remove my online copy"))}</h3>
+        <button class="btn danger small" data-a="sy_del" ${dis}>${E(T("Delete my online copy"))}</button></div>`;
+    }
+    const f = st.form;
+    return `<div class="idin">${bar}${note}
+      <p>${E(T("Log in to keep your family info on any phone. You only type it once."))}</p>
+      <label class="field"><span>${E(T("Your login name"))}</span><input type="text" id="sy_name" value="${E(f.name)}" placeholder="${E(T("Example: santos-family-leyte"))}" autocomplete="username" autocapitalize="off" spellcheck="false"></label>
+      <label class="field"><span>${E(T("Your passphrase (at least 8 letters)"))}</span><input type="${st.show ? "text" : "password"}" id="sy_pass" value="${E(f.pass)}" placeholder="${E(T("Example: three or four words together"))}" autocomplete="current-password" autocapitalize="off" spellcheck="false"></label>
+      <div class="actions"><button class="btn small ghost" data-a="sy_show">${E(st.show ? T("Hide passphrase") : T("Show passphrase"))}</button></div>
+      ${err}
+      <div class="actions"><button class="btn" data-a="sy_login" ${dis}>${E(st.busy ? T("Working…") : T("Log in"))}</button><button class="btn ghost" data-a="sy_signup" ${dis}>${E(T("Create account"))}</button></div>
+      <p class="hint"><b>${E(T("Write your passphrase down and keep it safe."))}</b> ${E(T("If you forget it, nobody can get your info back, not even the person who set this up."))}</p>
+      <p class="hint">${E(T("Pick a login name nobody else would pick. Use a passphrase that is hard to guess."))}</p>
+      <details class="hint"><summary>${E(T("Sync address"))}</summary>
+        <label class="field"><input type="text" id="sy_url" value="${E(SY.url || window.ANDAM_SYNC_URL || "")}" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+        <div class="actions"><button class="btn small ghost" data-a="sy_saveurl">${E(T("Save address"))}</button></div></details></div>`;
+  }
+  function readInputs() {
+    const g = (id) => { const el = document.getElementById(id); return el ? el.value : null; };
+    const n = g("sy_name"), p = g("sy_pass"), p2 = g("sy_pass2");
+    if (n !== null) st.form.name = n;
+    if (p !== null) st.form.pass = p;
+    if (p2 !== null) st.form.pass2 = p2;
+  }
+  function redraw() {
+    const d = document.getElementById("syncdlg");
+    if (d && d.open) { d.innerHTML = dlgHtml(); if (ctx.ceb()) ctx.translateDom(d, true); }
+    const s = document.getElementById("syncStatus"); if (s) s.textContent = settingsLine();
+  }
+  function open() {
+    const d = document.getElementById("syncdlg"); if (!d) return;
+    st.err = ""; st.msg = ""; st.passForm = false;
+    d.innerHTML = dlgHtml(); if (ctx.ceb()) ctx.translateDom(d, true);
+    if (typeof d.showModal === "function") { if (!d.open) d.showModal(); } else d.setAttribute("open", "");
+  }
+  function close() { const d = document.getElementById("syncdlg"); if (d && d.open) d.close(); }
+  const settingsLine = () => (!configured() ? T("Not set up yet.") : loggedIn() ? T("Logged in as") + " " + SY.name + (statusLine() ? " · " + statusLine() : "") : T("Not logged in."));
+
+  function cardHtml() {
+    if (!configured()) return "";
+    if (loggedIn()) {
+      return `<button class="block synccard ok" data-a="sy_open"><b>${E(T("Logged in as"))} ${E(SY.name)}</b><span class="hint">${E(statusLine() || T("Ready."))}</span></button>`;
+    }
+    if ((ctx.get().ui || {}).syncHide) return "";
+    return `<div class="block synccard"><h3>${E(T("Keep your info on any phone"))}</h3><p>${E(T("Log in once, and your family info follows you. No need to type it again on a new phone."))}</p><div class="actions"><button class="btn" data-a="sy_open">${E(T("Log in or create account"))}</button><button class="btn ghost small" data-a="sy_hide">${E(T("Not now"))}</button></div></div>`;
+  }
+
+  /* ---------- buttons ---------- */
+  function act(a) {
+    readInputs();
+    switch (a) {
+      case "sy_open": open(); break;
+      case "sy_close": close(); break;
+      case "sy_show": st.show = !st.show; redraw(); break;
+      case "sy_login": login(); break;
+      case "sy_signup": signup(); break;
+      case "sy_now": lastPull = Date.now(); runSync(); break;
+      case "sy_logout": logout(false); break;
+      case "sy_passform": st.passForm = !st.passForm; st.form.pass = ""; st.form.pass2 = ""; st.err = ""; redraw(); break;
+      case "sy_passgo": changePass(); break;
+      case "sy_del": delOnline(); break;
+      case "sy_undo": undoMerge(); break;
+      case "sy_saveurl": {
+        const el = document.getElementById("sy_url");
+        SY.url = el ? el.value.trim() : ""; persist(); st.err = ""; redraw(); ctx.rerender();
+        if (configured()) { st.msg = "Address saved."; redraw(); }
+        break;
+      }
+      case "sy_hide": { const S = ctx.get(); S.ui.syncHide = true; ctx.save(); ctx.rerender(); break; }
+    }
+  }
+
+  return { act, touch, cardHtml, open, loggedIn, configured, logoutQuiet: () => logout(true), settingsLine, _m3: m3, _snap: snap };
+}
+</script>
 <script>(() => {
   "use strict";
 
@@ -6021,9 +6667,10 @@ function translateDom(root, on) {
     drill: { steps: {}, last: "", found: "" },
     levels: { people: 5, goal: 2, done: {} },
     howto: { done: {}, got: {}, calc: {}, fill: {} },
-    stock: [], places: [], nearby: [], medid: {}, plan: { months: 6, warn: 30 }, checks: {},
+    stock: [], places: [], nearby: [],
+    news: {}, medid: {}, plan: { months: 6, warn: 30 }, checks: {},
     watch: [{ id: "home", name: "Isabel, Leyte", lat: 10.93, lng: 124.43, home: true }], alerts: {},
-    settings: { theme: "auto", size: "m", motion: "auto", lang: "en", nav: "simple", splash: "on" },
+    settings: { theme: "auto", size: "m", motion: "auto", lang: "en", nav: "simple", splash: "on", news: "on" },
     ui: { tab: "home", phase: 0, toBuy: false, open: {}, detail: {} }
   });
 
@@ -6085,9 +6732,11 @@ function translateDom(root, on) {
   }
   let S = load();
   let warned = false;
+  let SYNC = null;
   function save() {
     try {
       localStorage.setItem(KEY, JSON.stringify(S));
+      if (SYNC) SYNC.touch();
     } catch (e) {
       storageOk = false;
       if (!warned) { warned = true; toast("This phone is blocking saving. Your changes will be lost when you close the app."); }
@@ -6824,6 +7473,112 @@ function translateDom(root, on) {
   }
 
 
+  /* ---------- news headlines (cached so the last news is still there offline) ---------- */
+  const NEWS_Q = {
+    dis: '(typhoon OR "tropical storm" OR earthquake OR flood OR landslide OR drought OR "El Nino" OR volcano OR tsunami OR PAGASA OR Phivolcs OR NDRRMC OR "state of calamity") sourcecountry:philippines sourcelang:english',
+    war: '("nuclear war" OR "nuclear weapon" OR "nuclear weapons" OR "nuclear attack" OR "nuclear strike" OR "nuclear test" OR missile OR airstrike OR invasion OR "West Philippine Sea" OR "South China Sea" OR "Taiwan Strait" OR "armed conflict") sourcelang:english'
+  };
+  const NEWS_MAX_AGE = 30 * 60 * 1000;
+  const newsState = { busy: false, failed: false, last: 0, asked: false };
+  const decodeHtml = (t) => { const e = document.createElement("textarea"); e.innerHTML = t; return e.value; };
+  const normTitle = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  function parseSeen(sd) {
+    const m = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/.exec(sd || "");
+    return m ? Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]) : 0;
+  }
+  function cleanNews(list) {
+    const seen = new Set(), out = [];
+    (list || []).forEach((a) => {
+      if (!a || !a.title || !/^https?:\/\//i.test(a.url || "")) return;
+      if (a.language && !/english/i.test(a.language)) return;
+      const title = decodeHtml(String(a.title)).replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+      const key = normTitle(title);
+      if (title.length < 15 || seen.has(key)) return;
+      seen.add(key);
+      out.push({ ti: title, u: a.url, d: String(a.domain || "").replace(/^www\./, ""), t: parseSeen(a.seendate) });
+    });
+    return out.sort((x, y) => y.t - x.t).slice(0, 15);
+  }
+  const newsKey = () => (S.ui.newsTab === "war" ? "war" : "dis");
+  async function fetchNews(key) {
+    if (S.settings.news === "off" || newsState.busy) return;
+    if (navigator.onLine === false) { newsState.failed = true; refreshNewsViews(); return; }
+    const wait = 5600 - (Date.now() - newsState.last);
+    newsState.busy = true; newsState.failed = false; refreshNewsViews();
+    try {
+      if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+      const url = "https://api.gdeltproject.org/api/v2/doc/doc?mode=artlist&format=json&maxrecords=60&sort=datedesc&timespan=3d&query=" + encodeURIComponent(NEWS_Q[key]);
+      const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 15000);
+      newsState.last = Date.now();
+      const r = await fetch(url, { signal: ctl.signal });
+      clearTimeout(to);
+      if (!r.ok) throw new Error("http " + r.status);
+      const j = JSON.parse(await r.text());
+      const items = cleanNews(j.articles);
+      if (items.length) { S.news[key] = { t: Date.now(), items }; save(); } else if (!S.news[key]) throw new Error("empty");
+    } catch (e) { newsState.failed = true; }
+    newsState.busy = false;
+    refreshNewsViews();
+  }
+  async function maybeRefreshNews() {
+    if (newsState.asked || S.settings.news === "off") return;
+    newsState.asked = true;
+    for (const k of ["dis", "war"]) {
+      const c = S.news[k];
+      if (!c || Date.now() - c.t > NEWS_MAX_AGE) { await fetchNews(k); if (navigator.onLine === false) break; }
+    }
+  }
+  function ago(t) {
+    const m = Math.max(0, Math.round((Date.now() - t) / 60000));
+    if (m < 2) return tx("just now");
+    if (m < 90) return m + " " + tx("min ago");
+    if (m < 60 * 36) return Math.round(m / 60) + " " + tx("h ago");
+    return Math.round(m / 1440) + " " + tx("d ago");
+  }
+  function newsStatus(key) {
+    const c = S.news[key];
+    if (newsState.busy) return `<span class="newsst">${esc(tx("Loading the latest news"))}</span>`;
+    if (!c) return `<span class="newsst bad">${esc(tx(newsState.failed ? "No news yet. Connect to the internet once to load headlines." : "No news saved yet."))}</span>`;
+    const when = new Date(c.t).toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+    const old = Date.now() - c.t > 24 * 3600 * 1000;
+    if (newsState.failed || navigator.onLine === false) return `<span class="newsst bad">${esc(tx(navigator.onLine === false ? "No internet. Showing the last saved news from" : "Could not update the news. Showing the last saved news from"))} ${esc(when)}${old ? ` · ${esc(tx("These headlines are old."))}` : ""}</span>`;
+    return `<span class="newsst">${esc(tx("Updated"))} ${esc(ago(c.t))}</span>`;
+  }
+  function newsList(key, n) {
+    const c = S.news[key];
+    if (!c || !c.items.length) return "";
+    return `<div class="newslist">${c.items.slice(0, n).map((a) => `<a class="newsrow" href="${esc(a.u)}" target="_blank" rel="noopener noreferrer"><b dir="auto">${esc(a.ti)}</b><small>${esc(a.d)}${a.t ? " · " + esc(ago(a.t)) : ""}</small></a>`).join("")}</div>`;
+  }
+  const NEWS_NOTE = "Headlines come from news websites, not from Andam, and can be wrong. For official warnings, check PAGASA, PHIVOLCS and your barangay.";
+  const WAR_NOTE = "War and nuclear news comes from around the world and can be alarming. Stay calm. Check official sources: your barangay, NDRRMC and the government.";
+  const newsChips = (act) => { const k = newsKey(); return `<div class="chips" role="group">${[["dis", "Weather and calamities"], ["war", "War and nuclear"]].map(([v, l]) => `<button class="chip" data-a="${act}" data-v="${v}" aria-pressed="${k === v}">${esc(tx(l))}</button>`).join("")}</div>`; };
+  function newsCard() {
+    if (S.settings.news === "off") return "";
+    const key = newsKey();
+    return `<div class="block newscard"><h3>${esc(tx("News right now"))}</h3>${newsChips("newshometab")}${newsStatus(key)}${newsList(key, 4)}
+      <div class="actions"><button class="btn small" data-a="newsopen">${esc(tx("All headlines"))}</button><button class="btn small ghost" data-a="newsrefresh" ${newsState.busy ? "disabled" : ""}>${esc(tx("Refresh"))}</button></div>
+      <p class="hint">${esc(tx(key === "war" ? WAR_NOTE : NEWS_NOTE))}</p></div>`;
+  }
+  function newsDlgHtml() {
+    const key = newsKey();
+    return `<div class="idin"><div class="idbar"><b>${esc(tx("NEWS"))}</b><button class="btn small ghost" data-a="newsclose">${esc(tx("Close"))}</button></div>
+      ${newsChips("newstab")}
+      ${newsStatus(key)}${newsList(key, 15)}
+      <div class="actions"><button class="btn small" data-a="newsrefresh" ${newsState.busy ? "disabled" : ""}>${esc(tx("Refresh"))}</button></div>
+      <p class="hint">${esc(tx(key === "war" ? WAR_NOTE : NEWS_NOTE))}</p></div>`;
+  }
+  function refreshNewsViews() {
+    const d = document.getElementById("newsdlg");
+    if (d && d.open) { d.innerHTML = newsDlgHtml(); if (ceb()) translateDom(d, true); }
+    if (S.ui.tab === "home") render();
+  }
+  function openNews() {
+    const d = document.getElementById("newsdlg");
+    d.innerHTML = newsDlgHtml(); if (ceb()) translateDom(d, true);
+    if (typeof d.showModal === "function") { if (!d.open) d.showModal(); } else d.setAttribute("open", "");
+    if (!S.news[newsKey()] || Date.now() - S.news[newsKey()].t > NEWS_MAX_AGE) fetchNews(newsKey());
+  }
+
   /* ---------- Home: the simple screen ---------- */
   const IC = {
     warn: '<path d="M12 3.5 2.5 20h19z"/><path d="M12 10v5M12 17.5v.5"/>',
@@ -6858,8 +7613,17 @@ function translateDom(root, on) {
     { en: "The ground is cracking or the slope is moving", ceb: "Naliki ang yuta o naglihok ang bakilid", g: "gd35" },
     { en: "Going to an evacuation center", ceb: "Moadto sa evacuation center", g: "gd38" },
     { en: "Earthquake in a tall building, car, school or on the coast", ceb: "Linog sa taas nga building, awto, eskwelahan o baybayon", g: "gd34" },
-    { en: "Feeling scared or very stressed", ceb: "Nahadlok o grabe ang kapit-os", g: "gd33" }
+    { en: "Feeling scared or very stressed", ceb: "Nahadlok o grabe ang kapit-os", g: "gd33" },
+    { en: "Very hot or dry weather, and water is running short", ceb: "Init kaayo o uga ang panahon, ug nagkunhod ang tubig", g: "gd40" }
   ];
+  const NOTICES = [
+    { id: "elnino2026", until: "2027-06-30", title: "El Niño is active now",
+      body: "PAGASA says a very strong El Niño is active and may last into mid-2027. Expect less rain and hotter days. Parts of Leyte have been listed for dry conditions.",
+      src: "From PAGASA, checked 13 Nov 2026. PAGASA updates its advisory every month.", g: "gd40", btn: "What to do about El Niño" }
+  ];
+  function noticeCards() {
+    return NOTICES.filter((n) => isoToday() <= n.until && !(S.ui.noticeHide || {})[n.id]).map((n) => `<div class="block notice" role="note"><h3>${esc(tx(n.title))}</h3><p>${esc(tx(n.body))}</p><p class="hint">${esc(tx(n.src))}</p><div class="actions"><button class="btn" data-a="guideopen" data-id="${n.g}">${esc(tx(n.btn))}</button><button class="btn ghost small" data-a="noticehide" data-id="${n.id}">${esc(tx("Hide"))}</button></div></div>`).join("");
+  }
   function warnStatus() {
     let top = -1, any = false;
     S.watch.forEach((p) => { const r = S.alerts[p.id]; if (!r) return; any = true; top = Math.max(top, placeItems(p).reduce((m, it) => Math.max(m, it.lvl), 0)); });
@@ -6892,6 +7656,9 @@ function translateDom(root, on) {
         <button class="bigbtn danger" data-a="helpnow"><span>${esc(tx("I need help now"))}</span><small>${esc(tx("Call, text, first aid"))}</small></button>
         <button class="bigbtn ok" data-a="famtext" data-id="safe"><span>${esc(tx("I'm safe"))}</span><small>${esc(tx("Tell my family"))}</small></button>
       </div>
+      ${newsCard()}
+      ${SYNC ? SYNC.cardHtml() : ""}
+      ${noticeCards()}
       ${firstSteps()}
       <h3>${esc(tx("What's happening?"))}</h3>
       ${(() => { const b = (x) => `<button class="situbtn" ${x.g ? `data-a="guideopen" data-id="${x.g}"` : x.hw ? `data-a="hwgo" data-id="${x.hw}"` : `data-a="${x.act}"`}><span>${esc(lt(x))}</span><span aria-hidden="true">›</span></button>`; return `<div class="situ">${SITUATIONS.slice(0, 8).map(b).join("")}</div><details class="situmore" data-cat="situmore" ${S.ui.open.situmore ? "open" : ""}><summary>${esc(tx("More situations"))}</summary><div class="situ">${SITUATIONS.slice(8).map(b).join("")}</div></details>`; })()}
@@ -6917,6 +7684,7 @@ function translateDom(root, on) {
         ${row("box", "Storage", "What you have stored and when it expires", 'data-a="tab" data-tab="storage"')}
         ${row("radio", "Comms", "Radios, signals and how we reach each other", 'data-a="tab" data-tab="comms"')}
         ${row("timer", "Drill", "Practice with your family, with an alarm and timer", 'data-a="tab" data-tab="drill"')}
+        ${row("warn", "News", "Weather, calamity and war headlines (saved for offline)", 'data-a="newsopen"')}
         ${row("map", "Map", "Evacuation centers, hazards and help nearby", 'data-a="map"')}
         ${row("id", "Emergency ID card", "Your medical details in big letters", 'data-a="idcard"')}
         ${row("print", "Print the family sheet", "One page for the fridge", 'data-a="printsheet"')}
@@ -7313,7 +8081,7 @@ function translateDom(root, on) {
   const dlg = document.getElementById("settings");
   function backupText() {
     const data = JSON.parse(JSON.stringify(S));
-    delete data.ui; delete data.alerts; delete data.nearby;
+    delete data.ui; delete data.alerts; delete data.nearby; delete data.news;
     return JSON.stringify({ app: "handa", v: 1, saved: new Date().toISOString(), data }, null, 1);
   }
   function openSettings() {
@@ -7323,7 +8091,9 @@ function translateDom(root, on) {
     document.getElementById("lang").value = S.settings.lang || "en";
     document.getElementById("navmode").value = S.settings.nav || "simple";
     document.getElementById("splashmode").value = S.settings.splash || "on";
+    document.getElementById("newsmode").value = S.settings.news || "on";
     document.getElementById("backup").value = backupText();
+    const ss = document.getElementById("syncStatus"); if (ss) ss.textContent = SYNC ? SYNC.settingsLine() : "";
     document.getElementById("restoreText").value = "";
     const lb = document.getElementById("lastBackup"); if (lb) lb.textContent = S.settings.lastBackup ? tx("Last backup") + ": " + S.settings.lastBackup : tx("You have not saved a backup yet.");
     if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
@@ -7437,6 +8207,7 @@ function translateDom(root, on) {
     const el = e.target.closest("[data-a]");
     if (!el) return;
     const d = el.dataset;
+    if (d.a.startsWith("sy_")) { if (SYNC) SYNC.act(d.a); return; }
     switch (d.a) {
       case "tab": setTab(d.tab); break;
       case "phase": S.ui.phase = Number(d.phase); save(); render(); break;
@@ -7541,6 +8312,12 @@ function translateDom(root, on) {
       }
       case "map": MAPV.open({ get S() { return S; }, save, toast, tx, ceb: ceb(), esc, HAZ, uid, render: () => render(), getPhoto, dropPhoto }, d.focus); break;
       case "setlang": S.settings.lang = d.v === "ceb" ? "ceb" : "en"; save(); applySettings(); render(); break;
+      case "noticehide": S.ui.noticeHide = Object.assign({}, S.ui.noticeHide, { [d.id]: true }); save(); render(); break;
+      case "newsopen": openNews(); break;
+      case "newsclose": { const nd = document.getElementById("newsdlg"); if (nd.open) nd.close(); break; }
+      case "newstab": S.ui.newsTab = d.v === "war" ? "war" : "dis"; save(); openNews(); break;
+      case "newshometab": S.ui.newsTab = d.v === "war" ? "war" : "dis"; save(); render(); if (!S.news[newsKey()]) fetchNews(newsKey()); break;
+      case "newsrefresh": fetchNews(newsKey()); break;
       case "helpnow": openHelp(); break;
       case "splashhelp": hideSplash(); openHelp(); break;
       case "helpclose": closeHelp(); break;
@@ -7607,7 +8384,8 @@ function translateDom(root, on) {
         break;
       }
       case "reset":
-        if (confirm("Erase everything you entered on this phone? This can't be undone.")) {
+        if (confirm(tx("Erase everything you entered on this phone? This can't be undone.") + (SYNC && SYNC.loggedIn() ? "\n\n" + tx("You will also be logged out. Your online copy stays.") : ""))) {
+          if (SYNC && SYNC.loggedIn()) SYNC.logoutQuiet();
           S = defaults(); seed(); save(); applySettings(); render(); dlg.close && dlg.close(); toast("Everything was cleared.");
         }
         break;
@@ -7722,7 +8500,7 @@ function translateDom(root, on) {
   if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
 
   /* ---------- opening screen ---------- */
-  const SPLASH_MIN = 5000, SPLASH_MAX = 14000;
+  const SPLASH_MIN = 3000, SPLASH_MAX = 14000;
   let splashT = null;
   function hideSplash() {
     const el = document.getElementById("splash");
@@ -7731,7 +8509,7 @@ function translateDom(root, on) {
     el.classList.add("out");
     setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 350);
   }
-  /* Stays at least 5 seconds, and longer (up to 14 s) if the page, fonts or offline files are still loading. */
+  /* Stays at least 3 seconds, and longer (up to 14 s) if the page, fonts or offline files are still loading. */
   function startSplash() {
     const el = document.getElementById("splash");
     if (!el) return;
@@ -7753,8 +8531,17 @@ function translateDom(root, on) {
   }
 
   /* ---------- start ---------- */
+  if (typeof AndamSync === "function") {
+    SYNC = AndamSync({
+      get: () => S, defaults, merge, save, tx, esc, ceb, translateDom,
+      fresh: () => { const d = defaults(); NUMBERS.forEach((n) => d.family.nums.push({ id: uid(), label: n.label, phone: n.phone })); d.family.seeded = true; return d; },
+      replace: (ns) => { S = ns; save(); applySettings(); render(); },
+      rerender: () => { render(); }
+    });
+  }
   applySettings();
   startSplash();
+  setTimeout(maybeRefreshNews, 1500);
   if (location.hash && VIEWS[location.hash.slice(1)]) S.ui.tab = location.hash.slice(1);
   render(); playEnter();
   setTimeout(autoAlerts, 1200);

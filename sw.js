@@ -1,6 +1,6 @@
 /* Andam service worker: makes the app work without internet.
    Bump VERSION whenever you change any file so phones pick up the update. */
-const VERSION = "andam-v25";
+const VERSION = "andam-v27";
 const ASSETS = [
   "./",
   "index.html",
@@ -18,6 +18,8 @@ const ASSETS = [
   "figures4.js",
   "i18n.js",
   "i18n2.js",
+  "sync-config.js",
+  "sync.js",
   "app.js",
   "manifest.webmanifest",
   "icons/icon-192.png",

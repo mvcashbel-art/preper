@@ -14,9 +14,10 @@
     drill: { steps: {}, last: "", found: "" },
     levels: { people: 5, goal: 2, done: {} },
     howto: { done: {}, got: {}, calc: {}, fill: {} },
-    stock: [], places: [], nearby: [], medid: {}, plan: { months: 6, warn: 30 }, checks: {},
+    stock: [], places: [], nearby: [],
+    news: {}, medid: {}, plan: { months: 6, warn: 30 }, checks: {},
     watch: [{ id: "home", name: "Isabel, Leyte", lat: 10.93, lng: 124.43, home: true }], alerts: {},
-    settings: { theme: "auto", size: "m", motion: "auto", lang: "en", nav: "simple", splash: "on" },
+    settings: { theme: "auto", size: "m", motion: "auto", lang: "en", nav: "simple", splash: "on", news: "on" },
     ui: { tab: "home", phase: 0, toBuy: false, open: {}, detail: {} }
   });
 
@@ -78,9 +79,11 @@
   }
   let S = load();
   let warned = false;
+  let SYNC = null;
   function save() {
     try {
       localStorage.setItem(KEY, JSON.stringify(S));
+      if (SYNC) SYNC.touch();
     } catch (e) {
       storageOk = false;
       if (!warned) { warned = true; toast("This phone is blocking saving. Your changes will be lost when you close the app."); }
@@ -817,6 +820,112 @@
   }
 
 
+  /* ---------- news headlines (cached so the last news is still there offline) ---------- */
+  const NEWS_Q = {
+    dis: '(typhoon OR "tropical storm" OR earthquake OR flood OR landslide OR drought OR "El Nino" OR volcano OR tsunami OR PAGASA OR Phivolcs OR NDRRMC OR "state of calamity") sourcecountry:philippines sourcelang:english',
+    war: '("nuclear war" OR "nuclear weapon" OR "nuclear weapons" OR "nuclear attack" OR "nuclear strike" OR "nuclear test" OR missile OR airstrike OR invasion OR "West Philippine Sea" OR "South China Sea" OR "Taiwan Strait" OR "armed conflict") sourcelang:english'
+  };
+  const NEWS_MAX_AGE = 30 * 60 * 1000;
+  const newsState = { busy: false, failed: false, last: 0, asked: false };
+  const decodeHtml = (t) => { const e = document.createElement("textarea"); e.innerHTML = t; return e.value; };
+  const normTitle = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  function parseSeen(sd) {
+    const m = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/.exec(sd || "");
+    return m ? Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]) : 0;
+  }
+  function cleanNews(list) {
+    const seen = new Set(), out = [];
+    (list || []).forEach((a) => {
+      if (!a || !a.title || !/^https?:\/\//i.test(a.url || "")) return;
+      if (a.language && !/english/i.test(a.language)) return;
+      const title = decodeHtml(String(a.title)).replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+      const key = normTitle(title);
+      if (title.length < 15 || seen.has(key)) return;
+      seen.add(key);
+      out.push({ ti: title, u: a.url, d: String(a.domain || "").replace(/^www\./, ""), t: parseSeen(a.seendate) });
+    });
+    return out.sort((x, y) => y.t - x.t).slice(0, 15);
+  }
+  const newsKey = () => (S.ui.newsTab === "war" ? "war" : "dis");
+  async function fetchNews(key) {
+    if (S.settings.news === "off" || newsState.busy) return;
+    if (navigator.onLine === false) { newsState.failed = true; refreshNewsViews(); return; }
+    const wait = 5600 - (Date.now() - newsState.last);
+    newsState.busy = true; newsState.failed = false; refreshNewsViews();
+    try {
+      if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+      const url = "https://api.gdeltproject.org/api/v2/doc/doc?mode=artlist&format=json&maxrecords=60&sort=datedesc&timespan=3d&query=" + encodeURIComponent(NEWS_Q[key]);
+      const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 15000);
+      newsState.last = Date.now();
+      const r = await fetch(url, { signal: ctl.signal });
+      clearTimeout(to);
+      if (!r.ok) throw new Error("http " + r.status);
+      const j = JSON.parse(await r.text());
+      const items = cleanNews(j.articles);
+      if (items.length) { S.news[key] = { t: Date.now(), items }; save(); } else if (!S.news[key]) throw new Error("empty");
+    } catch (e) { newsState.failed = true; }
+    newsState.busy = false;
+    refreshNewsViews();
+  }
+  async function maybeRefreshNews() {
+    if (newsState.asked || S.settings.news === "off") return;
+    newsState.asked = true;
+    for (const k of ["dis", "war"]) {
+      const c = S.news[k];
+      if (!c || Date.now() - c.t > NEWS_MAX_AGE) { await fetchNews(k); if (navigator.onLine === false) break; }
+    }
+  }
+  function ago(t) {
+    const m = Math.max(0, Math.round((Date.now() - t) / 60000));
+    if (m < 2) return tx("just now");
+    if (m < 90) return m + " " + tx("min ago");
+    if (m < 60 * 36) return Math.round(m / 60) + " " + tx("h ago");
+    return Math.round(m / 1440) + " " + tx("d ago");
+  }
+  function newsStatus(key) {
+    const c = S.news[key];
+    if (newsState.busy) return `<span class="newsst">${esc(tx("Loading the latest news"))}</span>`;
+    if (!c) return `<span class="newsst bad">${esc(tx(newsState.failed ? "No news yet. Connect to the internet once to load headlines." : "No news saved yet."))}</span>`;
+    const when = new Date(c.t).toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+    const old = Date.now() - c.t > 24 * 3600 * 1000;
+    if (newsState.failed || navigator.onLine === false) return `<span class="newsst bad">${esc(tx(navigator.onLine === false ? "No internet. Showing the last saved news from" : "Could not update the news. Showing the last saved news from"))} ${esc(when)}${old ? ` · ${esc(tx("These headlines are old."))}` : ""}</span>`;
+    return `<span class="newsst">${esc(tx("Updated"))} ${esc(ago(c.t))}</span>`;
+  }
+  function newsList(key, n) {
+    const c = S.news[key];
+    if (!c || !c.items.length) return "";
+    return `<div class="newslist">${c.items.slice(0, n).map((a) => `<a class="newsrow" href="${esc(a.u)}" target="_blank" rel="noopener noreferrer"><b dir="auto">${esc(a.ti)}</b><small>${esc(a.d)}${a.t ? " · " + esc(ago(a.t)) : ""}</small></a>`).join("")}</div>`;
+  }
+  const NEWS_NOTE = "Headlines come from news websites, not from Andam, and can be wrong. For official warnings, check PAGASA, PHIVOLCS and your barangay.";
+  const WAR_NOTE = "War and nuclear news comes from around the world and can be alarming. Stay calm. Check official sources: your barangay, NDRRMC and the government.";
+  const newsChips = (act) => { const k = newsKey(); return `<div class="chips" role="group">${[["dis", "Weather and calamities"], ["war", "War and nuclear"]].map(([v, l]) => `<button class="chip" data-a="${act}" data-v="${v}" aria-pressed="${k === v}">${esc(tx(l))}</button>`).join("")}</div>`; };
+  function newsCard() {
+    if (S.settings.news === "off") return "";
+    const key = newsKey();
+    return `<div class="block newscard"><h3>${esc(tx("News right now"))}</h3>${newsChips("newshometab")}${newsStatus(key)}${newsList(key, 4)}
+      <div class="actions"><button class="btn small" data-a="newsopen">${esc(tx("All headlines"))}</button><button class="btn small ghost" data-a="newsrefresh" ${newsState.busy ? "disabled" : ""}>${esc(tx("Refresh"))}</button></div>
+      <p class="hint">${esc(tx(key === "war" ? WAR_NOTE : NEWS_NOTE))}</p></div>`;
+  }
+  function newsDlgHtml() {
+    const key = newsKey();
+    return `<div class="idin"><div class="idbar"><b>${esc(tx("NEWS"))}</b><button class="btn small ghost" data-a="newsclose">${esc(tx("Close"))}</button></div>
+      ${newsChips("newstab")}
+      ${newsStatus(key)}${newsList(key, 15)}
+      <div class="actions"><button class="btn small" data-a="newsrefresh" ${newsState.busy ? "disabled" : ""}>${esc(tx("Refresh"))}</button></div>
+      <p class="hint">${esc(tx(key === "war" ? WAR_NOTE : NEWS_NOTE))}</p></div>`;
+  }
+  function refreshNewsViews() {
+    const d = document.getElementById("newsdlg");
+    if (d && d.open) { d.innerHTML = newsDlgHtml(); if (ceb()) translateDom(d, true); }
+    if (S.ui.tab === "home") render();
+  }
+  function openNews() {
+    const d = document.getElementById("newsdlg");
+    d.innerHTML = newsDlgHtml(); if (ceb()) translateDom(d, true);
+    if (typeof d.showModal === "function") { if (!d.open) d.showModal(); } else d.setAttribute("open", "");
+    if (!S.news[newsKey()] || Date.now() - S.news[newsKey()].t > NEWS_MAX_AGE) fetchNews(newsKey());
+  }
+
   /* ---------- Home: the simple screen ---------- */
   const IC = {
     warn: '<path d="M12 3.5 2.5 20h19z"/><path d="M12 10v5M12 17.5v.5"/>',
@@ -851,8 +960,17 @@
     { en: "The ground is cracking or the slope is moving", ceb: "Naliki ang yuta o naglihok ang bakilid", g: "gd35" },
     { en: "Going to an evacuation center", ceb: "Moadto sa evacuation center", g: "gd38" },
     { en: "Earthquake in a tall building, car, school or on the coast", ceb: "Linog sa taas nga building, awto, eskwelahan o baybayon", g: "gd34" },
-    { en: "Feeling scared or very stressed", ceb: "Nahadlok o grabe ang kapit-os", g: "gd33" }
+    { en: "Feeling scared or very stressed", ceb: "Nahadlok o grabe ang kapit-os", g: "gd33" },
+    { en: "Very hot or dry weather, and water is running short", ceb: "Init kaayo o uga ang panahon, ug nagkunhod ang tubig", g: "gd40" }
   ];
+  const NOTICES = [
+    { id: "elnino2026", until: "2027-06-30", title: "El Niño is active now",
+      body: "PAGASA says a very strong El Niño is active and may last into mid-2027. Expect less rain and hotter days. Parts of Leyte have been listed for dry conditions.",
+      src: "From PAGASA, checked 13 Nov 2026. PAGASA updates its advisory every month.", g: "gd40", btn: "What to do about El Niño" }
+  ];
+  function noticeCards() {
+    return NOTICES.filter((n) => isoToday() <= n.until && !(S.ui.noticeHide || {})[n.id]).map((n) => `<div class="block notice" role="note"><h3>${esc(tx(n.title))}</h3><p>${esc(tx(n.body))}</p><p class="hint">${esc(tx(n.src))}</p><div class="actions"><button class="btn" data-a="guideopen" data-id="${n.g}">${esc(tx(n.btn))}</button><button class="btn ghost small" data-a="noticehide" data-id="${n.id}">${esc(tx("Hide"))}</button></div></div>`).join("");
+  }
   function warnStatus() {
     let top = -1, any = false;
     S.watch.forEach((p) => { const r = S.alerts[p.id]; if (!r) return; any = true; top = Math.max(top, placeItems(p).reduce((m, it) => Math.max(m, it.lvl), 0)); });
@@ -885,6 +1003,9 @@
         <button class="bigbtn danger" data-a="helpnow"><span>${esc(tx("I need help now"))}</span><small>${esc(tx("Call, text, first aid"))}</small></button>
         <button class="bigbtn ok" data-a="famtext" data-id="safe"><span>${esc(tx("I'm safe"))}</span><small>${esc(tx("Tell my family"))}</small></button>
       </div>
+      ${newsCard()}
+      ${SYNC ? SYNC.cardHtml() : ""}
+      ${noticeCards()}
       ${firstSteps()}
       <h3>${esc(tx("What's happening?"))}</h3>
       ${(() => { const b = (x) => `<button class="situbtn" ${x.g ? `data-a="guideopen" data-id="${x.g}"` : x.hw ? `data-a="hwgo" data-id="${x.hw}"` : `data-a="${x.act}"`}><span>${esc(lt(x))}</span><span aria-hidden="true">›</span></button>`; return `<div class="situ">${SITUATIONS.slice(0, 8).map(b).join("")}</div><details class="situmore" data-cat="situmore" ${S.ui.open.situmore ? "open" : ""}><summary>${esc(tx("More situations"))}</summary><div class="situ">${SITUATIONS.slice(8).map(b).join("")}</div></details>`; })()}
@@ -910,6 +1031,7 @@
         ${row("box", "Storage", "What you have stored and when it expires", 'data-a="tab" data-tab="storage"')}
         ${row("radio", "Comms", "Radios, signals and how we reach each other", 'data-a="tab" data-tab="comms"')}
         ${row("timer", "Drill", "Practice with your family, with an alarm and timer", 'data-a="tab" data-tab="drill"')}
+        ${row("warn", "News", "Weather, calamity and war headlines (saved for offline)", 'data-a="newsopen"')}
         ${row("map", "Map", "Evacuation centers, hazards and help nearby", 'data-a="map"')}
         ${row("id", "Emergency ID card", "Your medical details in big letters", 'data-a="idcard"')}
         ${row("print", "Print the family sheet", "One page for the fridge", 'data-a="printsheet"')}
@@ -1306,7 +1428,7 @@
   const dlg = document.getElementById("settings");
   function backupText() {
     const data = JSON.parse(JSON.stringify(S));
-    delete data.ui; delete data.alerts; delete data.nearby;
+    delete data.ui; delete data.alerts; delete data.nearby; delete data.news;
     return JSON.stringify({ app: "handa", v: 1, saved: new Date().toISOString(), data }, null, 1);
   }
   function openSettings() {
@@ -1316,7 +1438,9 @@
     document.getElementById("lang").value = S.settings.lang || "en";
     document.getElementById("navmode").value = S.settings.nav || "simple";
     document.getElementById("splashmode").value = S.settings.splash || "on";
+    document.getElementById("newsmode").value = S.settings.news || "on";
     document.getElementById("backup").value = backupText();
+    const ss = document.getElementById("syncStatus"); if (ss) ss.textContent = SYNC ? SYNC.settingsLine() : "";
     document.getElementById("restoreText").value = "";
     const lb = document.getElementById("lastBackup"); if (lb) lb.textContent = S.settings.lastBackup ? tx("Last backup") + ": " + S.settings.lastBackup : tx("You have not saved a backup yet.");
     if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
@@ -1430,6 +1554,7 @@
     const el = e.target.closest("[data-a]");
     if (!el) return;
     const d = el.dataset;
+    if (d.a.startsWith("sy_")) { if (SYNC) SYNC.act(d.a); return; }
     switch (d.a) {
       case "tab": setTab(d.tab); break;
       case "phase": S.ui.phase = Number(d.phase); save(); render(); break;
@@ -1534,6 +1659,12 @@
       }
       case "map": MAPV.open({ get S() { return S; }, save, toast, tx, ceb: ceb(), esc, HAZ, uid, render: () => render(), getPhoto, dropPhoto }, d.focus); break;
       case "setlang": S.settings.lang = d.v === "ceb" ? "ceb" : "en"; save(); applySettings(); render(); break;
+      case "noticehide": S.ui.noticeHide = Object.assign({}, S.ui.noticeHide, { [d.id]: true }); save(); render(); break;
+      case "newsopen": openNews(); break;
+      case "newsclose": { const nd = document.getElementById("newsdlg"); if (nd.open) nd.close(); break; }
+      case "newstab": S.ui.newsTab = d.v === "war" ? "war" : "dis"; save(); openNews(); break;
+      case "newshometab": S.ui.newsTab = d.v === "war" ? "war" : "dis"; save(); render(); if (!S.news[newsKey()]) fetchNews(newsKey()); break;
+      case "newsrefresh": fetchNews(newsKey()); break;
       case "helpnow": openHelp(); break;
       case "splashhelp": hideSplash(); openHelp(); break;
       case "helpclose": closeHelp(); break;
@@ -1600,7 +1731,8 @@
         break;
       }
       case "reset":
-        if (confirm("Erase everything you entered on this phone? This can't be undone.")) {
+        if (confirm(tx("Erase everything you entered on this phone? This can't be undone.") + (SYNC && SYNC.loggedIn() ? "\n\n" + tx("You will also be logged out. Your online copy stays.") : ""))) {
+          if (SYNC && SYNC.loggedIn()) SYNC.logoutQuiet();
           S = defaults(); seed(); save(); applySettings(); render(); dlg.close && dlg.close(); toast("Everything was cleared.");
         }
         break;
@@ -1715,7 +1847,7 @@
   if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
 
   /* ---------- opening screen ---------- */
-  const SPLASH_MIN = 5000, SPLASH_MAX = 14000;
+  const SPLASH_MIN = 3000, SPLASH_MAX = 14000;
   let splashT = null;
   function hideSplash() {
     const el = document.getElementById("splash");
@@ -1724,7 +1856,7 @@
     el.classList.add("out");
     setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 350);
   }
-  /* Stays at least 5 seconds, and longer (up to 14 s) if the page, fonts or offline files are still loading. */
+  /* Stays at least 3 seconds, and longer (up to 14 s) if the page, fonts or offline files are still loading. */
   function startSplash() {
     const el = document.getElementById("splash");
     if (!el) return;
@@ -1746,8 +1878,17 @@
   }
 
   /* ---------- start ---------- */
+  if (typeof AndamSync === "function") {
+    SYNC = AndamSync({
+      get: () => S, defaults, merge, save, tx, esc, ceb, translateDom,
+      fresh: () => { const d = defaults(); NUMBERS.forEach((n) => d.family.nums.push({ id: uid(), label: n.label, phone: n.phone })); d.family.seeded = true; return d; },
+      replace: (ns) => { S = ns; save(); applySettings(); render(); },
+      rerender: () => { render(); }
+    });
+  }
   applySettings();
   startSplash();
+  setTimeout(maybeRefreshNews, 1500);
   if (location.hash && VIEWS[location.hash.slice(1)]) S.ui.tab = location.hash.slice(1);
   render(); playEnter();
   setTimeout(autoAlerts, 1200);

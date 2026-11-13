@@ -103,6 +103,10 @@
 
 <dialog id="drilldlg" class="iddlg helpdlg" aria-label="Drill"></dialog>
 
+<dialog id="newsdlg" class="iddlg helpdlg" aria-label="News"></dialog>
+
+<dialog id="syncdlg" class="iddlg helpdlg" aria-label="My login"></dialog>
+
 <dialog id="settings" aria-labelledby="settingsTitle">
   <div class="dlg">
     <div style="display:flex;justify-content:space-between;align-items:center">
@@ -119,8 +123,10 @@
     </div>
     <label class="field"><span>Language / Pinulongan</span>
       <select id="lang" data-bind="settings.lang" data-re="1"><option value="en">English</option><option value="ceb">Bisaya</option></select></label>
+    <label class="field"><span>News headlines</span>
+      <select id="newsmode" data-bind="settings.news" data-re="1"><option value="on">Show news (loads when online)</option><option value="off">Hide news</option></select></label>
     <label class="field"><span>Opening screen</span>
-      <select id="splashmode" data-bind="settings.splash"><option value="on">Show it for 5 seconds</option><option value="off">Skip it</option></select></label>
+      <select id="splashmode" data-bind="settings.splash"><option value="on">Show it for 3 seconds</option><option value="off">Skip it</option></select></label>
     <label class="field"><span>Layout</span>
       <select id="navmode" data-bind="settings.nav" data-re="1"><option value="simple">Simple: 4 buttons at the bottom</option><option value="full">Full: more buttons at the bottom</option></select></label>
     <label class="field"><span>Animations</span>
@@ -134,6 +140,11 @@
     <h3>Send this app to another phone</h3>
     <p class="hint">Works with no internet and no power grid. It packs the whole app into one file (Andam.html). Pick Bluetooth or Nearby Share in the menu that opens. The other person opens the file in Chrome.</p>
     <button class="btn" data-a="shareapp">Send this app</button>
+
+    <h3>Log in (keep my info on any phone)</h3>
+    <p class="hint">Log in once and your family info follows you to any phone. It is scrambled on this phone before it is sent.</p>
+    <p class="hint" id="syncStatus"></p>
+    <button class="btn" data-a="sy_open">Log in or manage my login</button>
 
     <h3>Back up your entries</h3>
     <p class="hint">Everything you type is saved only on this phone. If you change phones, copy this backup and paste it into the new one. Photos you add to a guide stay on this phone and are not in the backup.</p>
@@ -151,7 +162,7 @@
     <button class="btn danger small" data-a="reset">Erase everything on this phone</button>
 
     <h3>About</h3>
-    <p class="hint">Andam means “ready” in Bisaya. Nothing you enter leaves this phone. Peso figures come from Philippine shop listings seen in November 2026 and will change. Radio and satellite rules come from NTC circulars and news reports: confirm with the NTC or an authorized dealer before you buy.</p>
+    <p class="hint">Andam means “ready” in Bisaya. Nothing you enter leaves this phone unless you log in to sync, and then it is scrambled first. Peso figures come from Philippine shop listings seen in November 2026 and will change. Radio and satellite rules come from NTC circulars and news reports: confirm with the NTC or an authorized dealer before you buy.</p>
   </div>
 </dialog>
 
@@ -168,6 +179,8 @@
 <script src="figures4.js"></script>
 <script src="i18n.js"></script>
 <script src="i18n2.js"></script>
+<script src="sync-config.js"></script>
+<script src="sync.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -182,3 +182,16 @@ Everything you type stays on your own phone.
 - The opening screen now shows on every open and every reload (v23 showed it only once per visit, so a reload looked like nothing happened).
 - It stays at least 5 seconds. If the page, fonts or offline files are still loading after 5 seconds, it stays up (up to about 14 seconds) and says "Almost ready, still loading". Tap anywhere to skip.
 - Upload the changed files: `index.html`, `app.js`, `i18n2.js`, `sw.js`, `SETUP.md`.
+
+## v26: El Niño, and news headlines
+- **El Niño.** A notice card on Home (hidden after 30 June 2027, or when you tap Hide), a new guide "El Niño: drought, water and heat" (English and Bisaya), and a new Plan checklist "El Niño: drought and heat". The notice text says "checked 13 Nov 2026" because it is written by hand. Check PAGASA's monthly El Niño advisory and tell me when to update it.
+- **News headlines.** The top of the Home screen (under the two big buttons) has "News right now" with two tabs: Weather and calamities, and War and nuclear. "All headlines" opens a longer list, and More > News opens it too. Headlines load when there is internet (at most every 30 minutes, or tap Refresh) and are saved on the phone. With no internet, the last saved headlines are still shown with the time they were saved, and a warning if they are more than a day old.
+- Headlines come from the free GDELT news index (api.gdeltproject.org). It sends only the title, the website and the link. Tapping a headline opens the news website. GDELT allows one request every 5 seconds, so Refresh may wait a few seconds. It sees the phone's internet address, like any website. Settings > News headlines > "Hide news" turns it off.
+- Saved headlines are not included in backups.
+- Upload the changed files: `data.js`, `app.js`, `i18n.js`, `i18n2.js`, `index.html`, `styles.css`, `sw.js`, `SETUP.md`. No new files.
+
+## v27: log in so your info follows you to any phone
+
+New files to upload: `sync.js`, `sync-config.js`. Also upload the changed `app.js`, `index.html`, `styles.css`, `i18n2.js`, `sw.js`.
+The login stays hidden until you do the one-time sync server setup in `SYNC-SETUP.md` and paste its address into `sync-config.js`.
+The opening screen is now 3 seconds (it waits longer only if the page is not ready).

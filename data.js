@@ -148,6 +148,29 @@ const CATS = [
     ]
   },
   {
+    id: "elnino", name: "El Niño: drought and heat",
+    blurb: "A very strong El Niño can bring months of less rain and hotter days. Prepare water, shade and food before the dry months get worse. See also: Guides, El Niño: drought, water and heat.",
+    items: [
+      { id: "en1", t: "Extra stored drinking water, aiming for 14 days for everyone", p: 1, b: 2,
+        n: "Use clean containers with tight lids. Replace the water every 6 months." },
+      { id: "en2", t: "Tight lids or covers on every water container, to keep mosquitoes out", p: 1, b: 1,
+        n: "Scrub any open container once a week." },
+      { id: "en3", t: "Know where to get water near you: wells, springs, water points and refilling stations, and a way to carry it", p: 1, b: 0 },
+      { id: "en4", t: "Oral rehydration salts and a thermometer", p: 1, b: 1,
+        e: "Hydrite, digital thermometer",
+        w: "Mercury Drug, Watsons, Rose Pharmacy" },
+      { id: "en5", t: "Buckets or drums to catch rainwater whenever it rains", p: 2, b: 1,
+        n: "Boil or treat rainwater before you drink it." },
+      { id: "en6", t: "Hats, light cotton clothes and an umbrella for shade", p: 2, b: 1 },
+      { id: "en7", t: "A battery fan or hand fan, a power bank and a flashlight for brownouts", p: 2, b: 2 },
+      { id: "en8", t: "Dry-season garden: mulch (dry leaves or straw), a watering can and seeds of crops that take dry weather (camote, cassava, okra)", p: 2, b: 1,
+        n: "Water early in the morning at the roots. See Grow vegetables outside in Guides." },
+      { id: "en9", t: "Clear dry grass and trash from around the house, and keep a bucket of water ready", p: 2, b: 0 },
+      { id: "en10", t: "Extra staple food: rice, canned fish, dried fish, noodles", p: 2, b: 2,
+        n: "Prices can rise in a drought. Buy a little more each week, not everything at once." }
+    ]
+  },
+  {
     id: "power", name: "Power and light",
     blurb: "Start with lights, radio, and power banks. Add solar and a power station as your budget allows.",
     items: [
@@ -790,5 +813,33 @@ const GUIDES = [
       <li>Move only light things that are safe to move, and never pull out something heavy that is holding up a wall or beam.</li>
     </ol>
     <p><b>A person who has been under a heavy weight for hours needs a doctor as soon as they are freed,</b> even if they look okay. Do not move someone with a neck or back injury unless the place is about to collapse.</p>
-    <p class="hint">Keep a whistle in your go-bag. A whistle can be heard from further than a voice.</p>` }
+    <p class="hint">Keep a whistle in your go-bag. A whistle can be heard from further than a voice.</p>` },
+  { id: "gd40", title: "El Niño: drought, water and heat", html: `
+    <p>El Niño brings less rain and hotter days for months. Dry spells and drought can follow. Typhoons can still come, so keep your typhoon plan ready too. Check PAGASA's El Niño advisory each month and listen to your barangay.</p>
+    <p><b>Water first</b></p>
+    <ol>
+      <li>Store extra drinking water now, in clean containers with tight lids. Aim for 14 days for everyone if you can.</li>
+      <li><b>Keep every water container covered.</b> Mosquitoes breed in uncovered stored water within days, and dengue rises. Scrub open containers once a week.</li>
+      <li>Drinking and cooking come first. Reuse washing water for flushing and for plants.</li>
+      <li>Catch rainwater whenever it rains. Boil or treat it before you drink it.</li>
+      <li>Know your water sources: wells, springs, water points and refilling stations. Wells can run low, or taste salty near the coast. Do not drink from muddy or still pools.</li>
+    </ol>
+    <p><b>Heat</b></p>
+    <ul>
+      <li>Drink water before you feel thirsty. Wear light clothes and a hat. Rest in the shade during the hottest hours, from about 11 AM to 3 PM.</li>
+      <li>Never leave children, older people or pets in a closed car or a hot room.</li>
+      <li>Watch for heat stroke (see the Heat stroke guide). Babies, older people and pregnant women need extra care. Check on neighbors.</li>
+    </ul>
+    <p><b>Fire</b></p>
+    <ul>
+      <li>Dry grass and brush burn fast. Do not burn rubbish. Clear dry grass and trash from around the house, and keep a bucket of water near.</li>
+      <li>Never leave a cooking fire. Put out cigarettes fully.</li>
+    </ul>
+    <p><b>Food and the garden</b></p>
+    <ul>
+      <li>Mulch the soil with dry leaves or straw. Water early in the morning at the roots. Choose crops that take dry weather, such as camote, cassava and okra. Save seeds.</li>
+      <li>Prices can rise in a drought. Buy a little extra staple food each week instead of everything at once, so there is enough for your neighbors too.</li>
+    </ul>
+    <p><b>Power:</b> dry months can cause brownouts. Keep a power bank, flashlight and a fan that works on batteries.</p>
+    <p class="hint">See also: Make water safe, Heat stroke, Grow vegetables outside, Fever and dengue.</p>` }
 ];

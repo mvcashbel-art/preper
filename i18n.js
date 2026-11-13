@@ -444,7 +444,35 @@ const CEB = {
       <li>Ibalhin lang ang gaan nga butang nga luwas ibalhin, ug ayaw gayud og biraha ang bug-at nga butang nga nagsapnay sa dingding o biga.</li>
     </ol>
     <p><b>Ang tawo nga natapnan sa bug-at nga butang sulod sa pipila ka oras kinahanglan sa doktor sa diha nga mahaw-as siya,</b> bisan kung murag okay ra. Ayaw og ibalhin ang tawo nga naay samad sa liog o likod gawas kung hapit na maguba ang dapit.</p>
-    <p class="hint">Pagbaton og pito sa go-bag. Mas layo madungog ang pito kaysa tingog.</p>` }
+    <p class="hint">Pagbaton og pito sa go-bag. Mas layo madungog ang pito kaysa tingog.</p>` },
+    gd40: { title: "El Niño: hulaw, tubig ug kainit", html: `
+    <p>Ang El Niño nagdala og gamay nga ulan ug mas init nga mga adlaw sulod sa pipila ka bulan. Mahimong mosunod ang dry spell ug hulaw. Mahimo gihapon moabot ang bagyo, busa andama gihapon ang imong plano sa bagyo. Susiha matag bulan ang El Niño advisory sa PAGASA ug paminaw sa inyong barangay.</p>
+    <p><b>Tubig una</b></p>
+    <ol>
+      <li>Tipigi karon ang dugang nga inom nga tubig, sa limpyong sudlanan nga naay hugot nga takup. Tumong og 14 ka adlaw para sa tanan kung kaya.</li>
+      <li><b>Ipabilin nga natakpan ang matag sudlanan sa tubig.</b> Mangitlog ang lamok sa dili natakpan nga gitipigan nga tubig sulod sa pipila ka adlaw, ug motaas ang dengue. Kuskusa kausa sa usa ka semana ang abli nga sudlanan.</li>
+      <li>Una ang inom ug luto. Gamita pag-usab ang tubig nga gigamit sa paghugas sa pag-flush ug sa mga tanum.</li>
+      <li>Salo og tubig-ulan kung moulan. Lata o hugasi una sa dili pa imnon.</li>
+      <li>Hibaloi ang inyong tinubdan sa tubig: atabay, bukal, water point ug refilling station. Ang atabay mahimong mokunhod, o maalat ang lami duol sa baybayon. Ayaw og inom gikan sa lapok o nagpundo nga tubig.</li>
+    </ol>
+    <p><b>Kainit</b></p>
+    <ul>
+      <li>Inom og tubig sa dili pa ka mauhaw. Magsul-ob og nipis nga bisti ug kupya. Pahulay sa landong sa labing init nga oras, gikan mga 11 sa buntag hangtod 3 sa hapon.</li>
+      <li>Ayaw gayud pabilini ang bata, tigulang o hayop sa sirado nga awto o init nga lawak.</li>
+      <li>Bantayi ang heat stroke (tan-awa ang giya sa Heat stroke). Ang masuso, tigulang ug buntis nagkinahanglan og dugang pag-atiman. Kumustaha ang mga silingan.</li>
+    </ul>
+    <p><b>Sunog</b></p>
+    <ul>
+      <li>Dali masunog ang uga nga sagbot ug kahoy. Ayaw og sunog sa basura. Limpyohi ang uga nga sagbot ug basura libot sa balay, ug butangi og timba nga tubig sa duol.</li>
+      <li>Ayaw pagbiyai ang kalayo sa pagluto. Hingpita nga patya ang sigarilyo.</li>
+    </ul>
+    <p><b>Pagkaon ug tanaman</b></p>
+    <ul>
+      <li>Tabuni og uga nga dahon o dagami ang yuta. Tubigi sa sayong buntag sa gamut. Pilia ang tanum nga kaya ang uga nga panahon, sama sa camote, kamoteng kahoy ug okra. Tipigi ang liso.</li>
+      <li>Mahimong motaas ang presyo sa hulaw. Palita og gamay nga dugang nga basehang pagkaon kada semana imbes tanan sa usa ka higayon, aron igo usab alang sa imong mga silingan.</li>
+    </ul>
+    <p><b>Kuryente:</b> ang uga nga bulan mahimong makahatag og brownout. Pagbaton og power bank, flashlight ug bentilador nga baterya ang gamit.</p>
+    <p class="hint">Basaha usab: Himoa nga luwas ang tubig, Heat stroke, Pagtanom og utanon sa gawas, Hilanat ug dengue.</p>` }
   }
 };
 
