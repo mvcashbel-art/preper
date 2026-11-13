@@ -750,6 +750,8 @@ addX([
   ["Nothing you enter leaves this phone unless you log in to sync, and then it is scrambled first.", "Walay gikan sa imong gisulod nga mawala sa telepono gawas kung mag-log in ka aron mag-sync, ug gi-scramble kini una."],
 ]);
 
+addX([["My login", "Akong login"]]);
+
 /* ---- Levels: area names, intros, step titles ---- */
 addX([
   ["Food", "Pagkaon"],

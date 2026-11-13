@@ -195,3 +195,7 @@ Everything you type stays on your own phone.
 New files to upload: `sync.js`, `sync-config.js`. Also upload the changed `app.js`, `index.html`, `styles.css`, `i18n2.js`, `sw.js`.
 The login stays hidden until you do the one-time sync server setup in `SYNC-SETUP.md` and paste its address into `sync-config.js`.
 The opening screen is now 3 seconds (it waits longer only if the page is not ready).
+
+## v29: login icon in the header
+A small person icon sits next to Map and Settings. A green dot means you are logged in and saved; an orange dot means sync has a problem. The Home card shows only until someone logs in.
+Files changed: `app.js`, `sync.js`, `index.html`, `styles.css`, `i18n2.js`, `sw.js`.

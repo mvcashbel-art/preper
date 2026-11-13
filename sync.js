@@ -347,7 +347,16 @@ function AndamSync(ctx) {
     if (p !== null) st.form.pass = p;
     if (p2 !== null) st.form.pass2 = p2;
   }
+  function paint() {
+    const b = document.getElementById("acctBtn"); if (!b) return;
+    b.hidden = !configured();
+    const bad = loggedIn() && !st.busy && !!st.err;
+    b.classList.toggle("on", loggedIn() && !bad);
+    b.classList.toggle("err", bad);
+    b.setAttribute("aria-label", loggedIn() ? T("Logged in as") + " " + SY.name + (bad ? " · " + statusLine() : "") : T("My login"));
+  }
   function redraw() {
+    paint();
     const d = document.getElementById("syncdlg");
     if (d && d.open) { d.innerHTML = dlgHtml(); if (ctx.ceb()) ctx.translateDom(d, true); }
     const s = document.getElementById("syncStatus"); if (s) s.textContent = settingsLine();
@@ -363,9 +372,7 @@ function AndamSync(ctx) {
 
   function cardHtml() {
     if (!configured()) return "";
-    if (loggedIn()) {
-      return `<button class="block synccard ok" data-a="sy_open"><b>${E(T("Logged in as"))} ${E(SY.name)}</b><span class="hint">${E(statusLine() || T("Ready."))}</span></button>`;
-    }
+    if (loggedIn()) return ""; // the person icon in the header shows the status
     if ((ctx.get().ui || {}).syncHide) return "";
     return `<div class="block synccard"><h3>${E(T("Keep your info on any phone"))}</h3><p>${E(T("Log in once, and your family info follows you. No need to type it again on a new phone."))}</p><div class="actions"><button class="btn" data-a="sy_open">${E(T("Log in or create account"))}</button><button class="btn ghost small" data-a="sy_hide">${E(T("Not now"))}</button></div></div>`;
   }
@@ -395,5 +402,5 @@ function AndamSync(ctx) {
     }
   }
 
-  return { act, touch, cardHtml, open, loggedIn, configured, logoutQuiet: () => logout(true), settingsLine, _m3: m3, _snap: snap };
+  return { act, touch, paint, cardHtml, open, loggedIn, configured, logoutQuiet: () => logout(true), settingsLine, _m3: m3, _snap: snap };
 }

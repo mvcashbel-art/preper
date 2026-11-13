@@ -1387,6 +1387,7 @@
     const y = window.scrollY;
     FIGCEB = ceb();
     app.innerHTML = updateBanner() + alertBanner() + bannerHtml() + (VIEWS[S.ui.tab] || viewPlan)();
+    if (SYNC) SYNC.paint();
     hydratePhotos();
     if (S.ui.tab === "storage") stkFilterDom();
     if (ceb()) translateDom(app, true);

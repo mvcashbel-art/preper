@@ -1363,3 +1363,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .syncok{background:#E4F3EA;color:#0F4A2C;padding:.5rem .7rem;border-radius:.4rem;margin:.5rem 0}
 .syncerr{background:#FBE5E0;color:#7A1F10;padding:.5rem .7rem;border-radius:.4rem;margin:.5rem 0;font-weight:600}
 .syncst{color:#444;margin:.2rem 0 .6rem}
+
+.icon-btn.acct{position:relative}
+.icon-btn.acct .adot{position:absolute;top:.45rem;right:.4rem;width:.6rem;height:.6rem;border-radius:50%;background:transparent;border:2px solid transparent;display:none}
+.icon-btn.acct.on .adot{display:block;background:#3DDC84;border-color:var(--accent)}
+.icon-btn.acct.err .adot{display:block;background:#FFB020;border-color:var(--accent)}
