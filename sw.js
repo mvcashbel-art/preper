@@ -1,6 +1,6 @@
 /* Andam service worker: makes the app work without internet.
    Bump VERSION whenever you change any file so phones pick up the update. */
-const VERSION = "andam-v30";
+const VERSION = "andam-v31";
 const ASSETS = [
   "./",
   "index.html",
@@ -16,6 +16,12 @@ const ASSETS = [
   "howto2.js",
   "howto3.js",
   "figures4.js",
+  "war1.js",
+  "war2.js",
+  "war3.js",
+  "war-ceb1.js",
+  "war-ceb2.js",
+  "war-ceb3.js",
   "i18n.js",
   "i18n2.js",
   "sync-config.js",

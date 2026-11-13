@@ -969,7 +969,12 @@
     { en: "Going to an evacuation center", ceb: "Moadto sa evacuation center", g: "gd38" },
     { en: "Earthquake in a tall building, car, school or on the coast", ceb: "Linog sa taas nga building, awto, eskwelahan o baybayon", g: "gd34" },
     { en: "Feeling scared or very stressed", ceb: "Nahadlok o grabe ang kapit-os", g: "gd33" },
-    { en: "Very hot or dry weather, and water is running short", ceb: "Init kaayo o uga ang panahon, ug nagkunhod ang tubig", g: "gd40" }
+    { en: "Very hot or dry weather, and water is running short", ceb: "Init kaayo o uga ang panahon, ug nagkunhod ang tubig", g: "gd40" },
+    { en: "Nuclear explosion or a radiation warning", ceb: "Nukleyar nga pagbuto o pasidaan sa radiation", g: "gd41" },
+    { en: "After fallout: radioactive dust on us", ceb: "Human sa fallout: naay radioactive nga abog sa amoa", g: "gd42" },
+    { en: "War, shelling or an air raid", ceb: "Gubat, pamomba o air raid", g: "gd45" },
+    { en: "Found a bomb, shell or strange metal object", ceb: "Nakakita og bomba, bala o katingad-ang puthaw", g: "gd46" },
+    { en: "Getting ready for nuclear fallout or war", ceb: "Pag-andam para sa nukleyar nga fallout o gubat", hw: "war7" }
   ];
   const NOTICES = [
     { id: "elnino2026", until: "2027-06-30", title: "El Niño is active now",

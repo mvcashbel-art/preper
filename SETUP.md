@@ -207,3 +207,10 @@ Files changed: `app.js`, `sync.js`, `index.html`, `styles.css`, `i18n2.js`, `sw.
 - New file `qr.js` (a small offline QR maker, versions 1 to 5, up to 106 characters). Added to `index.html` and `sw.js`. Service worker is `andam-v30`.
 - The link comes from the address the app is opened at. If the app is opened from a saved file or localhost, it uses https://mvcashbel-art.github.io/preper/
 - Expiry reminders already existed (Storage tab: dates, "needs attention" on Home, calendar file), so nothing was added there.
+
+## v31: War and nuclear section
+
+New Guides group "War and nuclear" with 17 long guides (war1 to war17, English and Bisaya), 9 short offline quick guides (gd41 to gd49), 5 pictures, 5 new "What is happening?" situations on Home, and a Plan category "War supply kit".
+Files: war1.js (pictures and guides 1 to 6), war2.js (guides 7 to 14 and the group registry), war3.js (science, myths, one-page checklist, quick guides, Plan category), war-ceb1.js to war-ceb3.js (Bisaya).
+Sources are named in each guide (Ready.gov, CDC, FDA, WHO, ICRC, Philippine agencies). Iodine doses (130 / 65 / 32 / 16 mg) come from FDA and CDC guidance. No Philippine phone numbers or shelter locations were invented: fill them in on the Family tab.
+Please have a doctor or nurse read the radiation, iodine and first-aid guides, and a Bisaya speaker read the Bisaya text.
